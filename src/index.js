@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Sprite, Stage } from 'react-pixi-fiber';
+import { Stage } from 'react-pixi-fiber';
 import Polygon from './components/Polygon.js';
 
 const points = [

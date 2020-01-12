@@ -1,0 +1,15 @@
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+env:
+  browser: true
+extends:
+  - eslint-config-getkey
+  - 'eslint:recommended'
+  - 'plugin:react/recommended'
+plugins:
+  - react
+parser: babel-eslint
+settings:
+  react:
+    version: detect

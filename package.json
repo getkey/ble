@@ -1,4 +1,13 @@
 {
+  "name": "ble",
+  "license": "Apache-2.0",
+  "version": "0.0.0",
+  "description": "The level editor of the game BombHopper.io",
+  "homepage": "https://github.com/getkey/ble",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/getkey/ble.git"
+  },
   "dependencies": {
     "pixi.js": "^5.2.0",
     "react": "^16.12.0",

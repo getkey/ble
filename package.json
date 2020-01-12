@@ -15,11 +15,17 @@
     "eslint-config-getkey": "^0.1.0",
     "eslint-plugin-react": "^7.17.0",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^4.0.7",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   },
   "scripts": {
     "build": "webpack",
     "lint": "eslint src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }

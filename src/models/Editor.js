@@ -1,16 +1,8 @@
 import { types } from 'mobx-state-tree';
 
-const Point = types.model({
-	x: 0,
-	y: 0,
-}).actions((self) => ({
-	set(x, y) {
-		self.x = x;
-		self.y = y;
-	},
-}));
+import Point from 'src/models/Point.js';
 
-export const Editor = types.model({
+export default types.model({
 	position: types.optional(Point, {
 		x: 0,
 		y: 0,
@@ -21,4 +13,3 @@ export const Editor = types.model({
 		self.scale = scale;
 	},
 }));
-

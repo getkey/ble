@@ -5,14 +5,18 @@
   "description": "The level editor of the game BombHopper.io",
   "homepage": "https://github.com/getkey/ble",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/getkey/ble.git"
+    "type": "git",
+    "url": "https://github.com/getkey/ble.git"
   },
   "dependencies": {
+    "mobx": "^5.15.2",
+    "mobx-react-lite": "^1.5.2",
+    "mobx-state-tree": "^3.15.0",
     "pixi.js": "^5.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-pixi-fiber": "^0.12.1"
+    "react-pixi-fiber": "^0.12.1",
+    "rxjs": "^6.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
@@ -31,7 +35,7 @@
   "scripts": {
     "build": "webpack",
     "lint": "eslint src",
-	"watch": "webpack --watch"
+    "watch": "webpack --watch"
   },
   "husky": {
     "hooks": {

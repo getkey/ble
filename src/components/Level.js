@@ -9,12 +9,12 @@ import { useStore } from 'src/hooks/useStore.js';
  * It's a sort of camera.
  */
 function Level({ children }) {
-	const store = useStore();
+	const { editor } = useStore();
 
 	return (
 		<Container
-			pivot={{ x: store.editor.position.x, y: store.editor.position.y }}
-			scale={{ x: store.editor.scale, y: store.editor.scale }}
+			pivot={{ x: editor.position.x, y: editor.position.y }}
+			scale={{ x: editor.scale, y: editor.scale }}
 		>
 			{children}
 		</Container>

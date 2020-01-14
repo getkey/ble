@@ -1,9 +1,14 @@
 import { createContext, useContext } from 'react';
 
-import { store } from 'src/models/';
-
-const storeContext = createContext(store);
+const storeContext = createContext(null);
+storeContext.displayName = 'storeContext';
 
 export function useStore() {
-	return useContext(storeContext);
+	const store = useContext(storeContext);
+	if (store === null) {
+		throw new Error('Store cannot be null, please add a context provider');
+	}
+	return store;
 }
+
+export const StoreProvider = storeContext.Provider;

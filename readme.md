@@ -2,4 +2,7 @@
 
 ```sh
 yarn install
+yarn watch
 ```
+
+And point your browser to `dist/index.html`!

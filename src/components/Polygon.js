@@ -1,8 +1,8 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
-import * as PIXI from 'pixi.js';
+import { Graphics } from 'pixi.js';
 
 export const behavior = {
-	customDisplayObject: () => new PIXI.Graphics(),
+	customDisplayObject: () => new Graphics(),
 	customApplyProps: (instance, oldProps, newProps) => {
 		const { fill, points } = newProps;
 		instance.clear();

@@ -30,7 +30,8 @@
   },
   "scripts": {
     "build": "webpack",
-    "lint": "eslint src"
+    "lint": "eslint src",
+	"watch": "webpack --watch"
   },
   "husky": {
     "hooks": {

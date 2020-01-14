@@ -16,5 +16,9 @@ export const Editor = types.model({
 		y: 0,
 	}),
 	scale: 1,
-});
+}).actions((self) => ({
+	setScale(scale) {
+		self.scale = scale;
+	},
+}));
 

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { store } from '../models/';
+import { store } from 'src/models/';
 
 const storeContext = createContext(store);
 

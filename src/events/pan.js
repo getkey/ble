@@ -1,7 +1,7 @@
 import { fromEvent } from 'rxjs';
 import { filter, map, tap, switchMap, takeUntil } from 'rxjs/operators';
 
-import { store } from '../models/';
+import { store } from 'src/models/';
 
 fromEvent(document, 'mousedown').pipe(
 	filter((ev) => ev.button === 1),

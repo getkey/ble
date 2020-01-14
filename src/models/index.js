@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree';
 
-import { Editor } from './Editor.js';
+import { Editor } from 'src/models/Editor.js';
 
 const RootStore = types.model({
 	editor: types.optional(Editor, {

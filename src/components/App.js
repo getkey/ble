@@ -1,8 +1,8 @@
 import React from 'react';
 import { Stage } from 'react-pixi-fiber';
 
-import Polygon from './Polygon.js';
-import Level from './Level.js';
+import Polygon from 'src/components/Polygon.js';
+import Level from 'src/components/Level.js';
 
 const points = [
 	0, 0,

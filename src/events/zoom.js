@@ -1,7 +1,7 @@
 import { fromEvent } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { store } from '../models/';
+import { store } from 'src/models/';
 
 fromEvent(document, 'wheel').pipe(
 	// read https://github.com/facebook/react/pull/505#issuecomment-31300604 before touching this line

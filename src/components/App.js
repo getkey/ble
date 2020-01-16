@@ -16,7 +16,7 @@ function App() {
 	), [entities]);
 
 
-	function onPolygonPointClick(polygonI, pointI, pos) {
+	function onPolygonPointMove(polygonI, pointI, pos) {
 		const storePoint = entities[polygonI].vertices[pointI];
 		const posInWorld = editor.screenToWorld(pos);
 		// TODO: add grid snapping to grids of other size than 1
@@ -27,10 +27,16 @@ function App() {
 		storePoint.set(roundedPos.x, roundedPos.y);
 	}
 
+	function onPolygonMove(polygonI, delta) {
+		const storePolygon = entities[polygonI];
+		storePolygon.move(delta.x*(1/editor.scale), delta.y*(1/editor.scale));
+	}
+
+
 	return (
 		<Level>
 			{polygonPoints.map((points, i) => (
-				<InteractivePolygon fill={0xff0000} points={points} key={i} onPointMove={(pointI, pos) => onPolygonPointClick(i, pointI, pos)}/>
+				<InteractivePolygon fill={0xff0000} points={points} key={i} onPointMove={(pointI, pos) => onPolygonPointMove(i, pointI, pos)} onMove={(delta) => onPolygonMove(i, delta)}/>
 			))}
 		</Level>
 	);

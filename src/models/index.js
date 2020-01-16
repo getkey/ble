@@ -19,6 +19,15 @@ const RootStore = types.model({
 				{ x: 50, y: 0 },
 			],
 		},
+		{
+			vertices: [
+				{ x: 100, y: 300 },
+				{ x: 100, y: 350 },
+				{ x: 200, y: 350 },
+				{ x: 200, y: 300 },
+				{ x: 150, y: 250 },
+			],
+		},
 	]),
 });
 export const store = RootStore.create();

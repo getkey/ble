@@ -34,6 +34,7 @@
   },
   "scripts": {
     "build": "webpack",
+    "build:prod": "env NODE_ENV=production webpack",
     "lint": "eslint src",
     "watch": "webpack --watch"
   },

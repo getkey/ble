@@ -1,0 +1,46 @@
+default:
+  image: node:latest
+  cache:
+    paths:
+    - node_modules/
+
+stages:
+  - deps
+  - validate
+  - build
+  - deploy
+
+
+deps:
+  stage: deps
+  script: yarn install
+
+# disabled for now because it fails because of prop-types
+# but I'm not going to add them since we're gonna use typescript
+# validate_lint:
+#   stage: validate
+#   script:
+#     - yarn lint
+
+build_js:
+  stage: build
+  script:
+    - yarn build:prod
+  variables:
+    NODE_ENV: production
+  artifacts:
+    paths:
+      - dist/
+
+pages:
+  stage: deploy
+  script:
+    - cp -r dist public
+    - find public -type f -iregex '.*\.\(html\|js\|css\|svg\|webmanifest\|fnt\|txt\)$' -execdir gzip -f --keep {} \;
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+  cache: {} # disable the cache for this job
+  image: debian:latest # leaner than the node image

@@ -1,9 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
+const isProd = process.env.NODE_ENV === 'production';
+
 module.exports = {
-	mode: 'development',
-	devtool: 'cheap-eval-source-map',
+	mode: isProd ? 'production' : 'development',
+	devtool: isProd ? false : 'eval-source-map',
 	entry: './src/index.js',
 	output: {
 		filename: 'main.js',

@@ -1,24 +1,36 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Point } from 'pixi.js';
-import { observer } from 'mobx-react-lite';
+import { observer, useComputed } from 'mobx-react-lite';
 
-import Polygon from 'src/components/Polygon.js';
+import InteractivePolygon from 'src/components/InteractivePolygon.js';
 import Level from 'src/components/Level.js';
 import { useStore } from 'src/hooks/useStore.js';
 
 function App() {
-	const { entities } = useStore();
+	const { entities, editor } = useStore();
 
-	const polygonPoints = useMemo(() => (
+	const polygonPoints = useComputed(() => (
 		entities.map(({ vertices }) => (
 			vertices.map(({ x, y }) => new Point(x, y))
 		))
 	), [entities]);
 
+
+	function onPolygonPointClick(polygonI, pointI, pos) {
+		const storePoint = entities[polygonI].vertices[pointI];
+		const posInWorld = editor.screenToWorld(pos);
+		// TODO: add grid snapping to grids of other size than 1
+		const roundedPos = {
+			x: Math.round(posInWorld.x),
+			y: Math.round(posInWorld.y),
+		};
+		storePoint.set(roundedPos.x, roundedPos.y);
+	}
+
 	return (
 		<Level>
 			{polygonPoints.map((points, i) => (
-				<Polygon fill={0xff0000} points={points} key={i}/>
+				<InteractivePolygon fill={0xff0000} points={points} key={i} onPointMove={(pointI, pos) => onPolygonPointClick(i, pointI, pos)}/>
 			))}
 		</Level>
 	);

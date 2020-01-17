@@ -6,13 +6,26 @@ const isProd = process.env.NODE_ENV === 'production';
 module.exports = {
 	mode: isProd ? 'production' : 'development',
 	devtool: isProd ? false : 'eval-source-map',
-	entry: './src/index.js',
+	entry: './src/index.tsx',
 	output: {
 		filename: 'main.js',
 		path: path.resolve(__dirname, 'dist'),
 	},
 	module: {
 		rules: [
+			{
+				test: /\.tsx?$/,
+				use: [
+					{
+						loader: 'babel-loader',
+						options: {
+							presets: ['@babel/preset-env', '@babel/preset-react'],
+						},
+					},
+					'ts-loader',
+				],
+				exclude: /node_modules/,
+			},
 			{
 				test: /\.m?js$/,
 				exclude: /node_modules/,
@@ -29,6 +42,7 @@ module.exports = {
 		alias: {
 			src: path.resolve(__dirname, 'src/'),
 		},
+		extensions: ['.tsx', '.ts', '.js'],
 	},
 	plugins: [new HtmlWebpackPlugin({
 		template: 'src/index.ejs',

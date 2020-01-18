@@ -6,7 +6,7 @@ export default types.array(
 	types.model({
 		vertices: types.array(Point),
 	}).actions((self) => ({
-		move(deltaX: number, deltaY: number) {
+		move(deltaX: number, deltaY: number): void {
 			self.vertices.map((vertex) => {
 				vertex.set(
 					vertex.x + deltaX,

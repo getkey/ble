@@ -7,9 +7,20 @@ extends:
   - eslint-config-getkey
   - 'eslint:recommended'
   - 'plugin:react/recommended'
+  - "plugin:@typescript-eslint/recommended"
 plugins:
   - react
-parser: babel-eslint
+parser: '@typescript-eslint/parser'
 settings:
   react:
     version: detect
+rules:
+  react/prop-types:
+    - off
+  '@typescript-eslint/interface-name-prefix':
+    - error
+    - prefixWithI: always
+      allowUnderscorePrefix: true
+  '@typescript-eslint/no-unused-vars':
+    - error
+    - ignoreRestSiblings: true

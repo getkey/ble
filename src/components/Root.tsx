@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Stage } from 'react-pixi-fiber';
 
 import App from 'src/components/App.tsx';
 import { StoreProvider } from 'src/hooks/useStore.ts';
 import { store } from 'src/models/';
 
-export default function Root() {
+const Root: FunctionComponent<{}> = () => {
 	// WARNING:
 	// StoreProvider has to be inside Stage or the context gets all fucked up.
 	// Check out the React devtool, it looks like react-pixi-fiber is doing some magic
@@ -22,4 +22,6 @@ export default function Root() {
 			</StoreProvider>
 		</Stage>
 	);
-}
+};
+
+export default Root;

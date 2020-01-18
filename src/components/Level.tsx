@@ -1,18 +1,14 @@
-import React, { ReactNode, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Container } from 'react-pixi-fiber';
 import { observer } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
 
-type Props = {
-	children: ReactNode,
-};
-
 /**
  * This component makes the position of its children relative.
  * It's a sort of camera.
  */
-const Level: FunctionComponent<Props> = ({ children }) => {
+const Level: FunctionComponent<{}> = ({ children }) => {
 	const { editor } = useStore();
 
 	return (

@@ -6,13 +6,13 @@ import { Point as PixiPoint, interaction } from 'pixi.js';
 
 import Polygon from 'src/components/Polygon';
 import Point from 'src/components/Point';
-import point from 'src/types/point';
+import IPoint from 'src/types/point';
 
 type Props = {
-	fill: number,
-	onPointMove: (i: number, point: point) => void,
-	onMove: (delta: point) => void,
-	points: Array<PixiPoint>,
+	fill: number;
+	onPointMove: (i: number, IPoint: IPoint) => void;
+	onMove: (delta: IPoint) => void;
+	points: Array<PixiPoint>;
 };
 
 const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPointMove, onMove }) => {
@@ -32,15 +32,17 @@ const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPointMov
 			))
 		).subscribe();
 
-		return () => subs.unsubscribe();
+		return (): void => subs.unsubscribe();
 	}, [pointerDownVertex$]);
 
-	useEffect(() => {
+	useEffect((): () => void => {
 		const subs = pointerDownWhole$.pipe(
 			// we copy the relevant data because react pools events
 			map(({ data }) => ({
+				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore
 				x: data.originalEvent.clientX,
+				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore
 				y: data.originalEvent.clientY,
 			})),
@@ -65,17 +67,17 @@ const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPointMov
 			))
 		).subscribe();
 
-		return () => subs.unsubscribe();
+		return (): void => subs.unsubscribe();
 	}, [pointerDownWhole$]);
 
 	return (
 		<Container>
-			<Polygon fill={fill} points={points} interactive pointerdown={(ev: interaction.InteractionEvent) => pointerDownWhole$.next(ev)}/>
+			<Polygon fill={fill} points={points} interactive pointerdown={(ev: interaction.InteractionEvent): void => pointerDownWhole$.next(ev)}/>
 			{points.map((point_, i) => (
-				<Point fill={0x0000ff} x={point_.x} y={point_.y} key={i} radius={5} interactive pointerdown={(ev: interaction.InteractionEvent) => pointerDownVertex$.next([ev, i])}/>
+				<Point fill={0x0000ff} x={point_.x} y={point_.y} key={i} radius={5} interactive pointerdown={(ev: interaction.InteractionEvent): void => pointerDownVertex$.next([ev, i])}/>
 			))}
 		</Container>
 	);
-}
+};
 
 export default InteractivePolygon;

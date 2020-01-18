@@ -15,12 +15,10 @@ deps:
   stage: deps
   script: yarn install
 
-# disabled for now because it fails because of prop-types
-# but I'm not going to add them since we're gonna use typescript
-# validate_lint:
-#   stage: validate
-#   script:
-#     - yarn lint
+validate_lint:
+  stage: validate
+  script:
+    - yarn lint
 
 build_js:
   stage: build

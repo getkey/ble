@@ -1,6 +1,7 @@
-import { types } from 'mobx-state-tree';
+import { types, Instance } from 'mobx-state-tree';
 
 import Point from 'src/models/Point.js';
+import point from 'src/types/point';
 
 function getCameraPos() {
 	// TODO: store the camera pos in the store
@@ -10,18 +11,18 @@ function getCameraPos() {
 	};
 }
 
-export default types.model({
+const Editor = types.model({
 	position: types.optional(Point, {
 		x: 0,
 		y: 0,
 	}),
 	scale: 1,
 }).actions((self) => ({
-	setScale(scale) {
+	setScale(scale: number) {
 		self.scale = scale;
 	},
 })).views((self) => ({
-	screenToWorld(screenPos) {
+	screenToWorld(screenPos: point) {
 		const cameraPos = getCameraPos();
 
 		return {
@@ -30,3 +31,5 @@ export default types.model({
 		};
 	},
 }));
+export default Editor;
+export interface IEditor extends Instance<typeof Editor> {}

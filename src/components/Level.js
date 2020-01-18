@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from 'react-pixi-fiber';
 import { observer } from 'mobx-react-lite';
 
-import { useStore } from 'src/hooks/useStore.js';
+import { useStore } from 'src/hooks/useStore.ts';
 
 /**
  * This component makes the position of its children relative.

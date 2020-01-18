@@ -1,6 +1,6 @@
-import { types } from 'mobx-state-tree';
+import { types, Instance } from 'mobx-state-tree';
 
-import Editor from 'src/models/Editor.js';
+import Editor from 'src/models/Editor.ts';
 import Entities from 'src/models/Entities.js';
 
 const RootStore = types.model({
@@ -31,3 +31,4 @@ const RootStore = types.model({
 	]),
 });
 export const store = RootStore.create();
+export interface IRootStore extends Instance<typeof RootStore> {};

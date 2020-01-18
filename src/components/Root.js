@@ -1,8 +1,8 @@
 import React from 'react';
 import { Stage } from 'react-pixi-fiber';
 
-import App from 'src/components/App.js';
-import { StoreProvider } from 'src/hooks/useStore.js';
+import App from 'src/components/App.tsx';
+import { StoreProvider } from 'src/hooks/useStore.ts';
 import { store } from 'src/models/';
 
 export default function Root() {

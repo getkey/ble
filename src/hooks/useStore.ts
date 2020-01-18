@@ -1,7 +1,8 @@
 import { createContext, useContext } from 'react';
+
 import { IRootStore } from 'src/models/';
 
-const storeContext = createContext(null);
+const storeContext = createContext<IRootStore | null>(null);
 storeContext.displayName = 'storeContext';
 
 export function useStore() {
@@ -9,7 +10,7 @@ export function useStore() {
 	if (store === null) {
 		throw new Error('Store cannot be null, please add a context provider');
 	}
-	return store as IRootStore;
+	return store;
 }
 
 export const StoreProvider = storeContext.Provider;

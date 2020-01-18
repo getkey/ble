@@ -1,7 +1,7 @@
 import { types, Instance } from 'mobx-state-tree';
 
-import Editor from 'src/models/Editor.ts';
-import Entities from 'src/models/Entities.js';
+import Editor from 'src/models/Editor';
+import Entities from 'src/models/Entities';
 
 const RootStore = types.model({
 	editor: types.optional(Editor, {

@@ -1,6 +1,7 @@
 import { types, Instance } from 'mobx-state-tree';
+import { Point as PixiPoint } from 'pixi.js';
 
-import Point from 'src/models/Point.js';
+import Point from 'src/models/Point';
 import point from 'src/types/point';
 
 function getCameraPos() {
@@ -30,6 +31,9 @@ const Editor = types.model({
 			y: self.position.y + (screenPos.y - cameraPos.y) * (1/self.scale),
 		};
 	},
+	get scaleAsPixiPoint() {
+		return new PixiPoint(self.scale, self.scale);
+	}
 }));
 export default Editor;
 export interface IEditor extends Instance<typeof Editor> {}

@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { Point } from 'pixi.js';
 import { observer, useComputed } from 'mobx-react-lite';
 
-import InteractivePolygon from 'src/components/InteractivePolygon.js';
-import Level from 'src/components/Level.js';
-import { useStore } from 'src/hooks/useStore.ts';
+import InteractivePolygon from 'src/components/InteractivePolygon';
+import Level from 'src/components/Level';
+import { useStore } from 'src/hooks/useStore';
 import point from 'src/types/point';
 
 function App() {

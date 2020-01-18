@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { settings } from 'pixi.js';
 import { render } from 'react-dom';
 
 import 'src/events/';
-import Root from 'src/components/Root.js';
+import Root from 'src/components/Root';
 
 if (/Firefox/i.test(window.navigator.userAgent) && /Linux/i.test(window.navigator.oscpu)) {
 	// mesa drivers are limited to 16 https://github.com/pixijs/pixi.js/issues/4478

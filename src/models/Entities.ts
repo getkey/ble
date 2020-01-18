@@ -1,12 +1,12 @@
 import { types } from 'mobx-state-tree';
 
-import Point from 'src/models/Point.js';
+import Point from 'src/models/Point';
 
 export default types.array(
 	types.model({
 		vertices: types.array(Point),
 	}).actions((self) => ({
-		move(deltaX, deltaY) {
+		move(deltaX: number, deltaY: number) {
 			self.vertices.map((vertex) => {
 				vertex.set(
 					vertex.x + deltaX,

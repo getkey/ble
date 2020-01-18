@@ -1,9 +1,20 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
-import { Graphics } from 'pixi.js';
+import { Graphics, interaction } from 'pixi.js';
+
+type Props = {
+	fill: number,
+	x: number,
+	y: number,
+	radius: number,
+	// TODO: remove once fixed https://github.com/michalochman/react-pixi-fiber/pull/109
+	interactive: boolean,
+	pointerdown: (ev: interaction.InteractionEvent) => void,
+	// END TODO
+};
 
 export const behavior = {
 	customDisplayObject: () => new Graphics(),
-	customApplyProps: function(instance, oldProps, newProps) {
+		customApplyProps: function(instance: Graphics, oldProps: Props, newProps: Props) {
 		const { fill: oldFill, x: oldX, y: oldY, radius: oldRadius, ...remainingOldProps } = oldProps;
 		const { fill, x, y, radius, ...remainingNewProps } = newProps;
 		instance.clear();
@@ -12,6 +23,7 @@ export const behavior = {
 		instance.drawCircle(x, y, radius);
 		instance.endFill();
 
+		// @ts-ignore
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},
 };

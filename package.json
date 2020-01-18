@@ -9,6 +9,7 @@
     "url": "https://github.com/getkey/ble.git"
   },
   "dependencies": {
+    "core-js": "^3.6.4",
     "mobx": "^5.15.2",
     "mobx-react-lite": "^1.5.2",
     "mobx-state-tree": "^3.15.0",

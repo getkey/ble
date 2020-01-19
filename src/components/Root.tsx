@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, Fragment } from 'react';
 import { Stage } from 'react-pixi-fiber';
 
-import App from 'src/components/App.tsx';
-import { StoreProvider } from 'src/hooks/useStore.ts';
+import PixiApp from 'src/components/PixiApp';
+import DomApp from 'src/components/DomApp';
+import { StoreProvider } from 'src/hooks/useStore';
 import { store } from 'src/models/';
 
 const Root: FunctionComponent<{}> = () => {
@@ -13,14 +14,19 @@ const Root: FunctionComponent<{}> = () => {
 	// whereas the normal root level has almost nothing in it.
 	// (I suppose it would be okay to have another StoreProvider around Stage, too)
 	return (
-		<Stage options={{
-			backgroundColor: 0x121f1f,
-			resizeTo: document.body,
-		}}>
+		<Fragment>
+			<Stage options={{
+				backgroundColor: 0x121f1f,
+				resizeTo: document.body,
+			}}>
+				<StoreProvider value={store}>
+					<PixiApp/>
+				</StoreProvider>
+			</Stage>
 			<StoreProvider value={store}>
-				<App/>
+				<DomApp/>
 			</StoreProvider>
-		</Stage>
+		</Fragment>
 	);
 };
 

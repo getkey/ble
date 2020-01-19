@@ -14,7 +14,7 @@ const entityColors = {
 	bouncy: 0xff9900, // orange
 };
 
-const App: FunctionComponent<{}> = () => {
+const PixiApp: FunctionComponent<{}> = () => {
 	const { entities, editor } = useStore();
 
 	function onPolygonPointMove(polygonI: number, pointI: number, pos: IPoint): void {
@@ -46,4 +46,4 @@ const App: FunctionComponent<{}> = () => {
 		</Level>
 	);
 };
-export default observer(App);
+export default observer(PixiApp);

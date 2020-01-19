@@ -1,5 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
+import { getSnapshot } from 'mobx-state-tree';
+import { observer } from 'mobx-react-lite';
+
+import { useStore } from 'src/hooks/useStore';
+import { download } from 'src/utils/download';
 
 const Button = styled.button`
 	position: absolute;
@@ -8,8 +13,11 @@ const Button = styled.button`
 `;
 
 const DomApp: FunctionComponent<{}> = () => {
+	const { level } = useStore();
+
 	function onClick(): void {
-		alert('So you wanna save this?');
+		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
+		download(snapshot, 'level.json', 'application/json');
 	}
 
 	return (
@@ -17,4 +25,4 @@ const DomApp: FunctionComponent<{}> = () => {
 	);
 };
 
-export default DomApp;
+export default observer(DomApp);

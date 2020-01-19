@@ -13,10 +13,7 @@ function getCameraPos(): IPoint {
 }
 
 const Editor = types.model({
-	position: types.optional(Point, {
-		x: 0,
-		y: 0,
-	}),
+	position: Point,
 	scale: 1,
 }).actions((self) => ({
 	setScale(scale: number): void {

@@ -2,13 +2,24 @@ import { types } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
+import IPoint from 'src/types/point';
+import { EntityType } from 'src/types/entity';
+
+type SerializedEntity = {
+	type: EntityType;
+	params: {
+		vertices: Array<IPoint>;
+	};
+}
 
 export default types.model({
-	type: types.enumeration('EntityType', ['normal', 'ice', 'breakable', 'deadly', 'bouncy']),
-	vertices: types.array(Point),
+	type: types.enumeration(Object.values(EntityType)),
+	params: types.model({
+		vertices: types.array(Point),
+	}),
 }).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {
-		self.vertices.map((vertex) => {
+		self.params.vertices.map((vertex) => {
 			vertex.set(
 				vertex.x + deltaX,
 				vertex.y + deltaY,
@@ -17,6 +28,6 @@ export default types.model({
 	},
 })).views((self) => ({
 	get verticesAsPixiPoints(): Array<PixiPoint> {
-		return self.vertices.map(({ x, y }) => new PixiPoint(x, y));
+		return self.params.vertices.map(({ x, y }) => new PixiPoint(x, y));
 	},
 }));

@@ -15,10 +15,10 @@ const entityColors = {
 };
 
 const PixiApp: FunctionComponent<{}> = () => {
-	const { entities, editor } = useStore();
+	const { level: { entities }, editor } = useStore();
 
 	function onPolygonPointMove(polygonI: number, pointI: number, pos: IPoint): void {
-		const storePoint = entities[polygonI].vertices[pointI];
+		const storePoint = entities[polygonI].params.vertices[pointI];
 		const posInWorld = editor.screenToWorld(pos);
 		// TODO: add grid snapping to grids of other size than 1
 		const roundedPos = {

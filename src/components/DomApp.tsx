@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { getSnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
@@ -6,10 +6,13 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/hooks/useStore';
 import { download } from 'src/utils/download';
 
-const Button = styled.button`
+const BottomLeftDiv = styled.div`
 	position: absolute;
 	bottom: 0;
 	left: 0;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
 `;
 
 const DomApp: FunctionComponent<{}> = () => {
@@ -20,8 +23,19 @@ const DomApp: FunctionComponent<{}> = () => {
 		download(snapshot, 'level.json', 'application/json');
 	}
 
+	function on2StarsChange(ev: ChangeEvent<HTMLInputElement>): void {
+		level.set2StarsTime(parseInt(ev.target.value));
+	}
+	function on3StarsChange(ev: ChangeEvent<HTMLInputElement>): void {
+		level.set3StarsTime(parseInt(ev.target.value));
+	}
+
 	return (
-		<Button onClick={onClick}>Save</Button>
+		<BottomLeftDiv>
+			<button onClick={onClick}>Save</button>
+			<label>Time to get 2 stars: <input type="number" min="0" value={level.timings[0]} onChange={on2StarsChange}/> ms</label>
+			<label>Time to get 3 stars: <input type="number" min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms</label>
+		</BottomLeftDiv>
 	);
 };
 

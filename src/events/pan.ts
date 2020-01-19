@@ -11,6 +11,9 @@ type Infos = {
 
 fromEvent<MouseEvent>(document, 'mousedown').pipe(
 	filter((ev) => ev.button === 1),
+	tap(() => {
+		document.body.style.cursor = 'move';
+	}),
 	map((ev): Infos => ({ // save starting values
 		start: {
 			x: ev.clientX,
@@ -29,6 +32,10 @@ fromEvent<MouseEvent>(document, 'mousedown').pipe(
 
 			store.editor.position.set(deltaX, deltaY);
 		}),
-		takeUntil(fromEvent(document, 'mouseup')),
+		takeUntil(fromEvent(document, 'mouseup').pipe(
+			tap(() => {
+				document.body.style.cursor = 'initial';
+			})
+		)),
 	)),
 ).subscribe();

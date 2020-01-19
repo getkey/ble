@@ -7,6 +7,10 @@ import { Point as PixiPoint, interaction } from 'pixi.js';
 import Polygon from 'src/components/Polygon';
 import Point from 'src/components/Point';
 import IPoint from 'src/types/point';
+import grabbable from 'src/utils/grabbable';
+
+const GrabbablePolygon = grabbable(Polygon);
+const GrabbablePoint = grabbable(Point);
 
 type Props = {
 	fill: number;
@@ -72,9 +76,22 @@ const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPointMov
 
 	return (
 		<Container>
-			<Polygon fill={fill} points={points} interactive pointerdown={(ev: interaction.InteractionEvent): void => pointerDownWhole$.next(ev)}/>
+			<GrabbablePolygon
+				fill={fill}
+				points={points}
+				interactive
+				pointerdown={(ev: interaction.InteractionEvent): void => pointerDownWhole$.next(ev)}
+			/>
 			{points.map((point_, i) => (
-				<Point fill={0x0000ff} x={point_.x} y={point_.y} key={i} radius={5} interactive pointerdown={(ev: interaction.InteractionEvent): void => pointerDownVertex$.next([ev, i])}/>
+				<GrabbablePoint
+					fill={0x0000ff}
+					x={point_.x}
+					y={point_.y}
+					key={i}
+					radius={5}
+					interactive
+					pointerdown={(ev: interaction.InteractionEvent): void => pointerDownVertex$.next([ev, i])}
+				/>
 			))}
 		</Container>
 	);

@@ -38,12 +38,14 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   },
   "scripts": {
     "build": "webpack",
     "build:prod": "env NODE_ENV=production webpack",
     "lint": "eslint --ext=tsx,ts src",
+    "dev": "webpack-dev-server",
     "watch": "webpack --watch"
   },
   "husky": {

@@ -43,4 +43,8 @@ module.exports = {
 	plugins: [new HtmlWebpackPlugin({
 		template: 'src/index.ejs',
 	})],
+	devServer: {
+		contentBase: path.join(__dirname, 'dist/'),
+		compress: true,
+	},
 };

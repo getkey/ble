@@ -2,7 +2,7 @@
 
 ```sh
 yarn install
-yarn watch
+yarn dev
 ```
 
-And point your browser to `dist/index.html`!
+And point your browser to [localhost:8080](http://localhost:8080)!

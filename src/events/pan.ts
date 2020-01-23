@@ -12,7 +12,7 @@ type Infos = {
 fromEvent<MouseEvent>(document, 'mousedown').pipe(
 	filter((ev) => ev.button === 1),
 	tap(() => {
-		document.body.style.cursor = 'move';
+		document.body.style.cursor = 'all-scroll';
 	}),
 	map((ev): Infos => ({ // save starting values
 		start: {

@@ -2,15 +2,7 @@ import { types } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
-import IPoint from 'src/types/point';
 import { EntityType } from 'src/types/entity';
-
-type SerializedEntity = {
-	type: EntityType;
-	params: {
-		vertices: Array<IPoint>;
-	};
-}
 
 export default types.model({
 	type: types.enumeration(Object.values(EntityType)),

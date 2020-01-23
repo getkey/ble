@@ -9,10 +9,11 @@ type Infos = {
 	pivot: IPoint;
 };
 
+
 fromEvent<MouseEvent>(document, 'mousedown').pipe(
 	filter((ev) => ev.button === 1),
 	tap(() => {
-		document.body.style.cursor = 'all-scroll';
+		store.editor.setPanning(true);
 	}),
 	map((ev): Infos => ({ // save starting values
 		start: {
@@ -34,7 +35,7 @@ fromEvent<MouseEvent>(document, 'mousedown').pipe(
 		}),
 		takeUntil(fromEvent(document, 'mouseup').pipe(
 			tap(() => {
-				document.body.style.cursor = 'initial';
+				store.editor.setPanning(false);
 			})
 		)),
 	)),

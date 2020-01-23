@@ -14,6 +14,17 @@ module.exports = {
 	module: {
 		rules: [
 			{
+				test: /\.svg$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							outputPath: 'assets',
+						},
+					},
+				],
+			},
+			{
 				test: /\.tsx?$/,
 				use: [
 					{
@@ -46,5 +57,6 @@ module.exports = {
 	devServer: {
 		contentBase: path.join(__dirname, 'dist/'),
 		compress: true,
+		liveReload: false, // prevent the fucker from stealing the focus
 	},
 };

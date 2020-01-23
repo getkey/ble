@@ -3,6 +3,7 @@ import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
 import IPoint from 'src/types/point';
+import { EditorMode } from 'src/types/editor';
 
 function getCameraPos(): IPoint {
 	// TODO: store the camera pos in the store
@@ -15,9 +16,17 @@ function getCameraPos(): IPoint {
 const Editor = types.model({
 	position: Point,
 	scale: 1,
+	mode: types.enumeration(Object.values(EditorMode)),
+	panning: false,
 }).actions((self) => ({
 	setScale(scale: number): void {
 		self.scale = scale;
+	},
+	setMode(mode: EditorMode): void {
+		self.mode = mode;
+	},
+	setPanning(panning: boolean): void {
+		self.panning = panning;
 	},
 })).views((self) => ({
 	screenToWorld(screenPos: IPoint): IPoint {

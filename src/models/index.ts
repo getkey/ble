@@ -3,6 +3,7 @@ import { types, Instance } from 'mobx-state-tree';
 import Editor from 'src/models/Editor';
 import Level from 'src/models/Level';
 import { EntityType } from 'src/types/entity';
+import { EditorMode } from 'src/types/editor';
 
 const RootStore = types.model({
 	editor: types.optional(Editor, {
@@ -10,6 +11,7 @@ const RootStore = types.model({
 			x: 0,
 			y: 0,
 		},
+		mode: EditorMode.select,
 	}),
 	level: types.optional(Level, {
 		timings: [0, 0],

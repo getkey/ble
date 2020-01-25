@@ -4,11 +4,10 @@ import { tap } from 'rxjs/operators';
 import { interaction } from 'pixi.js';
 
 interface IProps {
-	pointerdown: (ev: interaction.InteractionEvent) => void;
+	pointerdown?: (ev: interaction.InteractionEvent) => void;
 }
 
-
-const withLoading = <P extends object>(
+const grabbable = <P extends object>(
 	Component: React.ComponentType<P>
 ): React.FunctionComponent<P & IProps> => {
 	const WrappedComponent: FunctionComponent<P & IProps> = ({
@@ -29,7 +28,9 @@ const withLoading = <P extends object>(
 
 		function onPointerDown(ev: interaction.InteractionEvent): void {
 			setGrabbing(true);
-			pointerdown(ev);
+			if (pointerdown !== undefined) {
+				pointerdown(ev);
+			}
 		}
 
 		return (
@@ -46,4 +47,4 @@ const withLoading = <P extends object>(
 	return WrappedComponent;
 };
 
-export default withLoading;
+export default grabbable;

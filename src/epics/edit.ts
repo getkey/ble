@@ -1,12 +1,14 @@
 import { fromEvent } from 'rxjs';
-import { map, tap, switchMap, takeUntil, ignoreElements, startWith, pairwise } from 'rxjs/operators';
+import { map, tap, switchMap, takeUntil, ignoreElements, startWith, pairwise, filter } from 'rxjs/operators';
 
 import { Epic } from 'src/types/actions';
 import { ofType } from 'src/utils/epics';
+import { EditorMode } from 'src/types/editor';
 
 export const polygonMove: Epic = (action$, { store }) => {
 	return action$.pipe (
 		ofType('polygonPointerDown'),
+		filter(() => store.editor.mode === EditorMode.select),
 		// we copy the relevant data because react pools events
 		map(({ ev, polygonId }) => ({
 			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -45,6 +47,7 @@ export const polygonMove: Epic = (action$, { store }) => {
 export const pointMove: Epic = (action$, { store }) => {
 	return action$.pipe (
 		ofType('vertexPointerDown'),
+		filter(() => store.editor.mode === EditorMode.select),
 		switchMap(({ polygonId, vertexId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {
 				const pos = {
@@ -62,6 +65,28 @@ export const pointMove: Epic = (action$, { store }) => {
 			}),
 			takeUntil(fromEvent(document, 'pointerup')),
 		)),
+		ignoreElements(),
+	);
+};
+
+export const deletePolygon: Epic = (action$, { store }) => {
+	return action$.pipe(
+		ofType('polygonPointerDown'),
+		filter(() => store.editor.mode === EditorMode.delete),
+		tap(({ polygonId }) => {
+			store.level.deleteEntity(polygonId);
+		}),
+		ignoreElements(),
+	);
+};
+
+export const deleteVertex: Epic = (action$, { store }) => {
+	return action$.pipe(
+		ofType('vertexPointerDown'),
+		filter(() => store.editor.mode === EditorMode.delete),
+		tap(({ polygonId, vertexId }) => {
+			store.level.entities[polygonId].deleteVertex(vertexId);
+		}),
 		ignoreElements(),
 	);
 };

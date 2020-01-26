@@ -18,6 +18,9 @@ export default types.model({
 			);
 		});
 	},
+	deleteVertex(index: number): void {
+		self.params.vertices.splice(index, 1);
+	},
 })).views((self) => ({
 	get verticesAsPixiPoints(): Array<PixiPoint> {
 		return self.params.vertices.map(({ x, y }) => new PixiPoint(x, y));

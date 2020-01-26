@@ -15,4 +15,7 @@ export default types.model({
 	set3StarsTime(ms: number): void {
 		self.timings[1] = ms;
 	},
+	deleteEntity(index: number): void {
+		self.entities.splice(index, 1);
+	},
 }));

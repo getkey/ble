@@ -4,6 +4,7 @@ import { map, tap, switchMap, takeUntil, ignoreElements, startWith, pairwise, fi
 import { Epic } from 'src/types/actions';
 import { ofType } from 'src/utils/epics';
 import { EditorMode } from 'src/types/editor';
+import { snapToGrid } from 'src/utils/geom';
 
 export const polygonMove: Epic = (action$, { store }) => {
 	return action$.pipe (
@@ -21,10 +22,10 @@ export const polygonMove: Epic = (action$, { store }) => {
 		})),
 		switchMap(({ x, y, polygonId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map(({ clientX, clientY }) => {
-				return {
+				return snapToGrid({
 					x: clientX - x,
 					y: clientY - y,
-				};
+				}, store.editor.gridCellSize);
 			}),
 			startWith({ x: 0, y: 0 }),
 			pairwise(),
@@ -56,12 +57,8 @@ export const pointMove: Epic = (action$, { store }) => {
 				};
 				const storePoint = store.level.entities[polygonId].params.vertices[vertexId];
 				const posInWorld = store.editor.screenToWorld(pos);
-				// TODO: add grid snapping to grids of other size than 1
-				const roundedPos = {
-					x: Math.round(posInWorld.x),
-					y: Math.round(posInWorld.y),
-				};
-				storePoint.set(roundedPos.x, roundedPos.y);
+				const snappedPos = snapToGrid(posInWorld, store.editor.gridCellSize);
+				storePoint.set(snappedPos.x, snappedPos.y);
 			}),
 			takeUntil(fromEvent(document, 'pointerup')),
 		)),

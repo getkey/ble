@@ -18,7 +18,7 @@ const BottomLeftDiv = styled.div`
 `;
 
 const DomApp: FunctionComponent<{}> = () => {
-	const { level } = useStore();
+	const { level, editor } = useStore();
 
 	function onClick(): void {
 		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
@@ -31,6 +31,9 @@ const DomApp: FunctionComponent<{}> = () => {
 	function on3StarsChange(ev: ChangeEvent<HTMLInputElement>): void {
 		level.set3StarsTime(parseInt(ev.target.value));
 	}
+	function onCellSizeChange(ev: ChangeEvent<HTMLInputElement>): void {
+		editor.setGridCellSize(parseInt(ev.target.value));
+	}
 
 	return (
 		<Fragment>
@@ -39,6 +42,7 @@ const DomApp: FunctionComponent<{}> = () => {
 				<button onClick={onClick}>Save</button>
 				<label>Time to get 2 stars: <input type="number" min="0" value={level.timings[0]} onChange={on2StarsChange}/> ms</label>
 				<label>Time to get 3 stars: <input type="number" min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms</label>
+				<label>Grid size: <input type="number" min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
 				<ModeBar/>
 			</BottomLeftDiv>
 		</Fragment>

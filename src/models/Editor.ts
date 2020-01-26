@@ -18,6 +18,7 @@ const Editor = types.model({
 	scale: 1,
 	mode: types.enumeration(Object.values(EditorMode)),
 	panning: false,
+	gridCellSize: 60,
 }).actions((self) => ({
 	setScale(scale: number): void {
 		self.scale = scale;
@@ -27,6 +28,9 @@ const Editor = types.model({
 	},
 	setPanning(panning: boolean): void {
 		self.panning = panning;
+	},
+	setGridCellSize(cellSize: number): void {
+		self.gridCellSize = cellSize;
 	},
 })).views((self) => ({
 	screenToWorld(screenPos: IPoint): IPoint {

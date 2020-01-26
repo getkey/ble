@@ -21,9 +21,9 @@ const RootStore = types.model({
 				params: {
 					vertices: [
 						{ x: 0, y: 0 },
-						{ x: 0, y: 50 },
-						{ x: 50, y: 50 },
-						{ x: 50, y: 0 },
+						{ x: 0, y: 60 },
+						{ x: 60, y: 60 },
+						{ x: 60, y: 0 },
 					],
 				},
 			},
@@ -31,11 +31,11 @@ const RootStore = types.model({
 				type: EntityType['ice'],
 				params: {
 					vertices: [
-						{ x: 100, y: 300 },
-						{ x: 100, y: 350 },
-						{ x: 200, y: 350 },
-						{ x: 200, y: 300 },
-						{ x: 150, y: 250 },
+						{ x: 120, y: 300 },
+						{ x: 120, y: 360 },
+						{ x: 240, y: 360 },
+						{ x: 240, y: 300 },
+						{ x: 180, y: 240 },
 					],
 				},
 			},

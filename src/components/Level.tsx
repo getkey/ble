@@ -3,6 +3,7 @@ import { Container } from 'react-pixi-fiber';
 import { observer } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
+import Grid from 'src/components/Grid';
 
 /**
  * This component makes the position of its children relative.
@@ -16,6 +17,7 @@ const Level: FunctionComponent<{}> = ({ children }) => {
 			pivot={editor.position.asPixiPoint}
 			scale={editor.scaleAsPixiPoint}
 		>
+			<Grid/>
 			{children}
 		</Container>
 	);

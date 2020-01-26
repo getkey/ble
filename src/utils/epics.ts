@@ -1,11 +1,12 @@
 import { merge, Subscription, Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-interface ActionLike {
+export interface ActionLike {
 	type: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[index: string]: any;
 }
-
 
 export function startEpics<A extends ActionLike, P>(
 	epics: Array<(action$: Subject<A>, params: P) => Observable<A>>,
@@ -29,4 +30,12 @@ export function startEpics<A extends ActionLike, P>(
 	).subscribe();
 
 	return subscription;
+}
+
+
+
+export function ofType(...keys: Array<string>) {
+	return (source: Observable<ActionLike>): Observable<ActionLike> => source.pipe(
+		filter(({ type }) => keys.some((key) => key === type)),
+	);
 }

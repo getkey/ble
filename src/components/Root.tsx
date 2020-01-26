@@ -1,10 +1,19 @@
+import { Subject } from 'rxjs';
 import React, { FunctionComponent, Fragment } from 'react';
 import { Stage } from 'react-pixi-fiber';
 
 import PixiApp from 'src/components/PixiApp';
 import DomApp from 'src/components/DomApp';
 import { StoreProvider } from 'src/hooks/useStore';
-import { store } from 'src/models/';
+import { DispatchProvider } from 'src/hooks/useDispatch';
+import { store, IRootStore } from 'src/models/';
+import epics from 'src/epics/';
+import { Actions } from 'src/types/actions';
+import { startEpics } from 'src/utils/epics';
+
+const action$ = new Subject<Actions>();
+
+startEpics<Actions, { store: IRootStore }>(epics, action$, { store });
 
 const Root: FunctionComponent<{}> = () => {
 	// WARNING:
@@ -19,13 +28,17 @@ const Root: FunctionComponent<{}> = () => {
 				backgroundColor: 0x121f1f,
 				resizeTo: document.body,
 			}}>
-				<StoreProvider value={store}>
-					<PixiApp/>
-				</StoreProvider>
+				<DispatchProvider value={action$}>
+					<StoreProvider value={store}>
+						<PixiApp/>
+					</StoreProvider>
+				</DispatchProvider>
 			</Stage>
-			<StoreProvider value={store}>
-				<DomApp/>
-			</StoreProvider>
+			<DispatchProvider value={action$}>
+				<StoreProvider value={store}>
+					<DomApp/>
+				</StoreProvider>
+			</DispatchProvider>
 		</Fragment>
 	);
 };

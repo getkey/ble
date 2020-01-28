@@ -2,8 +2,8 @@ import { types } from 'mobx-state-tree';
 import { Point } from 'pixi.js';
 
 export default types.model({
-	x: 0,
-	y: 0,
+	x: types.number,
+	y: types.number,
 }).actions((self) => ({
 	set(x: number, y: number): void {
 		self.x = x;

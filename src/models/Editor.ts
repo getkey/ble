@@ -21,7 +21,7 @@ const Editor = types.model({
 	mode: types.enumeration(Object.values(EditorMode)),
 	panning: false,
 	gridCellSize: 60,
-	selectedEntity: types.maybe(types.reference(Entity)),
+	selectedEntity: types.safeReference(Entity),
 }).actions((self) => ({
 	setScale(scale: number): void {
 		self.scale = scale;
@@ -35,7 +35,7 @@ const Editor = types.model({
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
 	},
-	setSelectedEntity(selected: IEntity): void {
+	setSelectedEntity(selected: IEntity | undefined): void {
 		self.selectedEntity = selected;
 	},
 })).views((self) => ({

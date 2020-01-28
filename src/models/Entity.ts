@@ -3,6 +3,7 @@ import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
 import { EntityType } from 'src/types/entity';
+import IPoint from 'src/types/point';
 
 const Entity = types.model({
 	id: types.identifier,
@@ -25,6 +26,9 @@ const Entity = types.model({
 	},
 	setIsStatic(isStatic: boolean): void {
 		self.params.isStatic = isStatic;
+	},
+	addVertex(pos: IPoint): void {
+		self.params.vertices.push(pos);
 	},
 })).views((self) => ({
 	get verticesAsPixiPoints(): Array<PixiPoint> {

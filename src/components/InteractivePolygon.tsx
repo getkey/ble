@@ -14,9 +14,10 @@ type Props = {
 	points: Array<PixiPoint>;
 	onPolygonPointerDown: (ev: interaction.InteractionEvent) => void;
 	onVertexPointerDown: (ev: interaction.InteractionEvent, vertexId: number) => void;
+	isSelected: boolean;
 };
 
-const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown }) => {
+const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected }) => {
 	return (
 		<Container>
 			<GrabbablePolygon
@@ -24,6 +25,7 @@ const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonP
 				points={points}
 				interactive
 				pointerdown={onPolygonPointerDown}
+				isSelected={isSelected}
 			/>
 			{points.map((point_, i) => (
 				<GrabbablePoint

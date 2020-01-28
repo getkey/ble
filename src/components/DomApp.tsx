@@ -38,6 +38,10 @@ const DomApp: FunctionComponent<{}> = () => {
 		editor.setGridCellSize(parseInt(ev.target.value));
 	}
 
+	function onClearSelection(): void {
+		editor.setSelectedEntity(undefined);
+	}
+
 	return (
 		<Fragment>
 			<CursorStyle/>
@@ -45,7 +49,10 @@ const DomApp: FunctionComponent<{}> = () => {
 			<BottomLeftDiv>
 				<label>Time to get 2 stars: <input type="number" min="0" value={level.timings[0]} onChange={on2StarsChange}/> ms</label>
 				<label>Time to get 3 stars: <input type="number" min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms</label>
-				<label>Grid size: <input type="number" min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
+				<div>
+					<label>Grid size: <input type="number" min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
+					<button onClick={onClearSelection}>Clear selection</button>
+				</div>
 				<ParamsBox/>
 				<button onClick={onClick}>Save</button>
 			</BottomLeftDiv>

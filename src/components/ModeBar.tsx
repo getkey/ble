@@ -17,12 +17,13 @@ const RadioGroup = styled.fieldset`
 	border: none;
 	background-color: white;
 	margin: 0;
-	padding: 4px;
+	padding: 0;
 `;
 
 const Label = styled.label`
 	opacity: 0.1;
 	cursor: pointer;
+	padding: 4px;
 `;
 
 const RadioButton = styled.input`
@@ -67,7 +68,10 @@ const ModeBar: FunctionComponent<{}> = () => {
 						checked={availableMode === editor.mode}
 						onChange={onChange}
 					/>
-					<Label htmlFor={`editor-mode-${availableMode}`} title={availableMode}>
+					<Label
+						htmlFor={`editor-mode-${availableMode}`}
+						title={availableMode}
+					>
 						<Icon src={icons[availableMode]}/>
 					</Label>
 				</Fragment>

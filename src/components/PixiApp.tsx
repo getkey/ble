@@ -15,20 +15,24 @@ const entityColors = {
 };
 
 const PixiApp: FunctionComponent<{}> = () => {
-	const { level: { entities } } = useStore();
+	const { level: { entities }, editor: { selectedEntity } } = useStore();
 	const dispatch = useDispatch();
 
 	return (
 		<Level>
-			{Array.from(entities.values()).map(({ verticesAsPixiPoints, type, id }) => (
-				<InteractivePolygon
-					fill={entityColors[type]}
-					points={verticesAsPixiPoints}
-					key={id}
-					onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', polygonId: id, vertexId, ev })}
-					onPolygonPointerDown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
-				/>
-			))}
+			{Array.from(entities.values()).map((entity) => {
+				const { verticesAsPixiPoints, type, id } = entity;
+				return (
+					<InteractivePolygon
+						fill={entityColors[type]}
+						points={verticesAsPixiPoints}
+						key={id}
+						onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', polygonId: id, vertexId, ev })}
+						onPolygonPointerDown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
+						isSelected={entity === selectedEntity}
+					/>
+				);
+			})}
 		</Level>
 	);
 };

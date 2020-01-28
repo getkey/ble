@@ -1,5 +1,5 @@
 import { fromEvent } from 'rxjs';
-import { map, tap, switchMap, takeUntil, ignoreElements, startWith, pairwise, filter } from 'rxjs/operators';
+import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan } from 'rxjs/operators';
 
 import { Epic } from 'src/types/actions';
 import { ofType } from 'src/utils/epics';
@@ -22,26 +22,30 @@ export const polygonMove: Epic = (action$, { store }) => {
 		})),
 		switchMap(({ x, y, polygonId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map(({ clientX, clientY }) => {
-				return snapToGrid({
+				return {
 					x: clientX - x,
 					y: clientY - y,
-				}, store.editor.gridCellSize);
+				};
 			}),
-			startWith({ x: 0, y: 0 }),
-			pairwise(),
-			tap(([previousDelta, currentDelta]) => {
-				// compute one increment
-				const delta = {
-					x: currentDelta.x - previousDelta.x,
-					y: currentDelta.y - previousDelta.y,
+			// we store how much the polygon has been offset already in offset
+			scan((offset, currentDelta) => {
+				const { editor: { scale } } = store;
+				const wantedPos = snapToGrid({
+					x: currentDelta.x*(1/scale),
+					y: currentDelta.y*(1/scale),
+				}, store.editor.gridCellSize);
+
+				const displacement = {
+					x: wantedPos.x - offset.x,
+					y: wantedPos.y - offset.y,
 				};
 
 				const storePolygon = store.level.entities.get(polygonId);
-				if (storePolygon === undefined) return;
+				if (storePolygon === undefined) return offset;
+				storePolygon.move(displacement.x, displacement.y);
 
-				const { editor: { scale } } = store;
-				storePolygon.move(delta.x*(1/scale), delta.y*(1/scale));
-			}),
+				return wantedPos;
+			}, { x: 0, y: 0 }),
 			takeUntil(fromEvent(document, 'pointerup')),
 		)),
 		ignoreElements(),

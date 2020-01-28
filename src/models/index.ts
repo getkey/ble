@@ -21,10 +21,10 @@ const RootStore = types.model({
 				type: EntityType['normal'],
 				params: {
 					vertices: [
-						{ x: 0, y: 0 },
-						{ x: 0, y: 60 },
 						{ x: 60, y: 60 },
-						{ x: 60, y: 0 },
+						{ x: 60, y: 120 },
+						{ x: 120, y: 120 },
+						{ x: 120, y: 60 },
 					],
 					isStatic: false,
 				},

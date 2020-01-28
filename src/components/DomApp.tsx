@@ -10,12 +10,14 @@ import ParamsBox from 'src/components/ParamsBox';
 import CursorStyle from 'src/components/CursorStyle';
 
 const BottomLeftDiv = styled.div`
+	padding: 4px;
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	background-color: white;
 	display: flex;
 	flex-direction: column;
+	align-items: flex-start; /* prevent stretching*/
 `;
 
 const DomApp: FunctionComponent<{}> = () => {
@@ -39,13 +41,13 @@ const DomApp: FunctionComponent<{}> = () => {
 	return (
 		<Fragment>
 			<CursorStyle/>
+			<ModeBar/>
 			<BottomLeftDiv>
-				<button onClick={onClick}>Save</button>
 				<label>Time to get 2 stars: <input type="number" min="0" value={level.timings[0]} onChange={on2StarsChange}/> ms</label>
 				<label>Time to get 3 stars: <input type="number" min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms</label>
 				<label>Grid size: <input type="number" min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
 				<ParamsBox/>
-				<ModeBar/>
+				<button onClick={onClick}>Save</button>
 			</BottomLeftDiv>
 		</Fragment>
 	);

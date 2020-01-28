@@ -6,10 +6,18 @@ import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
 import bin from 'src/icons/bin.svg';
 import cursor from 'src/icons/cursor.svg';
+import plus from 'src/icons/plus.svg';
 
 const RadioGroup = styled.fieldset`
 	display: flex;
 	list-style-type: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: none;
+	background-color: white;
+	margin: 0;
+	padding: 4px;
 `;
 
 const Label = styled.label`
@@ -32,6 +40,7 @@ const Icon = styled.img`
 const icons = {
 	'delete': bin,
 	'select': cursor,
+	'add': plus,
 };
 
 const ModeBar: FunctionComponent<{}> = () => {

@@ -105,7 +105,7 @@ export const deleteVertex: Epic = (action$, { store }) => {
 
 export const selectPolygon: Epic = (action$, { store }) => {
 	return action$.pipe(
-		ofType('polygonPointerDown'),
+		ofType('polygonPointerDown', 'vertexPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ polygonId }) => {
 			const storePolygon = store.level.entities.get(polygonId);

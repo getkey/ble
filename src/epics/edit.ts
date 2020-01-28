@@ -87,3 +87,17 @@ export const deleteVertex: Epic = (action$, { store }) => {
 		ignoreElements(),
 	);
 };
+
+
+export const selectPolygon: Epic = (action$, { store }) => {
+	return action$.pipe(
+		ofType('polygonPointerDown'),
+		filter(() => store.editor.mode === EditorMode.select),
+		tap(({ polygonId }) => {
+			const id = parseInt(polygonId);
+			const entity = store.level.entities[id];
+			store.editor.setSelectedEntity(entity);
+		}),
+		ignoreElements(),
+	);
+};

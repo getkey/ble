@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/hooks/useStore';
 import { download } from 'src/utils/download';
 import ModeBar from 'src/components/ModeBar';
+import ParamsBox from 'src/components/ParamsBox';
 import CursorStyle from 'src/components/CursorStyle';
 
 const BottomLeftDiv = styled.div`
@@ -43,6 +44,7 @@ const DomApp: FunctionComponent<{}> = () => {
 				<label>Time to get 2 stars: <input type="number" min="0" value={level.timings[0]} onChange={on2StarsChange}/> ms</label>
 				<label>Time to get 3 stars: <input type="number" min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms</label>
 				<label>Grid size: <input type="number" min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
+				<ParamsBox/>
 				<ModeBar/>
 			</BottomLeftDiv>
 		</Fragment>

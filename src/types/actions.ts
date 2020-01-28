@@ -4,11 +4,11 @@ import { interaction } from 'pixi.js';
 
 export type Actions = {
 	type: 'polygonPointerDown';
-	polygonId: number;
+	polygonId: string;
 	ev: interaction.InteractionEvent;
 } | {
 	type: 'vertexPointerDown';
-	polygonId: number;
+	polygonId: string;
 	vertexId: number;
 	ev: interaction.InteractionEvent;
 };

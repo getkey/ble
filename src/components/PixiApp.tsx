@@ -20,13 +20,13 @@ const PixiApp: FunctionComponent<{}> = () => {
 
 	return (
 		<Level>
-			{entities.map(({ verticesAsPixiPoints, type }, i) => (
+			{entities.map(({ verticesAsPixiPoints, type, id }) => (
 				<InteractivePolygon
 					fill={entityColors[type]}
 					points={verticesAsPixiPoints}
-					key={i}
-					onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', polygonId: i, vertexId, ev })}
-					onPolygonPointerDown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: i, ev })}
+					key={id}
+					onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', polygonId: id, vertexId, ev })}
+					onPolygonPointerDown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
 				/>
 			))}
 		</Level>

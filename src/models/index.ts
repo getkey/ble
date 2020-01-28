@@ -17,6 +17,7 @@ const RootStore = types.model({
 		timings: [0, 0],
 		entities: [
 			{
+				id: '0',
 				type: EntityType['normal'],
 				params: {
 					vertices: [
@@ -25,9 +26,11 @@ const RootStore = types.model({
 						{ x: 60, y: 60 },
 						{ x: 60, y: 0 },
 					],
+					isStatic: false,
 				},
 			},
 			{
+				id: '1',
 				type: EntityType['ice'],
 				params: {
 					vertices: [
@@ -37,9 +40,11 @@ const RootStore = types.model({
 						{ x: 240, y: 300 },
 						{ x: 180, y: 240 },
 					],
+					isStatic: true,
 				},
 			},
 		],
+		entityIdCounter: 2,
 	}),
 });
 export const store = RootStore.create();

@@ -4,6 +4,7 @@ import { Point as PixiPoint } from 'pixi.js';
 import Point from 'src/models/Point';
 import IPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
+import Entity, { IEntity } from 'src/models/Entity';
 
 function getCameraPos(): IPoint {
 	// TODO: store the camera pos in the store
@@ -13,12 +14,14 @@ function getCameraPos(): IPoint {
 	};
 }
 
+
 const Editor = types.model({
 	position: Point,
 	scale: 1,
 	mode: types.enumeration(Object.values(EditorMode)),
 	panning: false,
 	gridCellSize: 60,
+	selectedEntity: types.maybe(types.reference(Entity)),
 }).actions((self) => ({
 	setScale(scale: number): void {
 		self.scale = scale;
@@ -31,6 +34,9 @@ const Editor = types.model({
 	},
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
+	},
+	setSelectedEntity(selected: IEntity): void {
+		self.selectedEntity = selected;
 	},
 })).views((self) => ({
 	screenToWorld(screenPos: IPoint): IPoint {

@@ -35,9 +35,12 @@ export const polygonMove: Epic = (action$, { store }) => {
 					x: currentDelta.x - previousDelta.x,
 					y: currentDelta.y - previousDelta.y,
 				};
-				const storePolygon = store.level.entities[polygonId];
-				const { editor } = store;
-				storePolygon.move(delta.x*(1/editor.scale), delta.y*(1/editor.scale));
+
+				const storePolygon = store.level.entities.get(polygonId);
+				if (storePolygon === undefined) return;
+
+				const { editor: { scale } } = store;
+				storePolygon.move(delta.x*(1/scale), delta.y*(1/scale));
 			}),
 			takeUntil(fromEvent(document, 'pointerup')),
 		)),
@@ -55,9 +58,13 @@ export const pointMove: Epic = (action$, { store }) => {
 					x: ev.clientX,
 					y: ev.clientY,
 				};
-				const storePoint = store.level.entities[polygonId].params.vertices[vertexId];
+				const storePolygon = store.level.entities.get(polygonId);
+				if (storePolygon === undefined) return;
+				const storePoint = storePolygon.params.vertices[vertexId];
+
 				const posInWorld = store.editor.screenToWorld(pos);
 				const snappedPos = snapToGrid(posInWorld, store.editor.gridCellSize);
+
 				storePoint.set(snappedPos.x, snappedPos.y);
 			}),
 			takeUntil(fromEvent(document, 'pointerup')),
@@ -82,7 +89,10 @@ export const deleteVertex: Epic = (action$, { store }) => {
 		ofType('vertexPointerDown'),
 		filter(() => store.editor.mode === EditorMode.delete),
 		tap(({ polygonId, vertexId }) => {
-			store.level.entities[polygonId].deleteVertex(vertexId);
+			const storePolygon = store.level.entities.get(polygonId);
+			if (storePolygon === undefined) return;
+
+			storePolygon.deleteVertex(vertexId);
 		}),
 		ignoreElements(),
 	);
@@ -94,9 +104,10 @@ export const selectPolygon: Epic = (action$, { store }) => {
 		ofType('polygonPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ polygonId }) => {
-			const id = parseInt(polygonId);
-			const entity = store.level.entities[id];
-			store.editor.setSelectedEntity(entity);
+			const storePolygon = store.level.entities.get(polygonId);
+			if (storePolygon === undefined) return;
+
+			store.editor.setSelectedEntity(storePolygon);
 		}),
 		ignoreElements(),
 	);

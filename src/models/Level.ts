@@ -8,7 +8,7 @@ const Level = types.model({
 		types.array(types.integer),
 		(value) => value !== undefined && value.length === 2
 	),
-	entities: types.array(Entity),
+	entities: types.map(Entity),
 	entityIdCounter: 0,
 }).actions((self) => ({
 	set2StarsTime(ms: number): void {
@@ -17,8 +17,8 @@ const Level = types.model({
 	set3StarsTime(ms: number): void {
 		self.timings[1] = ms;
 	},
-	deleteEntity(index: number): void {
-		self.entities.splice(index, 1);
+	deleteEntity(id: string): void {
+		self.entities.delete(id);
 	},
 }));
 
@@ -37,7 +37,7 @@ const LevelProcessor = types.snapshotProcessor(Level, {
 	postProcessor({ entityIdCounter, ...sn}): SerializedLevel {
 		const level = {
 			...sn,
-			entities: sn.entities.map(({ id, ...params }) => ({
+			entities: Object.values(sn.entities).map(({ id, ...params }) => ({
 				...params,
 			})),
 		};

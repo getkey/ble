@@ -20,7 +20,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 
 	return (
 		<Level>
-			{entities.map(({ verticesAsPixiPoints, type, id }) => (
+			{Array.from(entities.values()).map(({ verticesAsPixiPoints, type, id }) => (
 				<InteractivePolygon
 					fill={entityColors[type]}
 					points={verticesAsPixiPoints}

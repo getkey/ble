@@ -15,8 +15,8 @@ const RootStore = types.model({
 	}),
 	level: types.optional(Level, {
 		timings: [0, 0],
-		entities: [
-			{
+		entities: {
+			'0': {
 				id: '0',
 				type: EntityType['normal'],
 				params: {
@@ -29,7 +29,7 @@ const RootStore = types.model({
 					isStatic: false,
 				},
 			},
-			{
+			'1': {
 				id: '1',
 				type: EntityType['ice'],
 				params: {
@@ -43,7 +43,7 @@ const RootStore = types.model({
 					isStatic: true,
 				},
 			},
-		],
+		},
 		entityIdCounter: 2,
 	}),
 });

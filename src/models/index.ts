@@ -13,6 +13,7 @@ const RootStore = types.model({
 			y: 0,
 		},
 		mode: EditorMode.select,
+		addType: EntityType.normal,
 	}),
 	level: types.optional(Level, {
 		timings: [0, 0],
@@ -52,7 +53,7 @@ const RootStore = types.model({
 		const id = self.level.entityIdCounter.toString(10);
 		const entity = {
 			id,
-			type: EntityType.normal,
+			type: self.editor.addType,
 			params: {
 				vertices: [
 					pos,

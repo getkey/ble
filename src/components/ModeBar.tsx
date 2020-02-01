@@ -4,9 +4,10 @@ import { observer } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
+import AddButton from 'src/components/AddButton';
+import Icon from 'src/components/Icon';
 import bin from 'src/icons/bin.svg';
 import cursor from 'src/icons/cursor.svg';
-import plus from 'src/icons/plus.svg';
 
 const RadioGroup = styled.fieldset`
 	display: flex;
@@ -33,15 +34,17 @@ const RadioButton = styled.input`
 	}
 `;
 
-const Icon = styled.img`
-	width: 32px;
-	height: 32px;
-`;
+const DeleteButton: FunctionComponent<{}> = () => (
+	<Icon src={bin}/>
+);
+const SelectButton: FunctionComponent<{}> = () => (
+	<Icon src={cursor}/>
+);
 
 const icons = {
-	'delete': bin,
-	'select': cursor,
-	'add': plus,
+	[EditorMode.delete]: DeleteButton,
+	[EditorMode.select]: SelectButton,
+	[EditorMode.add]: AddButton,
 };
 
 const ModeBar: FunctionComponent<{}> = () => {
@@ -57,25 +60,29 @@ const ModeBar: FunctionComponent<{}> = () => {
 
 	return (
 		<RadioGroup>
-			{Object.values(EditorMode).map((availableMode: EditorMode) => (
-				<Fragment key={availableMode}>
-					<RadioButton
-						id={`editor-mode-${availableMode}`}
-						type="radio"
-						name="editor-mode"
-						key={availableMode}
-						value={availableMode}
-						checked={availableMode === editor.mode}
-						onChange={onChange}
-					/>
-					<Label
-						htmlFor={`editor-mode-${availableMode}`}
-						title={availableMode}
-					>
-						<Icon src={icons[availableMode]}/>
-					</Label>
-				</Fragment>
-			))}
+			{Object.values(EditorMode).map((availableMode: EditorMode) => {
+				const selected = availableMode === editor.mode;
+				const Component = icons[availableMode];
+				return (
+					<Fragment key={availableMode}>
+						<RadioButton
+							id={`editor-mode-${availableMode}`}
+							type="radio"
+							name="editor-mode"
+							key={availableMode}
+							value={availableMode}
+							checked={selected}
+							onChange={onChange}
+						/>
+						<Label
+							htmlFor={`editor-mode-${availableMode}`}
+							title={availableMode}
+						>
+							<Component selected={selected}/>
+						</Label>
+					</Fragment>
+				);
+			})}
 		</RadioGroup>
 	);
 };

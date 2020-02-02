@@ -4,6 +4,7 @@ import { TilingSprite, AppContext } from 'react-pixi-fiber';
 import { observer } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
+import { useDispatch } from 'src/hooks/useDispatch';
 
 function makeTilingSprite(snapping: number, renderer: Renderer): RenderTexture {
 	const graphics = new Graphics();
@@ -26,13 +27,20 @@ const Level: FunctionComponent<{}> = () => {
 	const { editor } = useStore();
 
 	const { renderer } = useContext(AppContext);
+	const dispatch = useDispatch();
 
 	const texture = makeTilingSprite(editor.gridCellSize, renderer);
 	const width = renderer.width * (1/editor.scale);
 	const height = renderer.height * (1/editor.scale);
 
 	return (
-		<TilingSprite texture={texture} width={width} height={height}/>
+		<TilingSprite
+			texture={texture}
+			width={width}
+			height={height}
+			interactive
+			pointerdown={(): void => dispatch({ type: 'backgroundClick' })}
+		/>
 	);
 };
 export default observer(Level);

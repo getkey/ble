@@ -18,6 +18,8 @@ export type Actions = {
 } | {
 	type: 'addEntity';
 	pos: IPoint;
+} | {
+	type: 'backgroundClick';
 };
 
 export type Epic = (action$: Subject<Actions>, { store }: { store: IRootStore }) => Observable<Actions>

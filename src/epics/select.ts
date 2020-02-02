@@ -90,3 +90,14 @@ export const selectPolygon: Epic = (action$, { store }) => {
 		ignoreElements(),
 	);
 };
+
+export const unselect: Epic = (action$, { store }) => {
+	return action$.pipe(
+		ofType('backgroundClick'),
+		filter(() => [EditorMode.select, EditorMode.delete].includes(store.editor.mode)),
+		tap(() => {
+			store.editor.setSelectedEntity(undefined);
+		}),
+		ignoreElements(),
+	);
+};

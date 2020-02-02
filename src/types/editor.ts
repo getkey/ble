@@ -1,5 +1,6 @@
 export enum EditorMode {
 	select = 'select',
 	delete = 'delete',
-	add = 'add',
+	addVertex = 'addVertex',
+	addBlock = 'addBlock',
 }

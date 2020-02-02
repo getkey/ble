@@ -1,5 +1,6 @@
 import { Subject, Observable } from 'rxjs';
 import { IRootStore } from 'src/models/';
+import IPoint from 'src/types/point';
 import { interaction } from 'pixi.js';
 
 export type Actions = {
@@ -11,6 +12,12 @@ export type Actions = {
 	polygonId: string;
 	vertexId: number;
 	ev: interaction.InteractionEvent;
+} | {
+	type: 'addVertex';
+	pos: IPoint;
+} | {
+	type: 'addEntity';
+	pos: IPoint;
 };
 
 export type Epic = (action$: Subject<Actions>, { store }: { store: IRootStore }) => Observable<Actions>

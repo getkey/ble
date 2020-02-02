@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import Icon from 'src/components/Icon';
 import { useStore } from 'src/hooks/useStore';
 import { EntityType } from 'src/types/entity';
-import plus from 'src/icons/plus.svg';
+import addBlock from 'src/icons/add_block.svg'; // not to be confused with adblock :P
 
 type Props = {
 	selected: boolean;
@@ -49,7 +49,7 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 
 	return (
 		<Fragment>
-			<Icon src={plus} onClick={toggleDropdown}/>
+			<Icon src={addBlock} onClick={toggleDropdown}/>
 			{showDropdown && (
 				<ButtonContainer>
 					{Object.values(EntityType).map((type) => (

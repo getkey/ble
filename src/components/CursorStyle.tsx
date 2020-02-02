@@ -4,7 +4,8 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
 import bin from 'src/icons/bin.svg';
-import plus from 'src/icons/plus.svg';
+import addBlock from 'src/icons/add_block.svg';
+import addVertex from 'src/icons/add_vertex.svg';
 
 const ModeBar: FunctionComponent<{}> = () => {
 	const { editor } = useStore();
@@ -15,8 +16,11 @@ const ModeBar: FunctionComponent<{}> = () => {
 		case EditorMode.delete:
 			cursor = `url(${bin}), default`;
 			break;
-		case EditorMode.add:
-			cursor = `url(${plus}), default`;
+		case EditorMode.addBlock:
+			cursor = `url(${addBlock}), default`;
+			break;
+		case EditorMode.addVertex:
+			cursor = `url(${addVertex}), default`;
 			break;
 	}
 

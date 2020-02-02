@@ -1,6 +1,6 @@
 import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
-import { observer } from 'mobx-react-lite';
+import { observer, useComputed } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
@@ -8,6 +8,7 @@ import AddButton from 'src/components/AddButton';
 import Icon from 'src/components/Icon';
 import bin from 'src/icons/bin.svg';
 import cursor from 'src/icons/cursor.svg';
+import addVertex from 'src/icons/add_vertex.svg';
 
 const RadioGroup = styled.fieldset`
 	display: flex;
@@ -40,18 +41,27 @@ const DeleteButton: FunctionComponent<{}> = () => (
 const SelectButton: FunctionComponent<{}> = () => (
 	<Icon src={cursor}/>
 );
+const AddVertexButton: FunctionComponent<{}> = () => (
+	<Icon src={addVertex}/>
+);
 
 const icons = {
 	[EditorMode.delete]: DeleteButton,
 	[EditorMode.select]: SelectButton,
-	[EditorMode.add]: AddButton,
+	[EditorMode.addBlock]: AddButton,
+	[EditorMode.addVertex]: AddVertexButton,
 };
 
 const ModeBar: FunctionComponent<{}> = () => {
 	const { editor } = useStore();
+	const availableModes: Array<EditorMode> = useComputed(() => (
+		editor.selectedEntity === undefined
+			? Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex)
+			: Object.values(EditorMode)
+	), [editor]);
 
 	function onChange(ev: ChangeEvent<HTMLInputElement>): void {
-		if (!Object.values(EditorMode).some((allowedMode) => allowedMode === ev.target.value)) {
+		if (!availableModes.some((allowedMode) => allowedMode === ev.target.value)) {
 			throw new TypeError('Incorrect editor mode');
 		}
 		const newMode: EditorMode = EditorMode[ev.target.value as keyof typeof EditorMode];
@@ -60,7 +70,7 @@ const ModeBar: FunctionComponent<{}> = () => {
 
 	return (
 		<RadioGroup>
-			{Object.values(EditorMode).map((availableMode: EditorMode) => {
+			{availableModes.map((availableMode: EditorMode) => {
 				const selected = availableMode === editor.mode;
 				const Component = icons[availableMode];
 				return (

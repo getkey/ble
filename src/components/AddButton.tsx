@@ -1,4 +1,5 @@
-import React, { FunctionComponent, Fragment, useState, useEffect } from 'react';
+import React, { FunctionComponent, Fragment, useState, useEffect, ChangeEvent } from 'react';
+import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 
 import Icon from 'src/components/Icon';
@@ -10,6 +11,20 @@ type Props = {
 	selected: boolean;
 };
 
+const ButtonContainer = styled.fieldset`
+	display: flex;
+	flex-direction: column;
+	border: none;
+	padding: none;
+	background-color: white;
+	position: absolute;
+	top: 100%;
+`;
+
+const Label = styled.label`
+	display: flex;
+`;
+
 const AddButton: FunctionComponent<Props> = ({ selected }) => {
 	const [showDropdown, setShowDropdown] = useState(selected);
 	const { editor } = useStore();
@@ -18,9 +33,14 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 		setShowDropdown(selected);
 	}, [selected]);
 
-	function setBlockType(type: EntityType): void {
+	function setBlockType(ev: ChangeEvent<HTMLInputElement>): void {
+		if (!Object.values(EntityType).some((allowedType) => allowedType === ev.target.value)) {
+			throw new TypeError('Incorrect entity type');
+		}
+		const addType: EntityType = EntityType[ev.target.value as keyof typeof EntityType];
+
 		setShowDropdown(false);
-		editor.setAddType(type);
+		editor.setAddType(addType);
 	}
 
 	function toggleDropdown(): void {
@@ -31,8 +51,27 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 		<Fragment>
 			<Icon src={plus} onClick={toggleDropdown}/>
 			{showDropdown && (
-				<Fragment>
+				<ButtonContainer>
 					{Object.values(EntityType).map((type) => (
+						<Label key={type}>
+							<input
+								type="radio"
+								onChange={setBlockType}
+								checked={type === editor.addType}
+								value={type}
+							/>
+							{type}
+						</Label>
+					))}
+				</ButtonContainer>
+			)}
+		</Fragment>
+	);
+};
+
+export default observer(AddButton);
+
+/*
 						<button
 							onClick={(): void => setBlockType(type)}
 							key={type}
@@ -40,11 +79,4 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 						>
 							{type}
 						</button>
-					))}
-				</Fragment>
-			)}
-		</Fragment>
-	);
-};
-
-export default observer(AddButton);
+ */

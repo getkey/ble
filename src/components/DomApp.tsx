@@ -1,13 +1,12 @@
 import React, { FunctionComponent, ChangeEvent, Fragment } from 'react';
 import styled from '@emotion/styled';
-import { getSnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
-import { download } from 'src/utils/download';
 import ModeBar from 'src/components/ModeBar';
 import ParamsBox from 'src/components/ParamsBox';
 import CursorStyle from 'src/components/CursorStyle';
+import LoadSave from 'src/components/LoadSave';
 
 const BottomLeftDiv = styled.div`
 	padding: 4px;
@@ -22,11 +21,6 @@ const BottomLeftDiv = styled.div`
 
 const DomApp: FunctionComponent<{}> = () => {
 	const { level, editor } = useStore();
-
-	function onClick(): void {
-		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
-		download(snapshot, 'level.json', 'application/json');
-	}
 
 	function on2StarsChange(ev: ChangeEvent<HTMLInputElement>): void {
 		level.set2StarsTime(parseInt(ev.target.value));
@@ -47,7 +41,7 @@ const DomApp: FunctionComponent<{}> = () => {
 				<label>Time to get 3 stars: <input type="number" min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms</label>
 				<label>Grid size: <input type="number" min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
 				<ParamsBox/>
-				<button onClick={onClick}>Save</button>
+				<LoadSave/>
 			</BottomLeftDiv>
 		</Fragment>
 	);

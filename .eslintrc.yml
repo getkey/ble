@@ -18,9 +18,7 @@ rules:
   react/prop-types:
     - off
   '@typescript-eslint/interface-name-prefix':
-    - error
-    - prefixWithI: always
-      allowUnderscorePrefix: true
+    - off
   '@typescript-eslint/no-unused-vars':
     - error
     - ignoreRestSiblings: true

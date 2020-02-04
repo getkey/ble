@@ -1,4 +1,4 @@
-import { types, Instance } from 'mobx-state-tree';
+import { types, Instance, SnapshotIn } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
@@ -10,7 +10,7 @@ const Entity = types.model({
 	type: types.enumeration(Object.values(EntityType)),
 	params: types.model({
 		vertices: types.array(Point),
-		isStatic: types.boolean,
+		isStatic: false,
 	}),
 }).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {
@@ -38,3 +38,5 @@ const Entity = types.model({
 export default Entity;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IEntity extends Instance<typeof Entity> {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SnapshotInEntity extends SnapshotIn<typeof Entity> {}

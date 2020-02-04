@@ -1,7 +1,7 @@
 import { types, Instance } from 'mobx-state-tree';
 
 import Editor from 'src/models/Editor';
-import Level from 'src/models/Level';
+import LevelProcessor from 'src/models/LevelProcessor';
 import { EntityType } from 'src/types/entity';
 import { EditorMode } from 'src/types/editor';
 import IPoint from 'src/types/point';
@@ -15,12 +15,11 @@ const RootStore = types.model({
 		mode: EditorMode.select,
 		addType: EntityType.normal,
 	}),
-	level: types.optional(Level, {
+	level: types.optional(LevelProcessor, {
 		timings: [0, 0],
-		entities: {
-			'0': {
-				id: '0',
-				type: EntityType['normal'],
+		entities: [
+			{
+				type: 'normal',
 				params: {
 					vertices: [
 						{ x: 60, y: 60 },
@@ -31,9 +30,8 @@ const RootStore = types.model({
 					isStatic: false,
 				},
 			},
-			'1': {
-				id: '1',
-				type: EntityType['ice'],
+			{
+				type: 'ice',
 				params: {
 					vertices: [
 						{ x: 120, y: 300 },
@@ -45,8 +43,7 @@ const RootStore = types.model({
 					isStatic: true,
 				},
 			},
-		},
-		entityIdCounter: 2,
+		],
 	}),
 }).actions((self) => ({
 	addEntity(pos: IPoint): void {

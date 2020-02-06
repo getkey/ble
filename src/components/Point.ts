@@ -1,15 +1,11 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
-import { Graphics, interaction } from 'pixi.js';
+import { Graphics } from 'pixi.js';
 
 type Props = {
 	fill: number;
 	x: number;
 	y: number;
 	radius: number;
-	// TODO: remove once fixed https://github.com/michalochman/react-pixi-fiber/pull/109
-	interactive: boolean;
-	pointerdown: (ev: interaction.InteractionEvent) => void;
-	// END TODO
 };
 
 export const behavior = {

@@ -9,6 +9,7 @@ import Icon from 'src/components/Icon';
 import bin from 'src/icons/bin.svg';
 import cursor from 'src/icons/cursor.svg';
 import addVertex from 'src/icons/add_vertex.svg';
+import BlockM from 'src/models/Block';
 
 const RadioGroup = styled.fieldset`
 	display: flex;
@@ -55,7 +56,7 @@ const icons = {
 const ModeBar: FunctionComponent<{}> = () => {
 	const { editor } = useStore();
 	const availableModes: Array<EditorMode> = useComputed(() => (
-		editor.selectedEntity === undefined
+		editor.selectedEntity === undefined || !BlockM.is(editor.selectedEntity)
 			? Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex)
 			: Object.values(EditorMode)
 	), [editor]);

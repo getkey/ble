@@ -4,6 +4,7 @@ import Editor from 'src/models/Editor';
 import LevelProcessor from 'src/models/LevelProcessor';
 import { EntityType } from 'src/types/entity';
 import { EditorMode } from 'src/types/editor';
+import Entity from 'src/models/Entity';
 import IPoint from 'src/types/point';
 
 const RootStore = types.model({
@@ -43,12 +44,19 @@ const RootStore = types.model({
 					isStatic: true,
 				},
 			},
+			{
+				type: 'endpoint',
+				params: {
+					x: 300,
+					y: 0,
+				},
+			},
 		],
 	}),
 }).actions((self) => ({
 	addEntity(pos: IPoint): void {
 		const id = self.level.entityIdCounter.toString(10);
-		const entity = {
+		const entity = Entity.create({
 			id,
 			type: self.editor.addType,
 			params: {
@@ -57,11 +65,10 @@ const RootStore = types.model({
 				],
 				isStatic: true,
 			},
-		};
+		});
 		self.level.entities.set(id, entity);
+		self.editor.selectedEntity = entity;
 		self.level.entityIdCounter += 1;
-		const ent = self.level.entities.get(id);
-		self.editor.selectedEntity = ent;
 	},
 }));
 export const store = RootStore.create();

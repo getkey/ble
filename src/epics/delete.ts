@@ -3,6 +3,7 @@ import { ofType } from 'epix';
 
 import { Epic } from 'src/types/actions';
 import { EditorMode } from 'src/types/editor';
+import EntityM from 'src/models/Entity';
 
 export const deletePolygon: Epic = (action$, { store }) => {
 	return action$.pipe(
@@ -21,7 +22,9 @@ export const deleteVertex: Epic = (action$, { store }) => {
 		filter(() => store.editor.mode === EditorMode.delete),
 		tap(({ polygonId, vertexId }) => {
 			const storePolygon = store.level.entities.get(polygonId);
-			if (storePolygon === undefined) return;
+			if (storePolygon === undefined) throw new Error('Invalid polygonId');
+
+			if (!EntityM.is(storePolygon)) throw new Error('Not a block');
 
 			storePolygon.deleteVertex(vertexId);
 		}),

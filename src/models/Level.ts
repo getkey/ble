@@ -1,13 +1,14 @@
 import { types, SnapshotIn } from 'mobx-state-tree';
 
 import Entity from 'src/models/Entity';
+import Door from 'src/models/Door';
 
 const Level = types.model({
 	timings: types.refinement(
 		types.array(types.integer),
 		(value) => value !== undefined && value.length === 2
 	),
-	entities: types.map(Entity),
+	entities: types.map(types.union(Entity, Door)),
 	entityIdCounter: 0,
 }).actions((self) => ({
 	set2StarsTime(ms: number): void {

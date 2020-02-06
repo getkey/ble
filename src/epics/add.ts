@@ -6,6 +6,7 @@ import { Epic } from 'src/types/actions';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import IPoint from 'src/types/point';
+import EntityM from 'src/models/Entity';
 
 export const addVertexOrEntity: Epic = (action$, { store }) => {
 	return fromEvent<MouseEvent>(document, 'mousedown').pipe(
@@ -55,6 +56,7 @@ export const addVertex: Epic = (action$, { store }) => {
 			if (selectedEntity === undefined) {
 				throw new Error('Trying to add a vertex but no entity is selected');
 			}
+			if (!EntityM.is(selectedEntity)) throw new Error('Not a block');
 			selectedEntity.addVertex(pos);
 		}),
 		ignoreElements(),

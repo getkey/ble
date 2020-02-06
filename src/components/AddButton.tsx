@@ -37,7 +37,7 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 		if (!Object.values(EntityType).some((allowedType) => allowedType === ev.target.value)) {
 			throw new TypeError('Incorrect entity type');
 		}
-		const addType: EntityType = EntityType[ev.target.value as keyof typeof EntityType];
+		const addType: EntityType = ev.target.value as EntityType;
 
 		setShowDropdown(false);
 		editor.setAddType(addType);

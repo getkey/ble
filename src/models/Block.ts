@@ -2,12 +2,12 @@ import { types, Instance, SnapshotIn } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
-import { EntityType } from 'src/types/entity';
+import { BlockType } from 'src/types/entity';
 import IPoint from 'src/types/point';
 
 const Block = types.model({
 	id: types.identifier,
-	type: types.enumeration(Object.values(EntityType)),
+	type: types.enumeration(Object.values(BlockType)),
 	params: types.model({
 		vertices: types.array(Point),
 		isStatic: false,

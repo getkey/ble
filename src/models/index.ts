@@ -2,9 +2,10 @@ import { types, Instance } from 'mobx-state-tree';
 
 import Editor from 'src/models/Editor';
 import LevelProcessor from 'src/models/LevelProcessor';
-import { EntityType } from 'src/types/entity';
+import { EntityType, BlockType } from 'src/types/entity';
 import { EditorMode } from 'src/types/editor';
 import Block from 'src/models/Block';
+import Door from 'src/models/Door';
 import IPoint from 'src/types/point';
 
 const RootStore = types.model({
@@ -56,19 +57,37 @@ const RootStore = types.model({
 }).actions((self) => ({
 	addEntity(pos: IPoint): void {
 		const id = self.level.entityIdCounter.toString(10);
-		const entity = Block.create({
-			id,
-			type: self.editor.addType,
-			params: {
-				vertices: [
-					pos,
-				],
-				isStatic: true,
-			},
-		});
-		self.level.entities.set(id, entity);
-		self.editor.selectedEntity = entity;
-		self.level.entityIdCounter += 1;
+		let entity = null;
+
+		if (self.editor.addType in BlockType) {
+			entity = Block.create({
+				id,
+				type: self.editor.addType as unknown as BlockType,
+				params: {
+					vertices: [
+						pos,
+					],
+					isStatic: true,
+				},
+			});
+		}
+
+		if (self.editor.addType === EntityType.endpoint) {
+			entity = Door.create({
+				id,
+				type: EntityType.endpoint,
+				params: {
+					x: pos.x,
+					y: pos.y,
+				},
+			});
+		}
+
+		if (entity !== null) {
+			self.level.entities.set(id, entity);
+			self.editor.selectedEntity = entity;
+			self.level.entityIdCounter += 1;
+		}
 	},
 }));
 export const store = RootStore.create();

@@ -1,7 +1,7 @@
 import { SnapshotInBlock } from 'src/models/Block';
 import { SnapshotInLevel } from 'src/models/Level';
 import { SerializedLevel } from 'src/types/snapshot';
-import { EntityType } from 'src/types/entity';
+import { BlockType } from 'src/types/entity';
 
 type EntityObj = {
 	[key: string]: SnapshotInBlock;
@@ -13,7 +13,7 @@ export function levelPreProcessor(snapshot: SerializedLevel): SnapshotInLevel {
 		const id = i.toString();
 		const ent = {
 			...entity,
-			type: entity.type as EntityType,
+			type: entity.type as BlockType,
 			id,
 		};
 		acc[id] = ent;

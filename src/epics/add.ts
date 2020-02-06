@@ -7,6 +7,7 @@ import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import IPoint from 'src/types/point';
 import BlockM from 'src/models/Block';
+import { BlockType } from 'src/types/entity';
 
 export const addVertexOrEntity: Epic = (action$, { store }) => {
 	return fromEvent<MouseEvent>(document, 'mousedown').pipe(
@@ -41,6 +42,9 @@ export const addEntity: Epic = (action$, { store }) => {
 		ofType('addEntity'),
 		tap(({ pos }) => {
 			store.addEntity(pos);
+		}),
+		filter(() => store.editor.addType in BlockType),
+		tap(() => {
 			store.editor.setMode(EditorMode.addVertex);
 		}),
 		ignoreElements(),

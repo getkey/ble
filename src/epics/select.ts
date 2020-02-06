@@ -5,7 +5,7 @@ import { ofType } from 'epix';
 import { Epic } from 'src/types/actions';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
-import EntityM from 'src/models/Entity';
+import BlockM from 'src/models/Block';
 
 export const polygonMove: Epic = (action$, { store }) => {
 	return action$.pipe (
@@ -65,7 +65,7 @@ export const pointMove: Epic = (action$, { store }) => {
 				};
 				const storePolygon = store.level.entities.get(polygonId);
 				if (storePolygon === undefined) return;
-				if (!EntityM.is(storePolygon)) throw new Error('Not a block');
+				if (!BlockM.is(storePolygon)) throw new Error('Not a block');
 				const storePoint = storePolygon.params.vertices[vertexId];
 
 				const posInWorld = store.editor.screenToWorld(pos);

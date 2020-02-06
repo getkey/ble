@@ -7,7 +7,7 @@ import { useStore } from 'src/hooks/useStore';
 import { useDispatch } from 'src/hooks/useDispatch';
 import Door from 'src/components/Door';
 import DoorM from 'src/models/Door';
-import EntityM from 'src/models/Entity';
+import BlockM from 'src/models/Block';
 
 const entityColors = {
 	deadly: 0xff0000, // red
@@ -39,7 +39,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 					);
 				}
 
-				if (EntityM.is(entity)) {
+				if (BlockM.is(entity)) {
 					const { verticesAsPixiPoints, id, type } = entity;
 					return (
 						<InteractivePolygon

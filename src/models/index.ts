@@ -4,7 +4,7 @@ import Editor from 'src/models/Editor';
 import LevelProcessor from 'src/models/LevelProcessor';
 import { EntityType } from 'src/types/entity';
 import { EditorMode } from 'src/types/editor';
-import Entity from 'src/models/Entity';
+import Block from 'src/models/Block';
 import IPoint from 'src/types/point';
 
 const RootStore = types.model({
@@ -56,7 +56,7 @@ const RootStore = types.model({
 }).actions((self) => ({
 	addEntity(pos: IPoint): void {
 		const id = self.level.entityIdCounter.toString(10);
-		const entity = Entity.create({
+		const entity = Block.create({
 			id,
 			type: self.editor.addType,
 			params: {

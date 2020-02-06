@@ -6,7 +6,6 @@ import IPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
 import { EntityType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
-import Door, { IDoor } from 'src/models/Door';
 
 function getCameraPos(): IPoint {
 	// TODO: store the camera pos in the store
@@ -23,10 +22,7 @@ const Editor = types.model({
 	mode: types.enumeration(Object.values(EditorMode)),
 	panning: false,
 	gridCellSize: 60,
-	selectedEntity: types.union(
-		types.safeReference(Entity),
-		types.safeReference(Door),
-	),
+	selectedEntity: types.safeReference(Entity),
 	addType: types.enumeration(Object.values(EntityType)),
 }).actions((self) => ({
 	setScale(scale: number): void {
@@ -41,7 +37,7 @@ const Editor = types.model({
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
 	},
-	setSelectedEntity(selected: IEntity | IDoor | undefined): void {
+	setSelectedEntity(selected: IEntity | undefined): void {
 		self.selectedEntity = selected;
 	},
 	setAddType(addType: EntityType): void {

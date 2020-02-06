@@ -1,11 +1,11 @@
 import { fromEvent, empty, of } from 'rxjs';
 import { filter, map, tap, ignoreElements, mergeMap } from 'rxjs/operators';
+import { ofType } from 'epix';
 
 import { Epic } from 'src/types/actions';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import IPoint from 'src/types/point';
-import { ofType } from 'src/utils/epics';
 
 export const addVertexOrEntity: Epic = (action$, { store }) => {
 	return fromEvent<MouseEvent>(document, 'mousedown').pipe(

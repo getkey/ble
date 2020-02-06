@@ -1,7 +1,7 @@
 import { tap, ignoreElements, filter } from 'rxjs/operators';
+import { ofType } from 'epix';
 
 import { Epic } from 'src/types/actions';
-import { ofType } from 'src/utils/epics';
 import { EditorMode } from 'src/types/editor';
 
 export const deletePolygon: Epic = (action$, { store }) => {

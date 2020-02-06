@@ -1,8 +1,8 @@
 import { fromEvent } from 'rxjs';
 import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan } from 'rxjs/operators';
+import { ofType } from 'epix';
 
 import { Epic } from 'src/types/actions';
-import { ofType } from 'src/utils/epics';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 

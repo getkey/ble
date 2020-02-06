@@ -1,6 +1,7 @@
 import { Subject } from 'rxjs';
 import React, { FunctionComponent, Fragment } from 'react';
 import { Stage } from 'react-pixi-fiber';
+import { startEpics } from 'epix';
 
 import PixiApp from 'src/components/PixiApp';
 import DomApp from 'src/components/DomApp';
@@ -9,7 +10,6 @@ import { DispatchProvider } from 'src/hooks/useDispatch';
 import { store, IRootStore } from 'src/models/';
 import epics from 'src/epics/';
 import { Actions } from 'src/types/actions';
-import { startEpics } from 'src/utils/epics';
 
 const action$ = new Subject<Actions>();
 

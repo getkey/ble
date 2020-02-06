@@ -25,6 +25,15 @@ const Label = styled.label`
 	display: flex;
 `;
 
+const nameAliases = {
+	normal: 'Normal',
+	ice: 'Ice',
+	breakable: 'Breakable',
+	deadly: 'Fire',
+	bouncy: 'Bouncy',
+	endpoint: 'Door',
+};
+
 const AddButton: FunctionComponent<Props> = ({ selected }) => {
 	const [showDropdown, setShowDropdown] = useState(selected);
 	const { editor } = useStore();
@@ -60,7 +69,7 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 								checked={type === editor.addType}
 								value={type}
 							/>
-							{type}
+							{nameAliases[type]}
 						</Label>
 					))}
 				</ButtonContainer>

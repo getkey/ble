@@ -18,7 +18,22 @@ type Door = {
 	};
 };
 
+type Hoppi = {
+	type: 'player';
+	params: {
+		x: number;
+		y: number;
+		angle?: number;
+		infiniteAmmo: 'bullet' | 'grenade';
+	} | {
+		x: number;
+		y: number;
+		angle?: number;
+		magazine: Array<'bullet' | 'grenade'>;
+	};
+};
+
 export type SerializedLevel = {
 	timings: Array<number>; // TODO: make this a [number, number]
-	entities: Array<BlockEntity | Door>;
+	entities: Array<BlockEntity | Door | Hoppi>;
 };

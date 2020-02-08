@@ -15,4 +15,10 @@ export enum EntityType {
 	deadly = 'deadly',
 	bouncy = 'bouncy',
 	endpoint = 'endpoint',
+	player = 'player',
+}
+
+export enum AmmoType {
+	bullet = 'bullet',
+	grenade = 'grenade',
 }

@@ -52,6 +52,14 @@ const RootStore = types.model({
 					y: 0,
 				},
 			},
+			{
+				type: 'player',
+				params: {
+					x: 0,
+					y: 300,
+					magazine: [],
+				},
+			},
 		],
 	}),
 }).actions((self) => ({

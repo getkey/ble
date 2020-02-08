@@ -2,7 +2,7 @@ import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics } from 'pixi.js';
 
 import { getLineColor, getStrokeColor } from 'src/utils/color';
-import { lineWidth, doorWidth, doorHeight, doorColor } from 'src/config';
+import { lineWidth, doorWidth, doorHeight, doorColor, selectColor } from 'src/config';
 
 type Props = {
 	x: number;
@@ -20,7 +20,7 @@ export const behavior = {
 
 		instance.lineStyle(
 			lineWidth,
-			isSelected ? 0xff0000 : getLineColor(doorColor),
+			isSelected ? selectColor : getLineColor(doorColor),
 			1,
 			0,
 		);

@@ -6,8 +6,10 @@ import Level from 'src/components/Level';
 import { useStore } from 'src/hooks/useStore';
 import { useDispatch } from 'src/hooks/useDispatch';
 import Door from 'src/components/Door';
+import Hoppi from 'src/components/Hoppi';
 import DoorM from 'src/models/Door';
 import BlockM from 'src/models/Block';
+import HoppiM from 'src/models/Hoppi';
 
 const entityColors = {
 	deadly: 0xff0000, // red
@@ -24,6 +26,8 @@ const PixiApp: FunctionComponent<{}> = () => {
 	return (
 		<Level>
 			{Array.from(entities.values()).map((entity) => {
+				const isSelected = entity === selectedEntity;
+
 				if (DoorM.is(entity)) {
 					const { id, params: { x, y} } = entity;
 
@@ -32,7 +36,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 							x={x}
 							y={y}
 							key={id}
-							isSelected={entity === selectedEntity}
+							isSelected={isSelected}
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
 						/>
@@ -48,12 +52,29 @@ const PixiApp: FunctionComponent<{}> = () => {
 							key={id}
 							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', polygonId: id, vertexId, ev })}
 							onPolygonPointerDown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
-							isSelected={entity === selectedEntity}
+							isSelected={isSelected}
 						/>
 					);
 				}
 
-				return null;
+				if (HoppiM.is(entity)) {
+					const { id, params: { x, y} } = entity;
+
+					return (
+						<Hoppi
+							x={x}
+							y={y}
+							key={id}
+							isSelected={isSelected}
+							interactive
+							pointerdown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
+						/>
+					);
+				}
+
+				// eslint-disable-next-line no-console
+				console.error(entity);
+				throw new Error('Unknown entity type');
 			})}
 		</Level>
 	);

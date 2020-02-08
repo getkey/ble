@@ -1,6 +1,5 @@
 import { types, Instance } from 'mobx-state-tree';
 
-
 const Door = types.model({
 	id: types.identifier,
 	type: types.literal('endpoint'),

@@ -32,6 +32,7 @@ const nameAliases = {
 	deadly: 'Fire',
 	bouncy: 'Bouncy',
 	endpoint: 'Door',
+	player: 'Hoppi',
 };
 
 const AddButton: FunctionComponent<Props> = ({ selected }) => {
@@ -79,13 +80,3 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 };
 
 export default observer(AddButton);
-
-/*
-						<button
-							onClick={(): void => setBlockType(type)}
-							key={type}
-							disabled={type === editor.addType}
-						>
-							{type}
-						</button>
- */

@@ -1,6 +1,8 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics, Point } from 'pixi.js';
 
+import { selectColor } from 'src/config';
+
 type Props = {
 	fill: number;
 	points: Array<Point>;
@@ -16,7 +18,7 @@ export const behavior = {
 		instance.clear();
 
 		if (isSelected) {
-			instance.lineStyle(2, 0xff0000);
+			instance.lineStyle(2, selectColor);
 		}
 		instance.beginFill(fill);
 		instance.drawPolygon(points);

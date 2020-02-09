@@ -6,6 +6,7 @@ import { EntityType, BlockType } from 'src/types/entity';
 import { EditorMode } from 'src/types/editor';
 import Block from 'src/models/Block';
 import Door from 'src/models/Door';
+import Hoppi from 'src/models/Hoppi';
 import IPoint from 'src/types/point';
 
 const RootStore = types.model({
@@ -91,10 +92,24 @@ const RootStore = types.model({
 			});
 		}
 
+		if (self.editor.addType === EntityType.player) {
+			entity = Hoppi.create({
+				id,
+				type: EntityType.player,
+				params: {
+					x: pos.x,
+					y: pos.y,
+					magazine: [],
+				},
+			});
+		}
+
 		if (entity !== null) {
 			self.level.entities.set(id, entity);
 			self.editor.selectedEntity = entity;
 			self.level.entityIdCounter += 1;
+		} else {
+			throw new Error('Invalid entity type');
 		}
 	},
 }));

@@ -12,7 +12,6 @@ You can help add new features by taking a look at our issues tab! You can always
 Its pretty simple.
 ```sh 
 git clone https://github.com/nobody5050/ble/.git
-cd ble-master
 yarn install
 yarn dev
 ```

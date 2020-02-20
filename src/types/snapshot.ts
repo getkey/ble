@@ -34,6 +34,7 @@ type Hoppi = {
 };
 
 export type SerializedLevel = {
+	name: string;
 	timings: Array<number>; // TODO: make this a [number, number]
 	entities: Array<BlockEntity | Door | Hoppi>;
 };

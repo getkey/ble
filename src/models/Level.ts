@@ -3,6 +3,7 @@ import { types, SnapshotIn } from 'mobx-state-tree';
 import Entity from 'src/models/Entity';
 
 const Level = types.model({
+	name: 'My Level',
 	timings: types.refinement(
 		types.array(types.integer),
 		(value) => value !== undefined && value.length === 2
@@ -18,6 +19,9 @@ const Level = types.model({
 	},
 	deleteEntity(id: string): void {
 		self.entities.delete(id);
+	},
+	setName(name: string): void {
+		self.name = name;
 	},
 }));
 

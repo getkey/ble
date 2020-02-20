@@ -1,6 +1,6 @@
 # Blé - BombHopper.io's Level Editor
 
-##What is This?
+## What is this?
 Blé is a level editor for the game [BombHopper.io](https://bombhopper.io).
 Currently the editor is in a fledgling state, but it is growing fast!
 

@@ -6,7 +6,7 @@ Currently the editor is in a fledgling state, but it is growing fast!
 
 ##How Can I Help?
 There are many ways to help!
-you can help add new features by taking a look at our issues tab! You can always ask in our discord, where a senior contributor would be happy to point you the right way.
+You can help add new features by taking a look at our issues tab! You can always ask in our [Discord server](https://discord.gg/VFGTWnZ), where a senior contributor would be happy to point you the right way.
 
 ##How Can I Start helping?
 Its pretty simple.

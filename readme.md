@@ -10,7 +10,6 @@ You can help add new features by taking a look at our issues tab! You can always
 
 ## Getting started
 ```sh 
-git clone https://github.com/getkey/ble/.git
 yarn install
 yarn dev
 ```

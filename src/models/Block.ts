@@ -10,7 +10,10 @@ const Block = types.model({
 	id: types.identifier,
 	type: types.enumeration(Object.values(BlockType)),
 	params: types.model({
-		vertices: types.array(Point),
+		vertices: types.refinement(
+			types.array(Point),
+			(value) => value !== undefined && value.length > 0,
+		),
 		isStatic: false,
 	}),
 }).actions((self) => ({

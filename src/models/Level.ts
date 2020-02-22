@@ -6,7 +6,7 @@ const Level = types.model({
 	name: types.string,
 	timings: types.refinement(
 		types.array(types.integer),
-		(value) => value !== undefined && value.length === 2
+		(value) => value !== undefined && value.length === 2,
 	),
 	entities: types.map(Entity),
 	entityIdCounter: 0,

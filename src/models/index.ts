@@ -19,6 +19,7 @@ const RootStore = types.model({
 		addType: EntityType.normal,
 	}),
 	level: types.optional(LevelProcessor, {
+		name: 'My level',
 		timings: [0, 0],
 		entities: [
 			{

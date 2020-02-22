@@ -5,6 +5,7 @@ import { getLineColor, getStrokeColor } from 'src/utils/color';
 import { lineWidth, doorWidth, doorHeight, doorColor, selectColor } from 'src/config';
 
 type Props = {
+	// x and y represent the point in the middle of the door
 	x: number;
 	y: number;
 	isSelected: boolean;
@@ -27,22 +28,22 @@ export const behavior = {
 		instance.beginFill(getStrokeColor(doorColor));
 
 		// frame of the door
-		instance.drawRect(0, 0, doorWidth, doorHeight);
+		instance.drawRect(-doorWidth/2, -doorHeight/2, doorWidth, doorHeight);
 
 		// inside of the door
 		instance.lineStyle(lineWidth, doorColor, 1, 1);
 		instance.drawPolygon([
-			doorWidth, 0,
-			doorWidth - 30, 15,
-			doorWidth - 30, doorHeight - 15,
-			doorWidth, doorHeight,
-			doorWidth, 0,
+			doorWidth/2, -doorHeight/2,
+			doorWidth/2 - 30, 15 -doorHeight/2,
+			doorWidth/2 - 30, doorHeight/2 - 15,
+			doorWidth/2, doorHeight/2,
+			doorWidth/2, -doorHeight/2,
 		]);
 		instance.endFill();
 
 		// knob
-		instance.moveTo(77, 90);
-		instance.lineTo(77, 100);
+		instance.moveTo(77 - doorWidth/2, 90 - doorHeight/2);
+		instance.lineTo(77 - doorWidth/2, 100 - doorHeight/2);
 
 		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 		// @ts-ignore

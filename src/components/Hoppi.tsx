@@ -5,6 +5,7 @@ import chroma from 'chroma-js';
 import { lineWidth, hoppiColor, darkSlateGray, eyeColor, selectColor } from 'src/config';
 
 type Props = {
+	// x and y represent the point in the middle of the Hoppi
 	x: number;
 	y: number;
 	isSelected: boolean;
@@ -28,8 +29,7 @@ export const behavior = {
 		).num();
 		instance.beginFill(fillColor);
 
-		instance.drawRect(0, 0, 40, 40);
-
+		instance.drawRect(-20, -20, 40, 40);
 
 		// face
 		const faceLineWidth = 3;
@@ -37,13 +37,13 @@ export const behavior = {
 		instance.beginFill(eyeColor);
 
 		// left eye
-		instance.drawRect(15, 10, faceLineWidth, 10);
+		instance.drawRect(-5, -10, faceLineWidth, 10);
 
 		// right eye
-		instance.drawRect(25, 13, faceLineWidth, 6);
+		instance.drawRect(5, -7, faceLineWidth, 6);
 
 		// mouth
-		instance.drawRect(20, 26, faceLineWidth, 3);
+		instance.drawRect(0, 6, faceLineWidth, 3);
 
 		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 		// @ts-ignore

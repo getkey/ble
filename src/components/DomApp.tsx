@@ -44,9 +44,9 @@ const DomApp: FunctionComponent<{}> = () => {
 				<label>Time to get 2 stars: <input type="number" min="0" value={level.timings[0]} onChange={on2StarsChange}/> ms</label>
 				<label>Time to get 3 stars: <input type="number" min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms</label>
 				<label>Grid size: <input type="number" min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
-				<ParamsBox/>
 				<LoadSave/>
 			</BottomLeftDiv>
+			<ParamsBox/>
 		</Fragment>
 	);
 };

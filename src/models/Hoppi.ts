@@ -89,6 +89,9 @@ const Hoppi = types.model({
 
 		throw new Error('Invalid param type');
 	},
+	get displayName(): string {
+		return 'Hoppi';
+	},
 }));
 export default Hoppi;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

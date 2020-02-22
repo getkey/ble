@@ -4,11 +4,8 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/hooks/useStore';
 import Hoppi, { InfiniteParams, FiniteParams } from 'src/models/Hoppi';
 import { AmmoType } from 'src/types/entity';
-
-const ammoAliases = {
-	[AmmoType.bullet]: 'Bomb',
-	[AmmoType.grenade]: 'Grenade',
-};
+import Box from 'src/components/Box';
+import { ammoAliases } from 'src/aliases';
 
 const ParamsBox: FunctionComponent<{}> = () => {
 	const { editor: { selectedEntity } } = useStore();
@@ -55,7 +52,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 	}
 
 	return (
-		<div>
+		<Box title={selectedEntity.displayName}>
 			{Hoppi.is(selectedEntity) && (
 				<Fragment>
 					<select value={selectedEntity.entityType} onChange={onChangeHoppiType}>
@@ -77,7 +74,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 			{!Hoppi.is(selectedEntity) &&  (
 				<label>static: <input type="checkbox" checked={selectedEntity.params.isStatic} onChange={onToggleStatic}/></label>
 			)}
-		</div>
+		</Box>
 	);
 };
 

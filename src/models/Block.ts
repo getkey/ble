@@ -3,6 +3,7 @@ import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
 import { BlockType } from 'src/types/entity';
+import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
 
 const Block = types.model({
@@ -33,6 +34,9 @@ const Block = types.model({
 })).views((self) => ({
 	get verticesAsPixiPoints(): Array<PixiPoint> {
 		return self.params.vertices.map(({ x, y }) => new PixiPoint(x, y));
+	},
+	get displayName(): string {
+		return blockAliases[self.type];
 	},
 }));
 export default Block;

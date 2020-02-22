@@ -6,6 +6,7 @@ import Icon from 'src/components/Icon';
 import { useStore } from 'src/hooks/useStore';
 import { EntityType } from 'src/types/entity';
 import addBlock from 'src/icons/add_block.svg'; // not to be confused with adblock :P
+import { entityAliases } from 'src/aliases';
 
 type Props = {
 	selected: boolean;
@@ -24,16 +25,6 @@ const ButtonContainer = styled.fieldset`
 const Label = styled.label`
 	display: flex;
 `;
-
-const nameAliases = {
-	normal: 'Normal',
-	ice: 'Ice',
-	breakable: 'Breakable',
-	deadly: 'Fire',
-	bouncy: 'Bouncy',
-	endpoint: 'Door',
-	player: 'Hoppi',
-};
 
 const AddButton: FunctionComponent<Props> = ({ selected }) => {
 	const [showDropdown, setShowDropdown] = useState(selected);
@@ -70,7 +61,7 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 								checked={type === editor.addType}
 								value={type}
 							/>
-							{nameAliases[type]}
+							{entityAliases[type]}
 						</Label>
 					))}
 				</ButtonContainer>

@@ -17,6 +17,10 @@ const Door = types.model({
 	setIsStatic(isStatic: boolean): void {
 		self.params.isStatic = isStatic;
 	},
+})).views(() => ({
+	get displayName(): string {
+		return 'Door';
+	},
 }));
 export default Door;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

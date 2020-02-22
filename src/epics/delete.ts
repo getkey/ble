@@ -1,9 +1,9 @@
-import { empty, of, Observable, OperatorFunction } from 'rxjs';
+import { empty, of  } from 'rxjs';
 import { tap, ignoreElements, filter, map, mergeMap } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
-import BlockM from 'src/models/Block';
+import BlockM, { IBlock } from 'src/models/Block';
 
 
 export const entityPointerDownDelete: Epic = (action$, { store }) => {
@@ -27,27 +27,28 @@ export const deleteEntity: Epic = (action$, { store }) => {
 	);
 };
 
-// export const deleteVertex: Epic = (action$, { store }) => {
-// 	return action$.pipe(
-// 		ofType('vertexPointerDown'),
-// 		filter(() => store.editor.mode === EditorMode.delete),
-// 		mergeMap(({ entityId: string, vertexId }) => {
-// 			const storePolygon = store.level.entities.get(entityId);
-// 			if (storePolygon === undefined) throw new Error('Invalid entityId');
+export const deleteVertex: Epic = (action$, { store }) => {
+	return action$.pipe(
+		ofType('vertexPointerDown'),
+		filter(() => store.editor.mode === EditorMode.delete),
+		mergeMap(({ entityId, vertexId }) => {
+			const storePolygon = store.level.entities.get(entityId);
+			if (storePolygon === undefined) throw new Error('Invalid entityId');
 
-// 			if (!BlockM.is(storePolygon)) throw new Error('Not a block');
+			if (!BlockM.is(storePolygon)) throw new Error('Not a block');
+			const block = storePolygon as IBlock;
 
-// 			// avoid keeping rogue empty polygons around
-// 			if (storePolygon.params.vertices.length <= 1) {
-// 				return of({
-// 					type: 'deleteEntity',
-// 					entityId,
-// 				});
-// 			}
+			// avoid keeping rogue empty polygons around
+			if (block.params.vertices.length <= 1) {
+				return of({
+					type: 'deleteEntity',
+					entityId,
+				});
+			}
 
-// 			storePolygon.deleteVertex(vertexId);
+			block.deleteVertex(vertexId);
 
-// 			return empty();
-// 		}),
-// 	);
-// };
+			return empty();
+		}),
+	);
+};

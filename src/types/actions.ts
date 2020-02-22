@@ -1,5 +1,3 @@
-import { Subject, Observable } from 'rxjs';
-import { IRootStore } from 'src/models/';
 import IPoint from 'src/types/point';
 import { interaction } from 'pixi.js';
 

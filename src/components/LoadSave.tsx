@@ -1,10 +1,64 @@
-import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
+import React, { FunctionComponent, ChangeEvent } from 'react';
 import { getSnapshot, applySnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 
 import { useStore } from 'src/hooks/useStore';
 import { download } from 'src/utils/download';
 import { levelPreProcessor } from 'src/utils/snapshot';
+
+const sharedButton = css`
+	border: 2px solid #448aff;
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 6px 8px;
+	background-color: #448aff;
+	transition: background-color 0.2s;
+	color: white;
+	font-family: sans;
+	font-size: 1em;
+	box-shadow: 0 0 1px 0px grey;
+
+	&:hover {
+		background-color: white;
+		color: black;
+	}
+
+	&:active {
+		background-color: #448aff;
+		transition: none;
+	}
+`;
+
+const Container = styled.div`
+	display: flex;
+	justify-content: space-between;
+	margin: 4px 0;
+	font-size: 1rem;
+
+	& > * {
+		margin: 0 16px;
+	}
+	& > *:first-child {
+		margin-left: 0;
+	}
+	& > *:last-child {
+		margin-right: 0;
+	}
+`;
+
+const FilePicker = styled.label`
+	${sharedButton};
+
+	& > input[type=file] {
+		display: none;
+	}
+`;
+
+const Button = styled.button`
+	${sharedButton};
+`;
 
 const DomApp: FunctionComponent<{}> = () => {
 	const { level } = useStore();
@@ -38,10 +92,10 @@ const DomApp: FunctionComponent<{}> = () => {
 	}
 
 	return (
-		<Fragment>
-			<button onClick={onSave}>Save</button>
-			<label>Load: <input type="file" onChange={onLoad}/></label>
-		</Fragment>
+		<Container>
+			<FilePicker>Load level<input type="file" onChange={onLoad}/></FilePicker>
+			<Button onClick={onSave}>Save level</Button>
+		</Container>
 	);
 };
 

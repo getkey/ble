@@ -2,7 +2,7 @@ import { types, Instance } from 'mobx-state-tree';
 
 import Editor from 'src/models/Editor';
 import LevelProcessor from 'src/models/LevelProcessor';
-import { EntityType, BlockType } from 'src/types/entity';
+import { EntityType, BlockType, AmmoType } from 'src/types/entity';
 import { EditorMode } from 'src/types/editor';
 import Block from 'src/models/Block';
 import Door from 'src/models/Door';
@@ -56,7 +56,10 @@ const RootStore = types.model({
 				params: {
 					x: pos.x,
 					y: pos.y,
-					magazine: [],
+					magazine: [
+						AmmoType.bullet,
+						AmmoType.bullet,
+					],
 				},
 			});
 		}

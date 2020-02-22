@@ -1,7 +1,7 @@
 import { fromEvent } from 'rxjs';
 import { filter, map, tap, switchMap, takeUntil, ignoreElements } from 'rxjs/operators';
 
-import { Epic } from 'src/types/actions';
+import { Epic } from 'epix';
 
 export const globalPan: Epic = (action$, { store }) => {
 	return fromEvent<MouseEvent>(document, 'mousedown').pipe(

@@ -1,14 +1,25 @@
-import { tap, ignoreElements, filter } from 'rxjs/operators';
-import { ofType } from 'epix';
+import { empty, of, Observable, OperatorFunction } from 'rxjs';
+import { tap, ignoreElements, filter, map, mergeMap } from 'rxjs/operators';
+import { ofType, Epic } from 'epix';
 
-import { Epic } from 'src/types/actions';
 import { EditorMode } from 'src/types/editor';
 import BlockM from 'src/models/Block';
 
-export const deletePolygon: Epic = (action$, { store }) => {
+
+export const entityPointerDownDelete: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.delete),
+		map(({ entityId }) => ({
+			type: 'deleteEntity',
+			entityId,
+		})),
+	);
+};
+
+export const deleteEntity: Epic = (action$, { store }) => {
+	return action$.pipe(
+		ofType('deleteEntity'),
 		tap(({ entityId }) => {
 			store.level.deleteEntity(entityId);
 		}),
@@ -16,18 +27,27 @@ export const deletePolygon: Epic = (action$, { store }) => {
 	);
 };
 
-export const deleteVertex: Epic = (action$, { store }) => {
-	return action$.pipe(
-		ofType('vertexPointerDown'),
-		filter(() => store.editor.mode === EditorMode.delete),
-		tap(({ entityId, vertexId }) => {
-			const storePolygon = store.level.entities.get(entityId);
-			if (storePolygon === undefined) throw new Error('Invalid entityId');
+// export const deleteVertex: Epic = (action$, { store }) => {
+// 	return action$.pipe(
+// 		ofType('vertexPointerDown'),
+// 		filter(() => store.editor.mode === EditorMode.delete),
+// 		mergeMap(({ entityId: string, vertexId }) => {
+// 			const storePolygon = store.level.entities.get(entityId);
+// 			if (storePolygon === undefined) throw new Error('Invalid entityId');
 
-			if (!BlockM.is(storePolygon)) throw new Error('Not a block');
+// 			if (!BlockM.is(storePolygon)) throw new Error('Not a block');
 
-			storePolygon.deleteVertex(vertexId);
-		}),
-		ignoreElements(),
-	);
-};
+// 			// avoid keeping rogue empty polygons around
+// 			if (storePolygon.params.vertices.length <= 1) {
+// 				return of({
+// 					type: 'deleteEntity',
+// 					entityId,
+// 				});
+// 			}
+
+// 			storePolygon.deleteVertex(vertexId);
+
+// 			return empty();
+// 		}),
+// 	);
+// };

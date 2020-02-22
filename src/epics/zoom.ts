@@ -1,7 +1,7 @@
 import { fromEvent } from 'rxjs';
 import { map, tap, ignoreElements } from 'rxjs/operators';
 
-import { Epic } from 'src/types/actions';
+import { Epic } from 'epix';
 
 export const globalZoom: Epic = (action$, { store }) => {
 	return fromEvent<WheelEvent>(document, 'wheel').pipe(

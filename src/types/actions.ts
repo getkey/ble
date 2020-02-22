@@ -20,6 +20,7 @@ export type Actions = {
 	pos: IPoint;
 } | {
 	type: 'backgroundClick';
+} | {
+	type: 'deleteEntity';
+	entityId: string;
 };
-
-export type Epic = (action$: Subject<Actions>, { store }: { store: IRootStore }) => Observable<Actions>

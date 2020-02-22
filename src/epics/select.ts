@@ -1,11 +1,11 @@
 import { fromEvent } from 'rxjs';
 import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan } from 'rxjs/operators';
-import { ofType } from 'epix';
+import { ofType, Epic } from 'epix';
 
-import { Epic } from 'src/types/actions';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import BlockM from 'src/models/Block';
+import { IPoint } from 'src/models/Point';
 
 export const polygonMove: Epic = (action$, { store }) => {
 	return action$.pipe (
@@ -66,7 +66,11 @@ export const pointMove: Epic = (action$, { store }) => {
 				const storePolygon = store.level.entities.get(entityId);
 				if (storePolygon === undefined) return;
 				if (!BlockM.is(storePolygon)) throw new Error('Not a block');
-				const storePoint = storePolygon.params.vertices[vertexId];
+				// I don't know why typescript complains
+				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// @ts-ignore
+				const storePoint: IPoint = storePolygon.params.vertices[vertexId];
+				if (storePoint === undefined) return;
 
 				const posInWorld = store.editor.screenToWorld(pos);
 				const snappedPos = snapToGrid(posInWorld, store.editor.gridCellSize);

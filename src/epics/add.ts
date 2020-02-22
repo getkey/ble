@@ -1,12 +1,11 @@
 import { fromEvent, empty, of } from 'rxjs';
 import { filter, map, tap, ignoreElements, mergeMap } from 'rxjs/operators';
-import { ofType } from 'epix';
+import { ofType, Epic } from 'epix';
 
-import { Epic } from 'src/types/actions';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import IPoint from 'src/types/point';
-import BlockM from 'src/models/Block';
+import BlockM, { IBlock } from 'src/models/Block';
 import { BlockType } from 'src/types/entity';
 
 export const addVertexOrEntity: Epic = (action$, { store }) => {
@@ -61,7 +60,7 @@ export const addVertex: Epic = (action$, { store }) => {
 				throw new Error('Trying to add a vertex but no entity is selected');
 			}
 			if (!BlockM.is(selectedEntity)) throw new Error('Not a block');
-			selectedEntity.addVertex(pos);
+			(selectedEntity as IBlock).addVertex(pos);
 		}),
 		ignoreElements(),
 	);

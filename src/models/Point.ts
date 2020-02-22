@@ -1,7 +1,7 @@
-import { types } from 'mobx-state-tree';
+import { types, Instance } from 'mobx-state-tree';
 import { Point } from 'pixi.js';
 
-export default types.model({
+const PointM = types.model({
 	x: types.number,
 	y: types.number,
 }).actions((self) => ({
@@ -14,3 +14,6 @@ export default types.model({
 		return new Point(self.x, self.y);
 	},
 }));
+export default PointM;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IPoint extends Instance<typeof PointM> {}

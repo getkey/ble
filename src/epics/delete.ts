@@ -7,10 +7,10 @@ import BlockM from 'src/models/Block';
 
 export const deletePolygon: Epic = (action$, { store }) => {
 	return action$.pipe(
-		ofType('polygonPointerDown'),
+		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.delete),
-		tap(({ polygonId }) => {
-			store.level.deleteEntity(polygonId);
+		tap(({ entityId }) => {
+			store.level.deleteEntity(entityId);
 		}),
 		ignoreElements(),
 	);
@@ -20,9 +20,9 @@ export const deleteVertex: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('vertexPointerDown'),
 		filter(() => store.editor.mode === EditorMode.delete),
-		tap(({ polygonId, vertexId }) => {
-			const storePolygon = store.level.entities.get(polygonId);
-			if (storePolygon === undefined) throw new Error('Invalid polygonId');
+		tap(({ entityId, vertexId }) => {
+			const storePolygon = store.level.entities.get(entityId);
+			if (storePolygon === undefined) throw new Error('Invalid entityId');
 
 			if (!BlockM.is(storePolygon)) throw new Error('Not a block');
 

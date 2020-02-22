@@ -38,7 +38,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 							key={id}
 							isSelected={isSelected}
 							interactive
-							pointerdown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
+							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 						/>
 					);
 				}
@@ -50,8 +50,8 @@ const PixiApp: FunctionComponent<{}> = () => {
 							fill={entityColors[type]}
 							points={verticesAsPixiPoints}
 							key={id}
-							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', polygonId: id, vertexId, ev })}
-							onPolygonPointerDown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
+							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}
+							onPolygonPointerDown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							isSelected={isSelected}
 						/>
 					);
@@ -67,7 +67,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 							key={id}
 							isSelected={isSelected}
 							interactive
-							pointerdown={(ev): void => dispatch({ type: 'polygonPointerDown', polygonId: id, ev })}
+							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 						/>
 					);
 				}

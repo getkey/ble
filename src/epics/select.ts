@@ -9,19 +9,19 @@ import BlockM from 'src/models/Block';
 
 export const polygonMove: Epic = (action$, { store }) => {
 	return action$.pipe (
-		ofType('polygonPointerDown'),
+		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		// we copy the relevant data because react pools events
-		map(({ ev, polygonId }) => ({
+		map(({ ev, entityId }) => ({
 			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 			// @ts-ignore
 			x: ev.data.originalEvent.clientX,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 			// @ts-ignore
 			y: ev.data.originalEvent.clientY,
-			polygonId,
+			entityId,
 		})),
-		switchMap(({ x, y, polygonId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
+		switchMap(({ x, y, entityId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map(({ clientX, clientY }) => {
 				return {
 					x: clientX - x,
@@ -41,7 +41,7 @@ export const polygonMove: Epic = (action$, { store }) => {
 					y: wantedPos.y - offset.y,
 				};
 
-				const storePolygon = store.level.entities.get(polygonId);
+				const storePolygon = store.level.entities.get(entityId);
 				if (storePolygon === undefined) return offset;
 				storePolygon.move(displacement.x, displacement.y);
 
@@ -57,13 +57,13 @@ export const pointMove: Epic = (action$, { store }) => {
 	return action$.pipe (
 		ofType('vertexPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
-		switchMap(({ polygonId, vertexId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
+		switchMap(({ entityId, vertexId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {
 				const pos = {
 					x: ev.clientX,
 					y: ev.clientY,
 				};
-				const storePolygon = store.level.entities.get(polygonId);
+				const storePolygon = store.level.entities.get(entityId);
 				if (storePolygon === undefined) return;
 				if (!BlockM.is(storePolygon)) throw new Error('Not a block');
 				const storePoint = storePolygon.params.vertices[vertexId];
@@ -81,10 +81,10 @@ export const pointMove: Epic = (action$, { store }) => {
 
 export const selectPolygon: Epic = (action$, { store }) => {
 	return action$.pipe(
-		ofType('polygonPointerDown', 'vertexPointerDown'),
+		ofType('entityPointerDown', 'vertexPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
-		tap(({ polygonId }) => {
-			const storePolygon = store.level.entities.get(polygonId);
+		tap(({ entityId }) => {
+			const storePolygon = store.level.entities.get(entityId);
 			if (storePolygon === undefined) return;
 
 			store.editor.setSelectedEntity(storePolygon);

@@ -4,12 +4,12 @@ import IPoint from 'src/types/point';
 import { interaction } from 'pixi.js';
 
 export type Actions = {
-	type: 'polygonPointerDown';
-	polygonId: string;
+	type: 'entityPointerDown';
+	entityId: string;
 	ev: interaction.InteractionEvent;
 } | {
 	type: 'vertexPointerDown';
-	polygonId: string;
+	entityId: string;
 	vertexId: number;
 	ev: interaction.InteractionEvent;
 } | {

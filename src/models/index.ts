@@ -8,6 +8,7 @@ import Block from 'src/models/Block';
 import Door from 'src/models/Door';
 import Hoppi from 'src/models/Hoppi';
 import IPoint from 'src/types/point';
+import sampleLevel from 'src/sampleLevel.json';
 
 const RootStore = types.model({
 	editor: types.optional(Editor, {
@@ -18,52 +19,7 @@ const RootStore = types.model({
 		mode: EditorMode.select,
 		addType: EntityType.normal,
 	}),
-	level: types.optional(LevelProcessor, {
-		name: 'My level',
-		timings: [0, 0],
-		entities: [
-			{
-				type: 'normal',
-				params: {
-					vertices: [
-						{ x: 60, y: 60 },
-						{ x: 60, y: 120 },
-						{ x: 120, y: 120 },
-						{ x: 120, y: 60 },
-					],
-					isStatic: false,
-				},
-			},
-			{
-				type: 'ice',
-				params: {
-					vertices: [
-						{ x: 120, y: 300 },
-						{ x: 120, y: 360 },
-						{ x: 240, y: 360 },
-						{ x: 240, y: 300 },
-						{ x: 180, y: 240 },
-					],
-					isStatic: true,
-				},
-			},
-			{
-				type: 'endpoint',
-				params: {
-					x: 300,
-					y: 0,
-				},
-			},
-			{
-				type: 'player',
-				params: {
-					x: 0,
-					y: 300,
-					magazine: [],
-				},
-			},
-		],
-	}),
+	level: types.optional(LevelProcessor, sampleLevel),
 }).actions((self) => ({
 	addEntity(pos: IPoint): void {
 		const id = self.level.entityIdCounter.toString(10);

@@ -5,7 +5,6 @@ import { ofType, Epic } from 'epix';
 import { EditorMode } from 'src/types/editor';
 import BlockM, { IBlock } from 'src/models/Block';
 
-
 export const entityPointerDownDelete: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('entityPointerDown'),

@@ -1,5 +1,5 @@
-import { fromEvent, empty, of } from 'rxjs';
-import { filter, map, tap, ignoreElements, mergeMap } from 'rxjs/operators';
+import { empty, of } from 'rxjs';
+import { filter, map, tap, ignoreElements, mergeMap, pluck } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
@@ -9,8 +9,12 @@ import BlockM, { IBlock } from 'src/models/Block';
 import { BlockType } from 'src/types/entity';
 
 export const addVertexOrEntity: Epic = (action$, { store }) => {
-	return fromEvent<MouseEvent>(document, 'mousedown').pipe(
-		filter((ev) => ev.button === 0 && ev.target !== null && (ev.target as HTMLElement).tagName === 'CANVAS'),
+	return action$.pipe(
+		// we listen specifically on the background because when a user clicks another object they
+		// probably expect to select it
+		ofType('backgroundClick'),
+		pluck('ev', 'data', 'originalEvent'),
+		filter((ev) => ev.button === 0),
 		map(({ clientX, clientY }) => store.editor.screenToWorld({
 			x: clientX,
 			y: clientY,

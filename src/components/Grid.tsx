@@ -39,7 +39,7 @@ const Level: FunctionComponent<{}> = () => {
 			width={width}
 			height={height}
 			interactive
-			pointerdown={(): void => dispatch({ type: 'backgroundClick' })}
+			pointerdown={(ev): void => dispatch({ type: 'backgroundClick', ev })}
 		/>
 	);
 };

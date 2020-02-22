@@ -18,6 +18,7 @@ export type Actions = {
 	pos: IPoint;
 } | {
 	type: 'backgroundClick';
+	ev: interaction.InteractionEvent;
 } | {
 	type: 'deleteEntity';
 	entityId: string;

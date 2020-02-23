@@ -39,14 +39,12 @@ const ParamsBox: FunctionComponent<{}> = () => {
 		selectedEntity.params.setInfiniteType(ev.target.value as AmmoType);
 	}
 
-	const pattern = '^(?:b|g)*$';
-
 	function onChangeMagazine(ev: ChangeEvent<HTMLInputElement>): void {
 		if (selectedEntity === undefined) return;
 		if (!Hoppi.is(selectedEntity)) throw new Error('Not a hoppi');
 		if (!FiniteParams.is(selectedEntity.params)) throw new Error('Params aren\'t finite');
 
-		if (!new RegExp(pattern).test(ev.target.value)) {
+		if (!/^(?:b|g)+$/.test(ev.target.value)) {
 			alert('The content of the magazine must be a string of \'g\' for Grenades and \'b\' for Bombs.');
 		} else {
 			selectedEntity.params.setFromStringFormat(ev.target.value);
@@ -69,7 +67,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 						</select>
 					)}
 					{FiniteParams.is(selectedEntity.params) && (
-						<input type="text" pattern={pattern} value={selectedEntity.params.stringFormat} onChange={onChangeMagazine}/>
+						<input type="text" pattern="^(?:b|g)+$" value={selectedEntity.params.stringFormat} onChange={onChangeMagazine}/>
 					)}
 				</Fragment>
 			)}

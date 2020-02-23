@@ -71,6 +71,20 @@ const PixiApp: FunctionComponent<{}> = () => {
 						/>
 					);
 				}
+				if (TextM.is(entity)) {
+					const { id, params: { x, y, copy} } = entity;
+					
+					return (
+						<Text
+							x={x}
+							y={y}
+							copy={copy.en}
+							key={id}
+							interactive
+							pointerdown={(ev): void => dispatch({ type: 'entityPointerdown', entityId: id, ev })}
+						/>
+					);
+				}
 
 				// eslint-disable-next-line no-console
 				console.error(entity);

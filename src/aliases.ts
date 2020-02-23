@@ -8,6 +8,7 @@ export const entityAliases = {
 	[EntityType.bouncy]: 'Bouncy',
 	[EntityType.endpoint]: 'Door',
 	[EntityType.player]: 'Hoppi',
+	[EntityType.text]: 'Text',
 };
 
 export const blockAliases = {

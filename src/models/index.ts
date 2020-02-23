@@ -8,6 +8,7 @@ import Block from 'src/models/Block';
 import Door from 'src/models/Door';
 import Hoppi from 'src/models/Hoppi';
 import IPoint from 'src/types/point';
+import Text from 'src/models/point';
 import sampleLevel from 'src/sampleLevel.json';
 
 const RootStore = types.model({

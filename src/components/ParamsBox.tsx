@@ -21,7 +21,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 
 	function onChangeHoppiType(ev: ChangeEvent<HTMLSelectElement>): void {
 		if (selectedEntity === undefined) return;
-		if (!Hoppi.is(selectedEntity)&&!Text.is(selectedEntity)) throw new Error('Not a hoppi/Textbox');
+		if (!Hoppi.is(selectedEntity)) throw new Error('Not a hoppi');
 
 		if (ev.target.value === 'infinite') {
 			selectedEntity.makeInfinite();

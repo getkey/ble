@@ -9,6 +9,7 @@ const Text = types.model({
 	params: types.model({
 		x: types.number,
 		y: types.number,
+		isSelected: true,
 		copy: types.model({
 			en: "",
 		}),

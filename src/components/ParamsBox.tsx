@@ -49,7 +49,14 @@ const ParamsBox: FunctionComponent<{}> = () => {
 		} else {
 			selectedEntity.params.setFromStringFormat(ev.target.value);
 		}
-	}
+       }
+       function onChangeText(ev: ChangeEvent<HTMLInputElement>): void {
+                if (selectedEntity === undefined) return;
+	        if (!Text.is(selectedEntity)) throw new Error('Not a Text'); //typing this by hand makes me wish i copypasted the mag code.
+	        else { 
+                        selectedEntity.params.setFromStringFormat(ev.target.value);
+                }
+       }
 
 	return (
 		<Box title={selectedEntity.displayName}>
@@ -71,9 +78,12 @@ const ParamsBox: FunctionComponent<{}> = () => {
 					)}
 				</Fragment>
 			)}
-			{!Hoppi.is(selectedEntity) &&  (
+			{Text.is(selectedEntity) &&  (
+				<input type="text" value={Text} onChange={onChangeText}/>
+			)};
+			{!Hoppi.is(selectedEntity) && !Text.is(selectedEntity) (
 				<label>static: <input type="checkbox" checked={selectedEntity.params.isStatic} onChange={onToggleStatic}/></label>
-			)}
+				)};
 		</Box>
 	);
 };

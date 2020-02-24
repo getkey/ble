@@ -81,7 +81,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 			{Text.is(selectedEntity) &&  (
 				<input type="text" value={Text} onChange={onChangeText}/>
 			)};
-			{!Hoppi.is(selectedEntity) && !Text.is(selectedEntity) (
+			{!Hoppi.is(selectedEntity) && !Text.is(selectedEntity) && (
 				<label>static: <input type="checkbox" checked={selectedEntity.params.isStatic} onChange={onToggleStatic}/></label>
 				)};
 		</Box>

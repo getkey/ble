@@ -5,6 +5,20 @@
 		0
 	],
 	"entities": [
+		         {
+            "type": "text",
+            "params": {
+                "copy": {
+                    "en": "This is the deafult level! Edit it to your liking."
+                },
+                "x": 720,
+                "y": -4000,
+                "anchor": {
+                    "x": 0.5,
+                    "y": 0.5
+                }
+            }
+        },
 		{
 			"type": "normal",
 			"params": {

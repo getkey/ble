@@ -9,7 +9,7 @@
             "type": "text",
             "params": {
                 "copy": {
-                    "en": "This is the deafult level! Edit it to your liking."
+                    "en": "This is the default level! Edit it to your liking."
                 },
                 "x": 720,
                 "y": -4000,

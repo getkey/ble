@@ -53,7 +53,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
        function onChangeText(ev: ChangeEvent<HTMLInputElement>): void {
                 if (selectedEntity === undefined) return;
 	        if (!Text.is(selectedEntity)) throw new Error('Not a Text'); //typing this by hand makes me wish i copypasted the mag code.
-	        else { 
+	        if { 
                         selectedEntity.params.setFromStringFormat(ev.target.value);
                 }
        }

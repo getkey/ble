@@ -6,7 +6,10 @@ import { Epic } from 'epix';
 export const globalPan: Epic = (action$, { store }) => {
 	return fromEvent<MouseEvent>(document, 'mousedown').pipe(
 		filter((ev) => ev.button === 1),
-		tap(() => {
+		tap((ev) => {
+			// on Windows middle-click is for multidirectional scroll
+			ev.preventDefault();
+
 			store.editor.setPanning(true);
 		}),
 		map((ev) => ({ // save starting values

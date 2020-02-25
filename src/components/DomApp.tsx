@@ -7,6 +7,7 @@ import ModeBar from 'src/components/ModeBar';
 import ParamsBox from 'src/components/ParamsBox';
 import CursorStyle from 'src/components/CursorStyle';
 import LoadSave from 'src/components/LoadSave';
+import ZoomButtons from 'src/components/ZoomButtons';
 
 const BottomLeftDiv = styled.div`
 	padding: 4px;
@@ -47,6 +48,7 @@ const DomApp: FunctionComponent<{}> = () => {
 				<LoadSave/>
 			</BottomLeftDiv>
 			<ParamsBox/>
+			<ZoomButtons/>
 		</Fragment>
 	);
 };

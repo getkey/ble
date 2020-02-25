@@ -11,7 +11,7 @@ const Text = types.model({
 		y: types.number,
 		isSelected: true,
 		copy: types.model({
-			en: "",
+			en: "text",
 		}),
 		anchor: types.model({
 			x: 0.5,

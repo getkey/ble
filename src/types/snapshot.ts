@@ -17,6 +17,14 @@ type Door = {
 		rightFacing?: boolean;
 	};
 };
+type Text = {
+	type: 'text';
+	params: {
+                x: number;
+		y: number;
+		copy: text;
+	};
+};
 
 type Hoppi = {
 	type: 'player';

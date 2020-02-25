@@ -1,8 +1,10 @@
-import React, { FunctionComponent, ChangeEvent, Fragment } from 'react';
+import React, { FunctionComponent, ChangeEvent } from 'react';
 import { observer } from 'mobx-react-lite';
+import { DEG_TO_RAD, RAD_TO_DEG } from 'pixi.js';
 
 import { useStore } from 'src/hooks/useStore';
 import Hoppi, { InfiniteParams, FiniteParams } from 'src/models/Hoppi';
+import Door from 'src/models/Door';
 import { AmmoType } from 'src/types/entity';
 import Box from 'src/components/Box';
 import { ammoAliases } from 'src/aliases';
@@ -53,10 +55,26 @@ const ParamsBox: FunctionComponent<{}> = () => {
 		}
 	}
 
+	function onChangeAngle(ev: ChangeEvent<HTMLInputElement>): void {
+		if (selectedEntity === undefined) return;
+		if (!Hoppi.is(selectedEntity) && !Door.is(selectedEntity)) {
+			throw new Error('Neither door nor Hoppi');
+		}
+		selectedEntity.setAngle(parseInt(ev.target.value) * DEG_TO_RAD);
+	}
+
+	function onResetAngle(): void {
+		if (selectedEntity === undefined) return;
+		if (!Hoppi.is(selectedEntity) && !Door.is(selectedEntity)) {
+			throw new Error('Neither door nor Hoppi');
+		}
+		selectedEntity.setAngle(0);
+	}
+
 	return (
 		<Box title={selectedEntity.displayName}>
 			{Hoppi.is(selectedEntity) && (
-				<Fragment>
+				<div>
 					<select value={selectedEntity.entityType} onChange={onChangeHoppiType}>
 						<option value="infinite">Infinite ammo</option>
 						<option value="finite">Finite ammo</option>
@@ -71,10 +89,23 @@ const ParamsBox: FunctionComponent<{}> = () => {
 					{FiniteParams.is(selectedEntity.params) && (
 						<input type="text" pattern={pattern} value={selectedEntity.params.stringFormat} onChange={onChangeMagazine}/>
 					)}
-				</Fragment>
+				</div>
 			)}
 			{!Hoppi.is(selectedEntity) &&  (
 				<label>static: <input type="checkbox" checked={selectedEntity.params.isStatic} onChange={onToggleStatic}/></label>
+			)}
+			{(Hoppi.is(selectedEntity) || Door.is(selectedEntity)) && (
+				<div>
+					<label>angle: <input
+						type="range"
+						min="-180"
+						max="180"
+						step="1"
+						onChange={onChangeAngle}
+						value={selectedEntity.params.angle * RAD_TO_DEG}
+					/></label>
+					<button onClick={onResetAngle}>Reset angle</button>
+				</div>
 			)}
 		</Box>
 	);

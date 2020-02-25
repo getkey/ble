@@ -78,6 +78,9 @@ const Hoppi = types.model({
 			infiniteAmmo: AmmoType.grenade,
 		});
 	},
+	setAngle(angle: number): void {
+		self.params.angle = angle;
+	},
 })).views((self) => ({
 	get entityType(): 'finite' | 'infinite' {
 		if (InfiniteParams.is(self.params)) {

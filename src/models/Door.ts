@@ -8,6 +8,7 @@ const Door = types.model({
 		y: types.number,
 		isStatic: false,
 		rightFacing: true,
+		angle: 0,
 	}),
 }).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {
@@ -16,6 +17,9 @@ const Door = types.model({
 	},
 	setIsStatic(isStatic: boolean): void {
 		self.params.isStatic = isStatic;
+	},
+	setAngle(angle: number): void {
+		self.params.angle = angle;
 	},
 })).views(() => ({
 	get displayName(): string {

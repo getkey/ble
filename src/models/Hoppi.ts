@@ -1,4 +1,5 @@
 import { types, Instance } from 'mobx-state-tree';
+import nanoid from 'nanoid';
 
 import { AmmoType } from 'src/types/entity';
 
@@ -53,7 +54,7 @@ export const FiniteParams = types.compose(ParamsBase,
 }));
 
 const Hoppi = types.model({
-	id: types.identifier,
+	id: types.optional(types.identifier, nanoid),
 	type: types.literal('player'),
 	params: types.union(
 		FiniteParams,

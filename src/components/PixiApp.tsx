@@ -46,6 +46,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 
 				if (BlockM.is(entity)) {
 					const { verticesAsPixiPoints, id, type } = entity;
+
 					return (
 						<InteractivePolygon
 							fill={entityColors[type]}

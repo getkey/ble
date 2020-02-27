@@ -1,7 +1,8 @@
 import { types, Instance } from 'mobx-state-tree';
+import nanoid from 'nanoid';
 
 const Door = types.model({
-	id: types.identifier,
+	id: types.optional(types.identifier, nanoid),
 	type: types.literal('endpoint'),
 	params: types.model({
 		x: types.number,

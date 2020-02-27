@@ -1,17 +1,19 @@
-import { empty, of  } from 'rxjs';
+import { empty, of, fromEvent  } from 'rxjs';
 import { tap, ignoreElements, filter, map, mergeMap } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
 import BlockM, { IBlock } from 'src/models/Block';
 
-export const entityPointerDownDelete: Epic = (action$, { store }) => {
-	return action$.pipe(
-		ofType('entityPointerDown'),
-		filter(() => store.editor.mode === EditorMode.delete),
-		map(({ entityId }) => ({
+export const backspaceEntityDelete: Epic = (action$, { store }) => {
+	return fromEvent<KeyboardEvent>(document, 'keydown').pipe(
+		filter((ev) => ['Backspace', 'Delete'].includes(ev.key)),
+		tap((ev) => ev.preventDefault()),
+		map(() => store.editor.selectedEntity),
+		filter((selectedEntity) => selectedEntity !== undefined),
+		map(({ id }) => ({
 			type: 'deleteEntity',
-			entityId,
+			entityId: id,
 		})),
 	);
 };

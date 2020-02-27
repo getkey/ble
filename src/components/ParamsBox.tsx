@@ -1,16 +1,24 @@
 import React, { FunctionComponent, ChangeEvent } from 'react';
 import { observer } from 'mobx-react-lite';
 import { DEG_TO_RAD, RAD_TO_DEG } from 'pixi.js';
+import styled from '@emotion/styled';
 
 import { useStore } from 'src/hooks/useStore';
+import { useDispatch } from 'src/hooks/useDispatch';
 import Hoppi, { InfiniteParams, FiniteParams } from 'src/models/Hoppi';
 import Door from 'src/models/Door';
 import { AmmoType } from 'src/types/entity';
 import Box from 'src/components/Box';
 import { ammoAliases } from 'src/aliases';
 
+const DeleteButton = styled.button`
+	background-color: red;
+	color: white;
+`;
+
 const ParamsBox: FunctionComponent<{}> = () => {
 	const { editor: { selectedEntity } } = useStore();
+	const dispatch = useDispatch();
 
 	if (selectedEntity === undefined) return null;
 
@@ -71,6 +79,14 @@ const ParamsBox: FunctionComponent<{}> = () => {
 		selectedEntity.setAngle(0);
 	}
 
+	function onDelete(): void {
+		if (selectedEntity === undefined) return;
+		dispatch({
+			type: 'deleteEntity',
+			entityId: selectedEntity.id,
+		});
+	}
+
 	return (
 		<Box title={selectedEntity.displayName}>
 			{Hoppi.is(selectedEntity) && (
@@ -107,6 +123,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 					<button onClick={onResetAngle}>Reset angle</button>
 				</div>
 			)}
+			<DeleteButton onClick={onDelete}>Delete entity</DeleteButton>
 		</Box>
 	);
 };

@@ -10,6 +10,7 @@ import Hoppi from 'src/components/Hoppi';
 import DoorM from 'src/models/Door';
 import BlockM from 'src/models/Block';
 import HoppiM from 'src/models/Hoppi';
+import selectColor from 'src/config';
 
 const entityColors = {
 	deadly: 0xff0000, // red
@@ -82,6 +83,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 							key={id}
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'entityPointerdown', entityId: id, ev })}
+							style={isSelected ? { stroke: selectColor } : {} }
 						/>
 					);
 				}

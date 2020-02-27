@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 
 import { useStore } from 'src/hooks/useStore';
-import { download } from 'src/utils/download';
+import { download, toFilename } from 'src/utils/io';
 import { levelPreProcessor } from 'src/utils/snapshot';
 
 const sharedButton = css`
@@ -65,7 +65,8 @@ const DomApp: FunctionComponent<{}> = () => {
 
 	function onSave(): void {
 		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
-		download(snapshot, 'level.json', 'application/json');
+		const filename = toFilename(level.name, 'json');
+		download(snapshot, filename, 'application/json');
 	}
 
 	function onLoad(ev: ChangeEvent<HTMLInputElement>): void {

@@ -14,3 +14,9 @@ export function download(fileContent: string, filename: string, mime = 'applicat
 	click(a);
 	window.URL.revokeObjectURL(url);
 }
+
+export function toFilename(text: string, ext: string): string {
+	const base = text.toLowerCase().replace(/\s/g, '_');
+
+	return `${base}.${ext}`;
+}

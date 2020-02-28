@@ -5,8 +5,10 @@ import { ofType, Epic } from 'epix';
 import { EditorMode } from 'src/types/editor';
 import BlockM, { IBlock } from 'src/models/Block';
 
-export const backspaceEntityDelete: Epic = (action$, { store }) => {
-	return fromEvent<KeyboardEvent>(document, 'keydown').pipe(
+export const backspaceEntityDelete: Epic = (action$, { store, app }) => {
+	// it's very important to use app.view here, if document.body was used
+	// it would prevent using text fields normally etc
+	return fromEvent<KeyboardEvent>(app.view, 'keydown').pipe(
 		filter((ev) => ['Backspace', 'Delete'].includes(ev.key)),
 		tap((ev) => ev.preventDefault()),
 		map(() => store.editor.selectedEntity),

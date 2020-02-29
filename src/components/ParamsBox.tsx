@@ -68,7 +68,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 		if (!Hoppi.is(selectedEntity) && !Door.is(selectedEntity)) {
 			throw new Error('Neither door nor Hoppi');
 		}
-		selectedEntity.setAngle(parseInt(ev.target.value) * DEG_TO_RAD);
+		selectedEntity.setAngle(ev.target.valueAsNumber * DEG_TO_RAD);
 	}
 
 	function onResetAngle(): void {

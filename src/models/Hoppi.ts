@@ -57,6 +57,12 @@ const Hoppi = types.model({
 	id: types.optional(types.identifier, nanoid),
 	type: types.literal('player'),
 	params: types.union(
+		{
+			dispatcher: (snapshot) => {
+				if(Object.prototype.hasOwnProperty.call(snapshot, 'infiniteAmmo')) return InfiniteParams;
+				return FiniteParams;
+			},
+		},
 		FiniteParams,
 		InfiniteParams,
 	),
@@ -65,10 +71,14 @@ const Hoppi = types.model({
 		self.params.x += deltaX;
 		self.params.y += deltaY;
 	},
+	setAngle(angle: number): void {
+		self.params.angle = angle;
+	},
 	makeFinite(): void {
 		self.params = FiniteParams.create({
 			x: self.params.x,
 			y: self.params.y,
+			angle: self.params.angle,
 			magazine: [],
 		});
 	},
@@ -76,11 +86,9 @@ const Hoppi = types.model({
 		self.params = InfiniteParams.create({
 			x: self.params.x,
 			y: self.params.y,
+			angle: self.params.angle,
 			infiniteAmmo: AmmoType.grenade,
 		});
-	},
-	setAngle(angle: number): void {
-		self.params.angle = angle;
 	},
 })).views((self) => ({
 	get entityType(): 'finite' | 'infinite' {

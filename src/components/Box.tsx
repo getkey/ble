@@ -18,6 +18,10 @@ const Title = styled.h2`
 	background-color: ${chroma(selectColor).css()};
 	margin: 0;
 `;
+const Content = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
 
 type Props = {
 	title: string;
@@ -27,9 +31,9 @@ const Box: FunctionComponent<Props> = ({ children, title }) => {
 	return (
 		<Container>
 			<Title>{title}</Title>
-			<div>
+			<Content>
 				{children}
-			</div>
+			</Content>
 		</Container>
 	);
 };

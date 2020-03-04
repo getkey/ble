@@ -23,12 +23,10 @@ const RootStore = types.model({
 	level: types.optional(LevelProcessor, sampleLevel),
 }).actions((self) => ({
 	addEntity(pos: IPoint): void {
-		const id = self.level.entityIdCounter.toString(10);
 		let entity = null;
 
 		if (self.editor.addType in BlockType) {
 			entity = Block.create({
-				id,
 				type: self.editor.addType as unknown as BlockType,
 				params: {
 					vertices: [
@@ -41,7 +39,6 @@ const RootStore = types.model({
 
 		if (self.editor.addType === EntityType.endpoint) {
 			entity = Door.create({
-				id,
 				type: EntityType.endpoint,
 				params: {
 					x: pos.x,
@@ -52,7 +49,6 @@ const RootStore = types.model({
 
 		if (self.editor.addType === EntityType.player) {
 			entity = Hoppi.create({
-				id,
 				type: EntityType.player,
 				params: {
 					x: pos.x,
@@ -66,9 +62,8 @@ const RootStore = types.model({
 		}
 
 		if (entity !== null) {
-			self.level.entities.set(id, entity);
+			self.level.entities.put(entity);
 			self.editor.selectedEntity = entity;
-			self.level.entityIdCounter += 1;
 		} else {
 			throw new Error('Invalid entity type');
 		}

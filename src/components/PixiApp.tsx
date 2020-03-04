@@ -30,7 +30,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 				const isSelected = entity === selectedEntity;
 
 				if (DoorM.is(entity)) {
-					const { id, params: { x, y} } = entity;
+					const { id, params: { x, y, angle } } = entity;
 
 					return (
 						<Door
@@ -40,12 +40,14 @@ const PixiApp: FunctionComponent<{}> = () => {
 							isSelected={isSelected}
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
+							rotation={angle}
 						/>
 					);
 				}
 
 				if (BlockM.is(entity)) {
 					const { verticesAsPixiPoints, id, type } = entity;
+
 					return (
 						<InteractivePolygon
 							fill={entityColors[type]}
@@ -59,7 +61,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 				}
 
 				if (HoppiM.is(entity)) {
-					const { id, params: { x, y} } = entity;
+					const { id, params: { x, y, angle } } = entity;
 
 					return (
 						<Hoppi
@@ -69,6 +71,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 							isSelected={isSelected}
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
+							rotation={angle}
 						/>
 					);
 				}

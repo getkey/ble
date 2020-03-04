@@ -22,4 +22,7 @@ export type Actions = {
 } | {
 	type: 'deleteEntity';
 	entityId: string;
+} | {
+	type: 'zoom';
+	factor: number;
 };

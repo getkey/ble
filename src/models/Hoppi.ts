@@ -1,4 +1,5 @@
 import { types, Instance } from 'mobx-state-tree';
+import nanoid from 'nanoid';
 
 import { AmmoType } from 'src/types/entity';
 
@@ -53,9 +54,15 @@ export const FiniteParams = types.compose(ParamsBase,
 }));
 
 const Hoppi = types.model({
-	id: types.identifier,
+	id: types.optional(types.identifier, nanoid),
 	type: types.literal('player'),
 	params: types.union(
+		{
+			dispatcher: (snapshot) => {
+				if(Object.prototype.hasOwnProperty.call(snapshot, 'infiniteAmmo')) return InfiniteParams;
+				return FiniteParams;
+			},
+		},
 		FiniteParams,
 		InfiniteParams,
 	),
@@ -64,10 +71,14 @@ const Hoppi = types.model({
 		self.params.x += deltaX;
 		self.params.y += deltaY;
 	},
+	setAngle(angle: number): void {
+		self.params.angle = angle;
+	},
 	makeFinite(): void {
 		self.params = FiniteParams.create({
 			x: self.params.x,
 			y: self.params.y,
+			angle: self.params.angle,
 			magazine: [],
 		});
 	},
@@ -75,6 +86,7 @@ const Hoppi = types.model({
 		self.params = InfiniteParams.create({
 			x: self.params.x,
 			y: self.params.y,
+			angle: self.params.angle,
 			infiniteAmmo: AmmoType.grenade,
 		});
 	},

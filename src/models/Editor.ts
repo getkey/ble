@@ -15,7 +15,6 @@ function getCameraPos(): IPoint {
 	};
 }
 
-
 const Editor = types.model({
 	position: Point,
 	scale: 1,

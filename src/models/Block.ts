@@ -1,5 +1,6 @@
 import { types, Instance, SnapshotIn } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
+import nanoid from 'nanoid';
 
 import Point from 'src/models/Point';
 import { BlockType } from 'src/types/entity';
@@ -7,7 +8,7 @@ import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
 
 const Block = types.model({
-	id: types.identifier,
+	id: types.optional(types.identifier, nanoid),
 	type: types.enumeration(Object.values(BlockType)),
 	params: types.model({
 		vertices: types.refinement(

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { Graphics, RenderTexture, Renderer } from 'pixi.js';
+import { Graphics, RenderTexture, Renderer, SCALE_MODES } from 'pixi.js';
 import { TilingSprite, AppContext } from 'react-pixi-fiber';
 import { observer } from 'mobx-react-lite';
 
@@ -17,6 +17,7 @@ function makeTilingSprite(snapping: number, renderer: Renderer): RenderTexture {
 	const rt = RenderTexture.create({
 		width: snapping,
 		height: snapping,
+		scaleMode: SCALE_MODES.NEAREST, // it should always look sharp
 	});
 	renderer.render(graphics, rt);
 

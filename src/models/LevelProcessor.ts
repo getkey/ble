@@ -7,7 +7,7 @@ import { SerializedLevel } from 'src/types/snapshot';
 const LevelProcessor = types.snapshotProcessor(Level, {
 	preProcessor: levelPreProcessor,
 	// from instance to snapshot
-	postProcessor({ entityIdCounter, ...sn}): SerializedLevel {
+	postProcessor({ ...sn}): SerializedLevel {
 		const level = {
 			...sn,
 			entities: Object.values(sn.entities).map(({ id, ...params }) => ({

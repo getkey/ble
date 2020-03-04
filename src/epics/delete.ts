@@ -1,17 +1,21 @@
-import { empty, of  } from 'rxjs';
+import { empty, of, fromEvent  } from 'rxjs';
 import { tap, ignoreElements, filter, map, mergeMap } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
 import BlockM, { IBlock } from 'src/models/Block';
 
-export const entityPointerDownDelete: Epic = (action$, { store }) => {
-	return action$.pipe(
-		ofType('entityPointerDown'),
-		filter(() => store.editor.mode === EditorMode.delete),
-		map(({ entityId }) => ({
+export const backspaceEntityDelete: Epic = (action$, { store, app }) => {
+	// it's very important to use app.view here, if document.body was used
+	// it would prevent using text fields normally etc
+	return fromEvent<KeyboardEvent>(app.view, 'keydown').pipe(
+		filter((ev) => ['Backspace', 'Delete'].includes(ev.key)),
+		tap((ev) => ev.preventDefault()),
+		map(() => store.editor.selectedEntity),
+		filter((selectedEntity) => selectedEntity !== undefined),
+		map(({ id }) => ({
 			type: 'deleteEntity',
-			entityId,
+			entityId: id,
 		})),
 	);
 };

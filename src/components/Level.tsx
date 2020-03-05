@@ -16,6 +16,7 @@ const Level: FunctionComponent<{}> = ({ children }) => {
 		<Container
 			pivot={editor.position.asPixiPoint}
 			scale={editor.scaleAsPixiPoint}
+			position={editor.cameraPos}
 		>
 			<Grid/>
 			{children}

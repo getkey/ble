@@ -8,25 +8,33 @@ import { EditorMode } from 'src/types/editor';
 import { EntityType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
 
-function getCameraPos(): GenericPoint {
-	// TODO: store the camera pos in the store
-	return {
-		x: 0,
-		y: 0,
-	};
-}
-
 const Editor = types.model({
 	position: Point,
 	scale: 1,
-	mode: types.enumeration(Object.values(EditorMode)),
+	mode: types.optional(
+		types.enumeration(Object.values(EditorMode)),
+		EditorMode.select,
+	),
 	panning: false,
 	gridCellSize: 60,
 	selectedEntity: types.union(
 		types.safeReference(Entity),
 		types.safeReference(Vertex),
 	),
-	addType: types.enumeration(Object.values(EntityType)),
+	addType: types.optional(
+		types.enumeration(Object.values(EntityType)),
+		EntityType.normal,
+	),
+	screen: types.optional(
+		types.model({
+			width: types.number,
+			height: types.number,
+		}),
+		{
+			width: window.innerWidth,
+			height: window.innerHeight,
+		}
+	),
 }).actions((self) => ({
 	setScale(scale: number): void {
 		self.scale = scale;
@@ -46,13 +54,22 @@ const Editor = types.model({
 	setAddType(addType: EntityType): void {
 		self.addType = addType;
 	},
+	setScreenSize(width: number, height: number): void {
+		self.screen.width = width;
+		self.screen.height = height;
+	},
+})).views((self) => ({
+	get cameraPos(): GenericPoint {
+		return {
+			x: Math.round(self.screen.width/2),
+			y: Math.round(self.screen.height/2),
+		};
+	},
 })).views((self) => ({
 	screenToWorld(screenPos: GenericPoint): GenericPoint {
-		const cameraPos = getCameraPos();
-
 		return {
-			x: self.position.x + (screenPos.x - cameraPos.x) * (1/self.scale),
-			y: self.position.y + (screenPos.y - cameraPos.y) * (1/self.scale),
+			x: self.position.x + (screenPos.x - self.cameraPos.x) * (1/self.scale),
+			y: self.position.y + (screenPos.y - self.cameraPos.y) * (1/self.scale),
 		};
 	},
 	get scaleAsPixiPoint(): PixiPoint {

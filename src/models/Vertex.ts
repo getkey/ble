@@ -1,9 +1,15 @@
-import { getParent, Instance } from 'mobx-state-tree';
+import { getParent, Instance, types } from 'mobx-state-tree';
+import nanoid from 'nanoid';
 
 import { IBlock } from 'src/models/Block';
 import Point from 'src/models/Point';
 
-const Vertex = Point.actions((self) => ({
+const Vertex = types.compose(
+	Point,
+	types.model({
+		id: types.optional(types.identifier, nanoid),
+	}),
+).actions((self) => ({
 	remove(): void {
 		(getParent(self, 3) as IBlock).removeVertex(self);
 	},

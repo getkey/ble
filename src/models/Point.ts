@@ -1,9 +1,7 @@
 import { types, Instance } from 'mobx-state-tree';
 import { Point } from 'pixi.js';
-import nanoid from 'nanoid';
 
 const PointM = types.model({
-	id: types.optional(types.identifier, nanoid),
 	x: types.number,
 	y: types.number,
 }).actions((self) => ({

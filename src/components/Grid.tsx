@@ -30,12 +30,19 @@ const Level: FunctionComponent<{}> = () => {
 	const { renderer } = useContext(AppContext);
 	const dispatch = useDispatch();
 
+	const { x, y } = editor.screenToWorld({ x: 0, y: 0});
+	const gridPos = {
+		x: Math.round(x/editor.gridCellSize) * editor.gridCellSize,
+		y: Math.round(y/editor.gridCellSize) * editor.gridCellSize,
+	};
+
 	const texture = makeTilingSprite(editor.gridCellSize, renderer);
 	const width = renderer.width * (1/editor.scale);
 	const height = renderer.height * (1/editor.scale);
 
 	return (
 		<TilingSprite
+			position={gridPos}
 			texture={texture}
 			width={width}
 			height={height}

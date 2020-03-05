@@ -2,8 +2,8 @@ import { types, Instance, SnapshotIn, destroy, getParent } from 'mobx-state-tree
 import nanoid from 'nanoid';
 import { Point as PixiPoint } from 'pixi.js';
 
-import Point from 'src/models/Point';
-import { ILevel } from 'src/models/Level.ts';
+import Vertex from 'src/models/Vertex';
+import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
@@ -13,7 +13,7 @@ const Block = types.model({
 	type: types.enumeration(Object.values(BlockType)),
 	params: types.model({
 		vertices: types.refinement(
-			types.array(Point),
+			types.array(Vertex),
 			(value) => value !== undefined && value.length > 0,
 		),
 		isStatic: false,

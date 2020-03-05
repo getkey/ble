@@ -1,8 +1,6 @@
-import { types, Instance, getParent } from 'mobx-state-tree';
+import { types, Instance } from 'mobx-state-tree';
 import { Point } from 'pixi.js';
 import nanoid from 'nanoid';
-
-import { IBlock } from 'src/models/Block';
 
 const PointM = types.model({
 	id: types.optional(types.identifier, nanoid),
@@ -12,9 +10,6 @@ const PointM = types.model({
 	set(x: number, y: number): void {
 		self.x = x;
 		self.y = y;
-	},
-	remove(): void {
-		(getParent(self, 3) as IBlock).removeVertex(self);
 	},
 })).views((self) => ({
 	get asPixiPoint(): Point {

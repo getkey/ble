@@ -1,7 +1,8 @@
 import { types } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
-import Point, { IPoint } from 'src/models/Point';
+import Point from 'src/models/Point';
+import Vertex, { IVertex } from 'src/models/Vertex';
 import GenericPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
 import { EntityType } from 'src/types/entity';
@@ -23,7 +24,7 @@ const Editor = types.model({
 	gridCellSize: 60,
 	selectedEntity: types.union(
 		types.safeReference(Entity),
-		types.safeReference(Point),
+		types.safeReference(Vertex),
 	),
 	addType: types.enumeration(Object.values(EntityType)),
 }).actions((self) => ({
@@ -39,7 +40,7 @@ const Editor = types.model({
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
 	},
-	setSelectedEntity(selected: IEntity | IPoint | undefined): void {
+	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
 		self.selectedEntity = selected;
 	},
 	setAddType(addType: EntityType): void {

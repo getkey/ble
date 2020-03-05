@@ -1,6 +1,6 @@
-import { types, SnapshotIn } from 'mobx-state-tree';
+import { types, SnapshotIn, destroy, Instance } from 'mobx-state-tree';
 
-import Entity from 'src/models/Entity';
+import Entity, { IEntity } from 'src/models/Entity';
 
 const Level = types.model({
 	name: types.string,
@@ -16,14 +16,16 @@ const Level = types.model({
 	set3StarsTime(ms: number): void {
 		self.timings[1] = ms;
 	},
-	deleteEntity(id: string): void {
-		self.entities.delete(id);
-	},
 	setName(name: string): void {
 		self.name = name;
+	},
+	removeEntity(child: IEntity): void {
+		destroy(child);
 	},
 }));
 
 export default Level;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ILevel extends Instance<typeof Level> {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SnapshotInLevel extends SnapshotIn<typeof Level> {}

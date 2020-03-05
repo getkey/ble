@@ -83,15 +83,31 @@ export const pointMove: Epic = (action$, { store }) => {
 	);
 };
 
-export const selectPolygon: Epic = (action$, { store }) => {
+export const selectEntity: Epic = (action$, { store }) => {
 	return action$.pipe(
-		ofType('entityPointerDown', 'vertexPointerDown'),
+		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId }) => {
-			const storePolygon = store.level.entities.get(entityId);
-			if (storePolygon === undefined) return;
+			const entity = store.level.entities.get(entityId);
+			if (entity === undefined) return;
 
-			store.editor.setSelectedEntity(storePolygon);
+			store.editor.setSelectedEntity(entity);
+		}),
+		ignoreElements(),
+	);
+};
+
+export const selectVertex: Epic = (action$, { store }) => {
+	return action$.pipe(
+		ofType('vertexPointerDown'),
+		filter(() => store.editor.mode === EditorMode.select),
+		tap(({ entityId, vertexId }) => {
+			const block = store.level.entities.get(entityId);
+			if (block === undefined) return;
+
+			const point = block.params.vertices[vertexId];
+
+			store.editor.setSelectedEntity(point);
 		}),
 		ignoreElements(),
 	);

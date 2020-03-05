@@ -1,7 +1,8 @@
-import { types, Instance } from 'mobx-state-tree';
+import { types, Instance, getParent } from 'mobx-state-tree';
 import nanoid from 'nanoid';
 
 import { AmmoType } from 'src/types/entity';
+import { ILevel } from 'src/models/Level';
 
 const ParamsBase = types.model({
 	x: types.number,
@@ -89,6 +90,10 @@ const Hoppi = types.model({
 			angle: self.params.angle,
 			infiniteAmmo: AmmoType.grenade,
 		});
+	},
+	remove(): void {
+		const parent = (getParent(self, 2) as ILevel);
+		parent.removeEntity(self as IHoppi);
 	},
 })).views((self) => ({
 	get entityType(): 'finite' | 'infinite' {

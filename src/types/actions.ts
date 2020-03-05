@@ -20,9 +20,6 @@ export type Actions = {
 	type: 'backgroundClick';
 	ev: interaction.InteractionEvent;
 } | {
-	type: 'deleteEntity';
-	entityId: string;
-} | {
 	type: 'zoom';
 	factor: number;
 };

@@ -1,13 +1,13 @@
 import { types } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
-import Point from 'src/models/Point';
-import IPoint from 'src/types/point';
+import Point, { IPoint } from 'src/models/Point';
+import GenericPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
 import { EntityType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
 
-function getCameraPos(): IPoint {
+function getCameraPos(): GenericPoint {
 	// TODO: store the camera pos in the store
 	return {
 		x: 0,
@@ -21,7 +21,10 @@ const Editor = types.model({
 	mode: types.enumeration(Object.values(EditorMode)),
 	panning: false,
 	gridCellSize: 60,
-	selectedEntity: types.safeReference(Entity),
+	selectedEntity: types.union(
+		types.safeReference(Entity),
+		types.safeReference(Point),
+	),
 	addType: types.enumeration(Object.values(EntityType)),
 }).actions((self) => ({
 	setScale(scale: number): void {
@@ -36,14 +39,14 @@ const Editor = types.model({
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
 	},
-	setSelectedEntity(selected: IEntity | undefined): void {
+	setSelectedEntity(selected: IEntity | IPoint | undefined): void {
 		self.selectedEntity = selected;
 	},
 	setAddType(addType: EntityType): void {
 		self.addType = addType;
 	},
 })).views((self) => ({
-	screenToWorld(screenPos: IPoint): IPoint {
+	screenToWorld(screenPos: GenericPoint): GenericPoint {
 		const cameraPos = getCameraPos();
 
 		return {

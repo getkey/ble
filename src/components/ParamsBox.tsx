@@ -23,7 +23,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 
 	function onToggleStatic(ev: ChangeEvent<HTMLInputElement>): void {
 		if (selectedEntity === undefined) return;
-		if (!Door.is(selectedEntity) || !Block.is(selectedEntity)) throw new Error('Doesn\'t have isStatic');
+		if (!(Door.is(selectedEntity) || Block.is(selectedEntity))) throw new Error('Doesn\'t have isStatic');
 
 		selectedEntity.setIsStatic(ev.target.checked);
 	}

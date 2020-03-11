@@ -3,7 +3,6 @@ import { types, Instance } from 'mobx-state-tree';
 import Editor from 'src/models/Editor';
 import LevelProcessor from 'src/models/LevelProcessor';
 import { EntityType, BlockType, AmmoType } from 'src/types/entity';
-import { EditorMode } from 'src/types/editor';
 import Block from 'src/models/Block';
 import Door from 'src/models/Door';
 import Hoppi from 'src/models/Hoppi';
@@ -14,11 +13,9 @@ import sampleLevel from 'src/sampleLevel.json';
 const RootStore = types.model({
 	editor: types.optional(Editor, {
 		position: {
-			x: 0,
-			y: 0,
+			x: 400,
+			y: 600,
 		},
-		mode: EditorMode.select,
-		addType: EntityType.normal,
 	}),
 	level: types.optional(LevelProcessor, sampleLevel),
 }).actions((self) => ({

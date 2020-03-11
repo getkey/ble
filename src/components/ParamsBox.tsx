@@ -4,9 +4,9 @@ import { DEG_TO_RAD, RAD_TO_DEG } from 'pixi.js';
 import styled from '@emotion/styled';
 
 import { useStore } from 'src/hooks/useStore';
-import { useDispatch } from 'src/hooks/useDispatch';
 import Hoppi, { InfiniteParams, FiniteParams } from 'src/models/Hoppi';
 import Door from 'src/models/Door';
+import Block from 'src/models/Block';
 import { AmmoType } from 'src/types/entity';
 import Box from 'src/components/Box';
 import { ammoAliases } from 'src/aliases';
@@ -18,13 +18,12 @@ const DeleteButton = styled.button`
 
 const ParamsBox: FunctionComponent<{}> = () => {
 	const { editor: { selectedEntity } } = useStore();
-	const dispatch = useDispatch();
 
 	if (selectedEntity === undefined) return null;
 
 	function onToggleStatic(ev: ChangeEvent<HTMLInputElement>): void {
 		if (selectedEntity === undefined) return;
-		if (Hoppi.is(selectedEntity)) throw new Error('Hoppis don\'t have isStatic');
+		if (!(Door.is(selectedEntity) || Block.is(selectedEntity))) throw new Error('Doesn\'t have isStatic');
 
 		selectedEntity.setIsStatic(ev.target.checked);
 	}
@@ -81,10 +80,8 @@ const ParamsBox: FunctionComponent<{}> = () => {
 
 	function onDelete(): void {
 		if (selectedEntity === undefined) return;
-		dispatch({
-			type: 'deleteEntity',
-			entityId: selectedEntity.id,
-		});
+
+		selectedEntity.remove();
 	}
 
 	return (
@@ -107,7 +104,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 					)}
 				</div>
 			)}
-			{!Hoppi.is(selectedEntity) &&  (
+			{(Door.is(selectedEntity) || Block.is(selectedEntity)) &&  (
 				<label>static: <input type="checkbox" checked={selectedEntity.params.isStatic} onChange={onToggleStatic}/></label>
 			)}
 			{(Hoppi.is(selectedEntity) || Door.is(selectedEntity)) && (

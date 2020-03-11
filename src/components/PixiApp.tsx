@@ -46,12 +46,17 @@ const PixiApp: FunctionComponent<{}> = () => {
 				}
 
 				if (BlockM.is(entity)) {
-					const { verticesAsPixiPoints, id, type } = entity;
+					const { id, type, params: { vertices } } = entity;
+
+					const points = vertices.map((vertex) => ({
+						point: vertex.asPixiPoint,
+						isSelected: vertex === selectedEntity,
+					}));
 
 					return (
 						<InteractivePolygon
 							fill={entityColors[type]}
-							points={verticesAsPixiPoints}
+							points={points}
 							key={id}
 							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}
 							onPolygonPointerDown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}

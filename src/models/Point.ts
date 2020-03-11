@@ -13,6 +13,9 @@ const PointM = types.model({
 	get asPixiPoint(): Point {
 		return new Point(self.x, self.y);
 	},
+	get displayName(): string {
+		return `Point (${self.x}, ${self.y})`;
+	},
 }));
 export default PointM;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

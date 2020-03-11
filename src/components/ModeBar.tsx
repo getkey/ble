@@ -6,7 +6,6 @@ import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
 import AddButton from 'src/components/AddButton';
 import Icon from 'src/components/Icon';
-import bin from 'src/icons/bin.svg';
 import cursor from 'src/icons/cursor.svg';
 import addVertex from 'src/icons/add_vertex.svg';
 import BlockM from 'src/models/Block';
@@ -36,9 +35,6 @@ const RadioButton = styled.input`
 	}
 `;
 
-const DeleteButton: FunctionComponent<{}> = () => (
-	<Icon src={bin}/>
-);
 const SelectButton: FunctionComponent<{}> = () => (
 	<Icon src={cursor}/>
 );
@@ -47,7 +43,6 @@ const AddVertexButton: FunctionComponent<{}> = () => (
 );
 
 const icons = {
-	[EditorMode.delete]: DeleteButton,
 	[EditorMode.select]: SelectButton,
 	[EditorMode.addBlock]: AddButton,
 	[EditorMode.addVertex]: AddVertexButton,

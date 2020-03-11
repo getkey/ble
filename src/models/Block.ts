@@ -1,8 +1,9 @@
-import { types, Instance, SnapshotIn } from 'mobx-state-tree';
-import { Point as PixiPoint } from 'pixi.js';
+import { types, Instance, SnapshotIn, destroy, getParent } from 'mobx-state-tree';
 import nanoid from 'nanoid';
+import { Point as PixiPoint } from 'pixi.js';
 
-import Point from 'src/models/Point';
+import Vertex from 'src/models/Vertex';
+import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
@@ -12,7 +13,7 @@ const Block = types.model({
 	type: types.enumeration(Object.values(BlockType)),
 	params: types.model({
 		vertices: types.refinement(
-			types.array(Point),
+			types.array(Vertex),
 			(value) => value !== undefined && value.length > 0,
 		),
 		isStatic: false,
@@ -35,9 +36,24 @@ const Block = types.model({
 	addVertex(pos: IPoint): void {
 		self.params.vertices.push(pos);
 	},
+	remove(): void {
+		const parent = (getParent(self, 2) as ILevel);
+		parent.removeEntity(self as IBlock);
+	},
+// see https://mobx-state-tree.js.org/tips/typescript#typing-self-in-actions-and-views
+// for why this is a separate action block
+})).actions((self) => ({
+	removeVertex(child: IPoint): void {
+		// avoid keeping rogue empty polygons around
+		if (self.params.vertices.length <= 1) {
+			self.remove();
+		} else {
+			destroy(child);
+		}
+	},
 })).views((self) => ({
 	get verticesAsPixiPoints(): Array<PixiPoint> {
-		return self.params.vertices.map(({ x, y }) => new PixiPoint(x, y));
+		return self.params.vertices.map((vertex) => vertex.asPixiPoint);
 	},
 	get displayName(): string {
 		return blockAliases[self.type];

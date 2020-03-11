@@ -11,23 +11,28 @@ const GrabbablePoint = grabbable(Point);
 
 type Props = {
 	fill: number;
-	points: Array<PixiPoint>;
+	points: Array<{
+		point: PixiPoint;
+		isSelected: boolean;
+	}>;
 	onPolygonPointerDown: (ev: interaction.InteractionEvent) => void;
 	onVertexPointerDown: (ev: interaction.InteractionEvent, vertexId: number) => void;
 	isSelected: boolean;
 };
 
 const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected }) => {
+	const actualPoints = points.map(({ point }) => point);
+
 	return (
 		<Container>
 			<GrabbablePolygon
 				fill={fill}
-				points={points}
+				points={actualPoints}
 				interactive
 				pointerdown={onPolygonPointerDown}
 				isSelected={isSelected}
 			/>
-			{points.map((point_, i) => (
+			{points.map(({ point: point_, isSelected: isSelected_ }, i) => (
 				<GrabbablePoint
 					fill={0x0000ff}
 					x={point_.x}
@@ -36,6 +41,7 @@ const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonP
 					radius={5}
 					interactive
 					pointerdown={(ev): void => onVertexPointerDown(ev, i)}
+					isSelected={isSelected_}
 				/>
 			))}
 		</Container>

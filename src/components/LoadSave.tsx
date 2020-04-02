@@ -94,7 +94,7 @@ const DomApp: FunctionComponent<{}> = () => {
 
 	return (
 		<Container>
-			<FilePicker>Load level<input type="file" onChange={onLoad}/></FilePicker>
+			<FilePicker>Load level<input accept="application/json" type="file" onChange={onLoad}/></FilePicker>
 			<Button onClick={onSave}>Save level</Button>
 		</Container>
 	);

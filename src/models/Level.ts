@@ -3,7 +3,7 @@ import { types, SnapshotIn, destroy, Instance } from 'mobx-state-tree';
 import Entity, { IEntity } from 'src/models/Entity';
 
 const Level = types.model({
-	name: types.string,
+	name: 'My level',
 	timings: types.refinement(
 		types.array(types.integer),
 		(value) => value !== undefined && value.length === 2,

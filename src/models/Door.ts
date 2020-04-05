@@ -24,6 +24,10 @@ const Door = types.model({
 	setAngle(angle: number): void {
 		self.params.angle = angle;
 	},
+	setCoord(deltaX: number, deltaY: number): void {
+		self.params.x = x;
+		self.params.y = y;
+	},
 	remove(): void {
 		const parent = (getParent(self, 2) as ILevel);
 		parent.removeEntity(self as IDoor);

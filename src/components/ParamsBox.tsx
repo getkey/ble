@@ -108,13 +108,23 @@ const ParamsBox: FunctionComponent<{}> = () => {
 				<label>static: <input type="checkbox" checked={selectedEntity.params.isStatic} onChange={onToggleStatic}/></label>
 			)}
 			{(Door.is(selectedEntity) || Block.is(selectedEntity) || Hoppi.is(selectedEntity)) && (
-				<label>coordinates x: <input
+				<label>coordinate x:<input
 						type="number"
 						min="placeholder"
 						max="placeholder1"
-						onChange{onChangecoords}
+						onChange{onChangecoordsX}
 						value={selectedEntity.params.x}
 					/></label>
+				)}
+			{Door.is(selectedEntity) || Block.is(selectedEntity) || Hoppi.is(selectedEntity)) && (
+				<label>coorinate y: <input
+						type="number"
+						min="placeholder"
+						max="placeholder1"
+						onChange{onChangeCoordsY}
+						value={selectedEntity.params.y}
+					/></label>
+				)}
 			{(Hoppi.is(selectedEntity) || Door.is(selectedEntity)) && (
 				<div>
 					<label>angle: <input

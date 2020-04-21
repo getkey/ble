@@ -1,5 +1,5 @@
 import { types, Instance, getParent } from 'mobx-state-tree';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import { ILevel } from 'src/models/Level';
 

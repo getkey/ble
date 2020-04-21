@@ -1,5 +1,5 @@
 import { getParent, Instance, types } from 'mobx-state-tree';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import { IBlock } from 'src/models/Block';
 import Point from 'src/models/Point';

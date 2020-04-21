@@ -2,7 +2,7 @@ import { SnapshotInBlock } from 'src/models/Block';
 import { SnapshotInLevel } from 'src/models/Level';
 import { SerializedLevel } from 'src/types/snapshot';
 import { BlockType } from 'src/types/entity';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 type EntityObj = {
 	[key: string]: SnapshotInBlock;

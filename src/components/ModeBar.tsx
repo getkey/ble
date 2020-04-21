@@ -1,6 +1,6 @@
-import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
+import React, { FunctionComponent, Fragment, ChangeEvent, useMemo } from 'react';
 import styled from '@emotion/styled';
-import { observer, useComputed } from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
@@ -50,11 +50,11 @@ const icons = {
 
 const ModeBar: FunctionComponent<{}> = () => {
 	const { editor } = useStore();
-	const availableModes: Array<EditorMode> = useComputed(() => (
+	const availableModes: Array<EditorMode> = useMemo(() => (
 		editor.selectedEntity === undefined || !BlockM.is(editor.selectedEntity)
 			? Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex)
 			: Object.values(EditorMode)
-	), [editor]);
+	), [editor.selectedEntity]);
 
 	function onChange(ev: ChangeEvent<HTMLInputElement>): void {
 		if (!availableModes.some((allowedMode) => allowedMode === ev.target.value)) {

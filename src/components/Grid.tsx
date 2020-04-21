@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent, useContext, useMemo } from 'react';
 import { Graphics, RenderTexture, Renderer, SCALE_MODES } from 'pixi.js';
 import { TilingSprite, AppContext } from 'react-pixi-fiber';
 import { observer } from 'mobx-react-lite';
@@ -6,9 +6,10 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/hooks/useStore';
 import { useDispatch } from 'src/hooks/useDispatch';
 
-function makeTilingSprite(snapping: number, renderer: Renderer): RenderTexture {
+function makeTilingSprite(snapping: number, scale: number, renderer: Renderer): RenderTexture {
 	const graphics = new Graphics();
-	graphics.lineStyle(1, 0xffffff, 0.25, 0);
+	const lineWidth = Math.ceil(1/scale); // the grid lines should grow when small scale so they don't disapear
+	graphics.lineStyle(lineWidth, 0xffffff, 0.25, 0);
 
 	graphics.moveTo(0, snapping);
 	graphics.lineTo(0, 0);
@@ -36,7 +37,10 @@ const Level: FunctionComponent<{}> = () => {
 		y: Math.round(y/editor.gridCellSize) * editor.gridCellSize,
 	};
 
-	const texture = makeTilingSprite(editor.gridCellSize, renderer);
+	const texture = useMemo(() => {
+		return makeTilingSprite(editor.gridCellSize, editor.scale, renderer);
+	}, [editor.gridCellSize, editor.scale, renderer]);
+
 	const width = renderer.width * (1/editor.scale);
 	const height = renderer.height * (1/editor.scale);
 

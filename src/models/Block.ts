@@ -1,5 +1,5 @@
 import { types, Instance, SnapshotIn, destroy, getParent } from 'mobx-state-tree';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Vertex from 'src/models/Vertex';

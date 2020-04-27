@@ -1,1 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 640" width="32" height="32"><defs><path d="M64.21 312.1L133.87 286.75L203.17 477.14L133.51 502.5L64.21 312.1Z" id="c8cQPk980X"/><clipPath id="clipc7lW1QFR2"><use xlink:href="#c8cQPk980X" opacity="1"/></clipPath><path d="M131.5 163L263 326.01L132.64 372.43L2.29 418.86L1.14 209.43L0 0L131.5 163Z" id="ciyCwDPBV"/><clipPath id="clipanaxZZtIm"><use xlink:href="#ciyCwDPBV" opacity="1"/></clipPath><path d="M134.8 348.83L146.13 378.36L113.82 390.76L102.49 361.23L134.8 348.83Z" id="b3sjsPxlV"/></defs><g><g><use xlink:href="#c8cQPk980X" opacity="1" fill="#ffffff" fill-opacity="1"/><g clip-path="url(#clipc7lW1QFR2)"><use xlink:href="#c8cQPk980X" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="40" stroke-opacity="1"/></g></g><g><use xlink:href="#ciyCwDPBV" opacity="1" fill="#ffffff" fill-opacity="1"/><g clip-path="url(#clipanaxZZtIm)"><use xlink:href="#ciyCwDPBV" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="40" stroke-opacity="1"/></g></g><g><use xlink:href="#b3sjsPxlV" opacity="1" fill="#ffffff" fill-opacity="1"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 640 640" width="32" height="32">
+  <defs>
+    <path d="M64.21 312.1l69.66-25.35 69.3 190.39-69.66 25.36-69.3-190.4z" id="a"/>
+    <path d="M131.5 163L263 326.01l-130.36 46.42L2.29 418.86 1.14 209.43 0 0l131.5 163z" id="b"/>
+    <path d="M134.8 348.83l11.33 29.53-32.31 12.4-11.33-29.53 32.31-12.4z" id="e"/>
+    <clipPath id="c">
+      <use xlink:href="#a"/>
+    </clipPath>
+    <clipPath id="d">
+      <use xlink:href="#b"/>
+    </clipPath>
+  </defs>
+  <use xlink:href="#a" fill="#fff"/>
+  <g clip-path="url(#c)">
+    <use xlink:href="#a" fill-opacity="0" stroke="#000" stroke-width="40"/>
+  </g>
+  <use xlink:href="#b" fill="#fff"/>
+  <g clip-path="url(#d)">
+    <use xlink:href="#b" fill-opacity="0" stroke="#000" stroke-width="40"/>
+  </g>
+  <g>
+    <use xlink:href="#e" fill="#fff"/>
+  </g>
+</svg>

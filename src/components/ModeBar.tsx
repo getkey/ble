@@ -23,7 +23,7 @@ const RadioGroup = styled.fieldset`
 `;
 
 const Label = styled.label`
-	opacity: 0.5;
+	filter: invert(70%);
 	cursor: pointer;
 	padding: 4px;
 `;

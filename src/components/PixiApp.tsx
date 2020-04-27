@@ -11,6 +11,8 @@ import DoorM from 'src/models/Door';
 import BlockM from 'src/models/Block';
 import HoppiM from 'src/models/Hoppi';
 import selectColor from 'src/config';
+import Text from 'src/models/Text';
+import TextM from 'src/models/Text';
 
 const entityColors = {
 	deadly: 0xff0000, // red

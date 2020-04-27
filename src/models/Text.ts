@@ -1,19 +1,24 @@
-import { types, Instance, SnapshotIn } from 'mobx-state-tree';
+import { types, Instance, getParent } from 'mobx-state-tree';
+import { nanoid } from 'nanoid';
 
-import { EntityType } from 'src/types/entity';
-import { blockAliases } from 'src/aliases';
+import { ILevel } from 'src/models/Level';
 
 const Text = types.model({
-	id: types.identifier,
+	id: types.optional(types.identifier, nanoid),
 	type: types.literal('text'),
 	params: types.model({
 		x: types.number,
 		y: types.number,
 		isSelected: true,
-		copy: types.model({
-			en: "text",
+		copy: types.optional(types.model({
+			en: types.string,
+		}), {
+			en: 'Some text\nand a new line',
 		}),
-		anchor: types.model({
+		anchor: types.optional(types.model({
+			x: types.number,
+			y: types.number,
+		}), {
 			x: 0.5,
 			y: 0.5,
 		}),
@@ -22,6 +27,10 @@ const Text = types.model({
 	move(deltaX: number, deltaY: number): void {
 		self.params.x += deltaX;
 		self.params.y += deltaY;
+	},
+	remove(): void {
+		const parent = (getParent(self, 2) as ILevel);
+		parent.removeEntity(self as IText);
 	},
 })).views(() => ({
 	get displayName(): string {

@@ -20,9 +20,16 @@ type Door = {
 type Text = {
 	type: 'text';
 	params: {
-                x: number;
+		x: number;
 		y: number;
-		copy: text;
+		anchor: {
+			x: number;
+			y: number;
+		};
+		copy: {
+			en: string;
+			[index: string]: string;
+		};
 	};
 };
 

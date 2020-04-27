@@ -6,7 +6,6 @@ import styled from '@emotion/styled';
 import { useStore } from 'src/hooks/useStore';
 import Hoppi, { InfiniteParams, FiniteParams } from 'src/models/Hoppi';
 import Door from 'src/models/Door';
-import Text from 'src/models/text';
 import Block from 'src/models/Block';
 import { AmmoType } from 'src/types/entity';
 import Box from 'src/components/Box';

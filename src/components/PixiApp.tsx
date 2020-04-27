@@ -83,13 +83,14 @@ const PixiApp: FunctionComponent<{}> = () => {
 					);
 				}
 				if (TextM.is(entity)) {
-					const { id, params: { x, y, copy} } = entity;
+					const { id, params: { x, y, copy, anchor} } = entity;
 
 					return (
 						<Text
 							x={x}
 							y={y}
 							text={copy.en}
+							anchor={anchor}
 							key={id}
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}

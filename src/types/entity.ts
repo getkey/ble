@@ -16,6 +16,7 @@ export enum EntityType {
 	bouncy = 'bouncy',
 	endpoint = 'endpoint',
 	player = 'player',
+	text = 'text',
 }
 
 export enum AmmoType {

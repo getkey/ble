@@ -17,6 +17,21 @@ type Door = {
 		rightFacing?: boolean;
 	};
 };
+type Text = {
+	type: 'text';
+	params: {
+		x: number;
+		y: number;
+		anchor: {
+			x: number;
+			y: number;
+		};
+		copy: {
+			en: string;
+			[index: string]: string;
+		};
+	};
+};
 
 type Hoppi = {
 	type: 'player';

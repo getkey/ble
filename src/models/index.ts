@@ -6,6 +6,7 @@ import { EntityType, BlockType, AmmoType } from 'src/types/entity';
 import Block from 'src/models/Block';
 import Door from 'src/models/Door';
 import Hoppi from 'src/models/Hoppi';
+import Text from 'src/models/Text';
 import IPoint from 'src/types/point';
 import sampleLevel from 'src/sampleLevel.json';
 
@@ -53,6 +54,16 @@ const RootStore = types.model({
 						AmmoType.bullet,
 						AmmoType.bullet,
 					],
+				},
+			});
+		}
+
+		if (self.editor.addType === EntityType.text) {
+			entity = Text.create({
+				type: EntityType.text,
+				params: {
+					x: pos.x,
+					y: pos.y,
 				},
 			});
 		}

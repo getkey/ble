@@ -5,20 +5,21 @@
 		0
 	],
 	"entities": [
-		         {
-            "type": "text",
-            "params": {
-                "copy": {
-                    "en": "This is the default level! Edit it to your liking."
-                },
-                "x": 720,
-                "y": -4000,
-                "anchor": {
-                    "x": 0.5,
-                    "y": 0.5
-                }
-            }
-        },
+				 {
+			"type": "text",
+			"params": {
+				"copy": {
+					"en": "This is the default level!\nEdit it to your liking.",
+					"fr": "Voici le niveau par défaut\nÉdite comme il te plait."
+				},
+				"x": 500,
+				"y": 300,
+				"anchor": {
+					"x": 0.5,
+					"y": 0.5
+				}
+			}
+		},
 		{
 			"type": "normal",
 			"params": {

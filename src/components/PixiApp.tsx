@@ -83,8 +83,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 					);
 				}
 				if (TextM.is(entity)) {
-					const { id, params: { x, y, copy} } = entity;
-					
+					const { id, params: { x, y, copy} } = entity;					
 					return (
 						<Text
 							x={x}

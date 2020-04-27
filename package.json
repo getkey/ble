@@ -15,6 +15,7 @@
     "chroma-js": "^2.1.0",
     "core-js": "^3.6.5",
     "epix": "^0.0.1",
+    "iso-639-1": "^2.1.1",
     "mobx": "^5.15.4",
     "mobx-react-lite": "^2.0.6",
     "mobx-state-tree": "^3.16.0",

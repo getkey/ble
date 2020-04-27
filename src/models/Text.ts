@@ -1,9 +1,10 @@
 import { types, Instance, getParent, ISimpleType, IMaybe } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
+import languages from 'iso-639-1';
 
 import { ILevel } from 'src/models/Level';
 
-const lel = ['en', 'fr'].reduce((acc, code) => {
+const l18nObj = languages.getAllCodes().reduce((acc, code) => {
 	acc[code] = types.maybe(types.string);
 	return acc;
 }, {} as { [index: string]: IMaybe<ISimpleType<string>> });
@@ -15,7 +16,7 @@ const Text = types.model({
 		x: types.number,
 		y: types.number,
 		isSelected: true,
-		copy: types.optional(types.model(lel), {
+		copy: types.optional(types.model(l18nObj), {
 			en: 'Some text\nand a new line',
 		}),
 		anchor: types.optional(types.model({
@@ -37,6 +38,9 @@ const Text = types.model({
 	},
 	setCopy(lang: string, copy: string): void {
 		self.params.copy[lang] = copy;
+	},
+	removeLang(lang: string): void {
+		self.params.copy[lang] = undefined;
 	},
 })).views(() => ({
 	get displayName(): string {

@@ -28,6 +28,21 @@ const LevelProcessor = types.snapshotProcessor(Level, {
 					};
 				}
 
+				if (stuff.type === 'text') {
+					return {
+						...stuff,
+						params: {
+							...stuff.params,
+							copy: Object.entries(stuff.params.copy).reduce((acc, [code, text]) => {
+								if (text !== undefined && text !== '') {
+									acc[code] = text;
+								}
+								return acc;
+							}, {} as { [index: string]: string }),
+						},
+					};
+				}
+
 				return {
 					...stuff,
 				};

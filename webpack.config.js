@@ -58,5 +58,6 @@ module.exports = {
 		contentBase: path.join(__dirname, 'dist/'),
 		compress: true,
 		liveReload: false, // prevent the fucker from stealing the focus
+		host: '0.0.0.0',
 	},
 };

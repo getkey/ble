@@ -13,11 +13,11 @@ export const addVertexOrEntity: Epic = (action$, { store }) => {
 		// we listen specifically on the background because when a user clicks another object they
 		// probably expect to select it
 		ofType('backgroundClick'),
-		pluck('ev', 'data', 'originalEvent'),
-		filter((ev) => ev.button === 0),
-		map(({ clientX, clientY }) => store.editor.screenToWorld({
-			x: clientX,
-			y: clientY,
+		pluck('ev', 'data'),
+		filter((data) => data.button === 0 || data.pointerType === 'touch'),
+		map(({ global }) => store.editor.screenToWorld({
+			x: global.x,
+			y: global.y,
 		})),
 		map((posInWorld) => snapToGrid(posInWorld, store.editor.gridCellSize)),
 		filter(() => store.editor.mode === EditorMode.addVertex || store.editor.mode === EditorMode.addBlock),

@@ -13,12 +13,8 @@ export const polygonMove: Epic = (action$, { store }) => {
 		filter(() => store.editor.mode === EditorMode.select),
 		// we copy the relevant data because react pools events
 		map(({ ev, entityId }) => ({
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-			// @ts-ignore
-			x: ev.data.originalEvent.clientX,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-			// @ts-ignore
-			y: ev.data.originalEvent.clientY,
+			x: ev.data.global.x,
+			y: ev.data.global.y,
 			entityId,
 		})),
 		switchMap(({ x, y, entityId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(

@@ -11,10 +11,19 @@ import { AmmoType } from 'src/types/entity';
 import Box from 'src/components/Box';
 import { ammoAliases } from 'src/aliases';
 import TextParam from 'src/components/TextParam';
+import { buttonCss } from 'src/utils/buttons';
 
 const DeleteButton = styled.button`
+	${buttonCss}
 	background-color: red;
+	border-color: red;
+	box-shadow: none;
 	color: white;
+
+	&:active {
+		background: white;
+		color: red;
+	}
 `;
 
 const ParamsBox: FunctionComponent<{}> = () => {

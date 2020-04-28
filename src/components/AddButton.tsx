@@ -24,6 +24,7 @@ const ButtonContainer = styled.fieldset`
 
 const Label = styled.label`
 	display: flex;
+	color: black;
 `;
 
 const AddButton: FunctionComponent<Props> = ({ selected }) => {

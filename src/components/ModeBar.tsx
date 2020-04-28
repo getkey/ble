@@ -9,6 +9,7 @@ import Icon from 'src/components/Icon';
 import cursor from 'src/icons/cursor.svg';
 import addVertex from 'src/icons/add_vertex.svg';
 import BlockM from 'src/models/Block';
+import { buttonCss, primaryButtonCss } from 'src/utils/buttons';
 
 const RadioGroup = styled.fieldset`
 	display: flex;
@@ -23,15 +24,16 @@ const RadioGroup = styled.fieldset`
 `;
 
 const Label = styled.label`
-	background-color:darkcyan;
+	${buttonCss}
 	cursor: pointer;
-	padding: 4px;
+	display: flex;
+	align-items: center;
 `;
 
 const RadioButton = styled.input`
 	display: none;
 	&:checked + label {
-		opacity: 1;
+		${primaryButtonCss}
 	}
 `;
 

@@ -2,34 +2,11 @@ import React, { FunctionComponent, ChangeEvent } from 'react';
 import { getSnapshot, applySnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 
 import { useStore } from 'src/hooks/useStore';
 import { download, toFilename } from 'src/utils/io';
 import { levelPreProcessor } from 'src/utils/snapshot';
-
-const sharedButton = css`
-	border: 2px solid #448aff;
-	cursor: pointer;
-	border-radius: 4px;
-	padding: 6px 8px;
-	background-color: #448aff;
-	transition: background-color 0.2s;
-	color: white;
-	font-family: sans;
-	font-size: 1em;
-	box-shadow: 0 0 1px 0px grey;
-
-	&:hover {
-		background-color: white;
-		color: black;
-	}
-
-	&:active {
-		background-color: #448aff;
-		transition: none;
-	}
-`;
+import { buttonCss } from 'src/utils/buttons';
 
 const Container = styled.div`
 	display: flex;
@@ -49,7 +26,7 @@ const Container = styled.div`
 `;
 
 const FilePicker = styled.label`
-	${sharedButton};
+	${buttonCss};
 
 	& > input[type=file] {
 		display: none;
@@ -57,7 +34,7 @@ const FilePicker = styled.label`
 `;
 
 const Button = styled.button`
-	${sharedButton};
+	${buttonCss};
 `;
 
 const DomApp: FunctionComponent<{}> = () => {

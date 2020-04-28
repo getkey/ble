@@ -10,6 +10,7 @@ import Block from 'src/models/Block';
 import { AmmoType } from 'src/types/entity';
 import Box from 'src/components/Box';
 import { ammoAliases } from 'src/aliases';
+import TextParam from 'src/components/TextParam';
 
 const DeleteButton = styled.button`
 	background-color: red;
@@ -138,6 +139,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 					<button onClick={onResetAngle}>Reset angle</button>
 				</div>
 			)}
+			<TextParam/>
 			<DeleteButton onClick={onDelete}>Delete entity</DeleteButton>
 		</Box>
 	);

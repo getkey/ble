@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
+import { Text } from 'react-pixi-fiber';
 
 import InteractivePolygon from 'src/components/InteractivePolygon';
 import Level from 'src/components/Level';
@@ -10,6 +11,8 @@ import Hoppi from 'src/components/Hoppi';
 import DoorM from 'src/models/Door';
 import BlockM from 'src/models/Block';
 import HoppiM from 'src/models/Hoppi';
+import TextM from 'src/models/Text';
+import { selectColor } from 'src/config';
 
 const entityColors = {
 	deadly: 0xff0000, // red
@@ -76,6 +79,22 @@ const PixiApp: FunctionComponent<{}> = () => {
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							rotation={angle}
+						/>
+					);
+				}
+				if (TextM.is(entity)) {
+					const { id, params: { x, y, copy, anchor} } = entity;
+
+					return (
+						<Text
+							x={x}
+							y={y}
+							text={copy.en}
+							anchor={anchor}
+							key={id}
+							interactive
+							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
+							style={isSelected ? { fill: selectColor } : { fill: 0xffffff } }
 						/>
 					);
 				}

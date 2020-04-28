@@ -12,9 +12,19 @@ const Level = types.model({
 }).actions((self) => ({
 	set2StarsTime(ms: number): void {
 		self.timings[0] = ms;
+
+		// 2 stars must always be bigger or equal to 3 stars
+		if (ms < self.timings[1]) {
+			self.timings[1] = ms;
+		}
 	},
 	set3StarsTime(ms: number): void {
 		self.timings[1] = ms;
+
+		// 3 stars must always be smaller or equal to 2 stars
+		if (ms > self.timings[0]) {
+			self.timings[0] = ms;
+		}
 	},
 	setName(name: string): void {
 		self.name = name;

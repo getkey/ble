@@ -2,7 +2,7 @@ import React, { FunctionComponent, ChangeEvent, useState, useEffect, FocusEvent 
 
 type Props = {
 	value: number | string;
-	onChange: (ev: ChangeEvent<HTMLInputElement>) => void;
+	onChange?: (ev: ChangeEvent<HTMLInputElement>) => void;
 	onBlur?: (ev: FocusEvent<HTMLInputElement>) => void;
 	[index: string]: unknown;
 };
@@ -16,7 +16,7 @@ const NumberInput: FunctionComponent<Props> = ({ value, onChange, onBlur, ...pro
 	}, [value]);
 
 	function onInnerChange(ev: ChangeEvent<HTMLInputElement>): void {
-		if (!isNaN(ev.target.valueAsNumber)) {
+		if (!isNaN(ev.target.valueAsNumber) && onChange !== undefined) {
 			onChange(ev);
 		}
 

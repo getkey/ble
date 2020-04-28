@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ChangeEvent, Fragment } from 'react';
+import React, { FunctionComponent, ChangeEvent, FocusEvent, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 
@@ -21,13 +21,17 @@ const BottomLeftDiv = styled.div`
 	align-items: flex-start; /* prevent stretching*/
 `;
 
+const StarInput = styled(NumberInput)`
+	width: 10ex;
+`;
+
 const DomApp: FunctionComponent<{}> = () => {
 	const { level, editor } = useStore();
 
-	function on2StarsChange(ev: ChangeEvent<HTMLInputElement>): void {
+	function on2StarsChange(ev: FocusEvent<HTMLInputElement>): void {
 		level.set2StarsTime(ev.target.valueAsNumber);
 	}
-	function on3StarsChange(ev: ChangeEvent<HTMLInputElement>): void {
+	function on3StarsChange(ev: FocusEvent<HTMLInputElement>): void {
 		level.set3StarsTime(ev.target.valueAsNumber);
 	}
 	function onCellSizeChange(ev: ChangeEvent<HTMLInputElement>): void {
@@ -42,9 +46,9 @@ const DomApp: FunctionComponent<{}> = () => {
 			<CursorStyle/>
 			<ModeBar/>
 			<BottomLeftDiv>
-				<label>Level name<input type="text"value={level.name} onChange={onNameChange}/></label>
-				<label>Time to get 2 stars: <NumberInput min="0" value={level.timings[0]} onChange={on2StarsChange}/> ms</label>
-				<label>Time to get 3 stars: <NumberInput min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms</label>
+				<label>Level name: <input type="text"value={level.name} onChange={onNameChange}/></label>
+				<label>2 stars: finish in <StarInput min="0" value={level.timings[0]} onBlur={on2StarsChange}/> ms or less</label>
+				<label>3 stars: finish in <StarInput min="0" value={level.timings[1]} onBlur={on3StarsChange}/> ms or less</label>
 				<label>Grid size: <NumberInput min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
 				<LoadSave/>
 			</BottomLeftDiv>

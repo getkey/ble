@@ -18,13 +18,8 @@ const PixiApp: FunctionComponent<Props> = ({ color, ...props }) => {
 	return (
 		<BitmapText
 			{...props}
-			style={{
-				font: {
-					name: 'Press Start 2P',
-					size: fontSize,
-				},
-				tint: color,
-			}}
+			font={`${fontSize} Press Start 2P`}
+			tint={color}
 		/>
 	);
 };

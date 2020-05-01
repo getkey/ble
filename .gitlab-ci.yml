@@ -3,25 +3,26 @@ default:
   cache:
     paths:
     - node_modules/
+    - .yarn-cache
+
+variables:
+  YARN_CACHE_FOLDER: .yarn-cache
 
 stages:
-  - deps
-  - validate
   - build
   - deploy
 
-
-deps:
-  stage: deps
-  script: yarn install
-
 validate_lint:
-  stage: validate
+  stage: build
+  before_script:
+    - yarn install
   script:
     - yarn lint
 
 build_js:
   stage: build
+  before_script:
+    - yarn install
   script:
     - yarn build:prod
   variables:

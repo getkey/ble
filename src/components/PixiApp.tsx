@@ -13,7 +13,7 @@ import BlockM from 'src/models/Block';
 import HoppiM from 'src/models/Hoppi';
 import TextM from 'src/models/Text';
 import { selectColor } from 'src/config';
-import Text from 'src/components/Text';
+import ProgressiveText from 'src/components/ProgressiveText';
 
 const entityColors = {
 	deadly: 0xff0000, // red
@@ -87,7 +87,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 					const { id, params: { x, y, copy, anchor} } = entity;
 
 					return (
-						<Text
+						<ProgressiveText
 							x={x}
 							y={y}
 							text={copy.en}

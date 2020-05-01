@@ -22,11 +22,9 @@ validate_lint:
 build_js:
   stage: build
   before_script:
-    - yarn install
+    - yarn install --production=false # get the devDeps
   script:
     - yarn build:prod
-  variables:
-    NODE_ENV: production
   artifacts:
     paths:
       - dist/

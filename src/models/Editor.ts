@@ -35,6 +35,7 @@ const Editor = types.model({
 			height: window.innerHeight,
 		}
 	),
+	fontLoaded: false,
 }).actions((self) => ({
 	setScale(scale: number): void {
 		self.scale = scale;
@@ -57,6 +58,9 @@ const Editor = types.model({
 	setScreenSize(width: number, height: number): void {
 		self.screen.width = width;
 		self.screen.height = height;
+	},
+	setFontLoaded(): void {
+		self.fontLoaded = true;
 	},
 })).views((self) => ({
 	get cameraPos(): GenericPoint {

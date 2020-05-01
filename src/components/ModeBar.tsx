@@ -6,8 +6,8 @@ import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
 import AddButton from 'src/components/AddButton';
 import Icon from 'src/components/Icon';
-import cursor from 'src/icons/cursor.svg';
-import addVertex from 'src/icons/add_vertex.svg';
+import cursor from 'static/icons/cursor.svg';
+import addVertex from 'static/icons/add_vertex.svg';
 import BlockM from 'src/models/Block';
 import { buttonCss, primaryButtonCss } from 'src/utils/buttons';
 

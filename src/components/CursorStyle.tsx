@@ -3,8 +3,8 @@ import { observer } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
-import addBlock from 'src/icons/add_block.svg';
-import addVertex from 'src/icons/add_vertex.svg';
+import addBlock from 'static/icons/add_block.svg';
+import addVertex from 'static/icons/add_vertex.svg';
 
 const ModeBar: FunctionComponent<{}> = () => {
 	const { editor } = useStore();

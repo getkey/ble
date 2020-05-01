@@ -14,12 +14,20 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.svg$/,
+				test: /\.(?:svg|fnt|png)$/,
 				use: [
 					{
 						loader: 'file-loader',
 						options: {
 							outputPath: 'assets',
+							name: (resourcePath) => {
+								// this is referenced in the fnt file so it can't move
+								if (resourcePath === path.join(__dirname, 'static/font/ps2p_0.png')) {
+									return '[name].[ext]';
+								}
+
+								return '[contenthash].[ext]';
+							},
 						},
 					},
 				],
@@ -48,6 +56,7 @@ module.exports = {
 	resolve: {
 		alias: {
 			src: path.resolve(__dirname, 'src/'),
+			static: path.resolve(__dirname, 'static/'),
 		},
 		extensions: ['.tsx', '.ts', '.js'],
 	},

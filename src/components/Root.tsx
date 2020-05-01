@@ -11,16 +11,7 @@ import { DispatchProvider } from 'src/hooks/useDispatch';
 import { store, IRootStore } from 'src/models/';
 import epics from 'src/epics/';
 import { Actions } from 'src/types/actions';
-
-const app = new Application({
-	backgroundColor: 0x121f1f,
-	resizeTo: document.body,
-});
-// see https://stackoverflow.com/a/12886479
-app.view.setAttribute('tabindex', '-1');
-// has to be put in the DOM manually
-// https://github.com/michalochman/react-pixi-fiber/blob/844c01709d4ffda925aca2263b522253a4ac0ffb/src/Stage.js#L121
-document.body.appendChild(app.view);
+import app from 'src/app';
 
 const action$ = new Subject<Actions>();
 startEpics<Actions, { store: IRootStore; app: Application }>(epics, action$, { store, app });

@@ -1,4 +1,4 @@
-import { getParent, Instance, types } from 'mobx-state-tree';
+import { getParent, Instance, types, SnapshotOut } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 
 import { IBlock } from 'src/models/Block';
@@ -18,3 +18,4 @@ const Vertex = types.compose(
 export default Vertex;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IVertex extends Instance<typeof Vertex> {}
+export type SnapshotOutVertex = SnapshotOut<typeof Vertex>;

@@ -1,4 +1,4 @@
-import { types, Instance, SnapshotIn, destroy, getParent } from 'mobx-state-tree';
+import { types, Instance, SnapshotIn, destroy, getParent, SnapshotOut } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 import { Point as PixiPoint } from 'pixi.js';
 
@@ -64,3 +64,4 @@ export default Block;
 export interface IBlock extends Instance<typeof Block> {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SnapshotInBlock extends SnapshotIn<typeof Block> {}
+export type SnapshotOutBlock = SnapshotOut<typeof Block>;

@@ -9,7 +9,7 @@ export const copy: Epic = (action$, { store, app }) => {
 	// it's very important to use app.view here, if document.body was used
 	// it would prevent using text fields normally etc
 	return fromEvent<KeyboardEvent>(app.view, 'keydown').pipe(
-		filter((ev) => ['C', 'c'].includes(ev.key) && ev.ctrlKey && store.editor.selectedEntity !== undefined),
+		filter((ev) => ['C', 'c'].includes(ev.key) && ev.ctrlKey && Entity.is(store.editor.selectedEntity)),
 		tap(() => {
 			// store a copy, not a reference so the original entity can be moved, etc
 			const snapshot = getSnapshot<IEntitySnapshotIn>(store.editor.selectedEntity);
@@ -27,7 +27,7 @@ export const cut: Epic = (action$, { store, app }) => {
 	// it's very important to use app.view here, if document.body was used
 	// it would prevent using text fields normally etc
 	return fromEvent<KeyboardEvent>(app.view, 'keydown').pipe(
-		filter((ev) => ['X', 'x'].includes(ev.key) && ev.ctrlKey && store.editor.selectedEntity !== undefined),
+		filter((ev) => ['X', 'x'].includes(ev.key) && ev.ctrlKey && Entity.is(store.editor.selectedEntity)),
 		tap(() => {
 			const entityCopy = clone(store.editor.selectedEntity);
 			store.editor.selectedEntity.remove();

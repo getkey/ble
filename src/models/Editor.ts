@@ -21,6 +21,7 @@ const Editor = types.model({
 		types.safeReference(Entity),
 		types.safeReference(Vertex),
 	),
+	clipboard: types.maybe(Entity),
 	addType: types.optional(
 		types.enumeration(Object.values(EntityType)),
 		EntityType.normal,
@@ -61,6 +62,9 @@ const Editor = types.model({
 	},
 	setFontLoaded(): void {
 		self.fontLoaded = true;
+	},
+	setClipboard(copied: IEntity): void {
+		self.clipboard = copied;
 	},
 })).views((self) => ({
 	get cameraPos(): GenericPoint {

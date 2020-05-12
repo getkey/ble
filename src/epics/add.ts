@@ -30,7 +30,7 @@ export const addVertexOrEntity: Epic = (action$, { store }) => {
 					});
 				case EditorMode.addBlock:
 					return of({
-						type: 'addEntity' as 'addEntity',
+						type: 'createEntity' as 'createEntity',
 						pos: posInWorld,
 					});
 			}
@@ -40,11 +40,11 @@ export const addVertexOrEntity: Epic = (action$, { store }) => {
 	);
 };
 
-export const addEntity: Epic = (action$, { store }) => {
+export const createEntity: Epic = (action$, { store }) => {
 	return action$.pipe(
-		ofType('addEntity'),
+		ofType('createEntity'),
 		tap(({ pos }) => {
-			store.addEntity(pos);
+			store.createEntity(pos);
 		}),
 		filter(() => store.editor.addType in BlockType),
 		tap(() => {

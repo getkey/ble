@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { types, SnapshotIn } from 'mobx-state-tree';
 
 import Block, { IBlock } from 'src/models/Block';
 import Door, { IDoor } from 'src/models/Door';
@@ -8,3 +8,4 @@ import Text, { IText } from 'src/models/Text';
 const Entity = types.union(Block, Door, Hoppi, Text);
 export default Entity;
 export type IEntity = IBlock | IDoor | IHoppi | IText;
+export type IEntitySnapshotIn = SnapshotIn<typeof Entity>;

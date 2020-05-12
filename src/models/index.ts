@@ -9,6 +9,7 @@ import Hoppi from 'src/models/Hoppi';
 import Text from 'src/models/Text';
 import IPoint from 'src/types/point';
 import sampleLevel from 'src/sampleLevel.json';
+import { IEntity } from 'src/models/Entity';
 
 const RootStore = types.model({
 	editor: types.optional(Editor, {
@@ -19,7 +20,12 @@ const RootStore = types.model({
 	}),
 	level: types.optional(LevelProcessor, sampleLevel),
 }).actions((self) => ({
-	addEntity(pos: IPoint): void {
+	addEntity(entity: IEntity): void {
+		self.level.entities.put(entity);
+		self.editor.selectedEntity = entity;
+	},
+})).actions((self) => ({
+	createEntity(pos: IPoint): void {
 		let entity = null;
 
 		if (self.editor.addType in BlockType) {
@@ -69,8 +75,7 @@ const RootStore = types.model({
 		}
 
 		if (entity !== null) {
-			self.level.entities.put(entity);
-			self.editor.selectedEntity = entity;
+			self.addEntity(entity);
 		} else {
 			throw new Error('Invalid entity type');
 		}

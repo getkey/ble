@@ -3,6 +3,7 @@ import * as zoom from 'src/epics/zoom';
 import * as select from 'src/epics/select';
 import * as deleteEpics from 'src/epics/delete'; // ay delete is a JS keyword
 import * as add from 'src/epics/add';
+import * as clipboard from 'src/epics/clipboard';
 
 export default [
 	...Object.values(pan),
@@ -10,4 +11,5 @@ export default [
 	...Object.values(select),
 	...Object.values(deleteEpics),
 	...Object.values(add),
+	...Object.values(clipboard),
 ];

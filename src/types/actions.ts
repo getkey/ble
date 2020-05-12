@@ -14,7 +14,7 @@ export type Actions = {
 	type: 'addVertex';
 	pos: IPoint;
 } | {
-	type: 'addEntity';
+	type: 'createEntity';
 	pos: IPoint;
 } | {
 	type: 'backgroundClick';

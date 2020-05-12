@@ -43,7 +43,7 @@ const DomApp: FunctionComponent<{}> = () => {
 	function onSave(): void {
 		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
 		const filename = toFilename(level.name, 'json');
-		download(snapshot, filename, 'application/json');
+		download(snapshot, filename, 'text/json');
 	}
 
 	function onLoad(ev: ChangeEvent<HTMLInputElement>): void {

@@ -32,7 +32,7 @@ const HoppiParam: FunctionComponent<{}> = () => {
 		selectedEntity.params.setInfiniteType(ev.target.value as AmmoType);
 	}
 
-	const pattern = '^(?:b|g)*$';
+	const pattern = '^(?:b|B|g|G|e|E)*$';
 
 	function onChangeMagazine(ev: ChangeEvent<HTMLInputElement>): void {
 		if (selectedEntity === undefined) return;
@@ -40,7 +40,7 @@ const HoppiParam: FunctionComponent<{}> = () => {
 		if (!FiniteParams.is(selectedEntity.params)) throw new Error('Params aren\'t finite');
 
 		if (!new RegExp(pattern).test(ev.target.value)) {
-			alert('The content of the magazine must be a string of \'g\' for Grenades and \'b\' for Bombs.');
+			alert('The content of the magazine must be a string of \'g\' for Grenades, \'b\' for Bombs and \'e\' for Empty.');
 		} else {
 			selectedEntity.params.setFromStringFormat(ev.target.value);
 		}
@@ -54,7 +54,7 @@ const HoppiParam: FunctionComponent<{}> = () => {
 			</select>
 			{InfiniteParams.is(selectedEntity.params) && (
 				<select value={selectedEntity.params.infiniteAmmo} onChange={onInfiniteAmmoChange}>
-					{Object.values(AmmoType).map((ammo) => (
+					{Object.values(AmmoType).filter((ammo) => ammo !== AmmoType.empty).map((ammo) => (
 						<option value={ammo} key={ammo}>{ammoAliases[ammo]}</option>
 					))}
 				</select>

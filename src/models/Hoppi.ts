@@ -34,6 +34,8 @@ export const FiniteParams = types.compose(ParamsBase,
 					return 'g';
 				case AmmoType.bullet:
 					return 'b';
+				case AmmoType.empty:
+					return 'e';
 			}
 		}).join('');
 	},
@@ -42,9 +44,14 @@ export const FiniteParams = types.compose(ParamsBase,
 		const newMag = str.split('').map((char) => {
 			switch (char) {
 				case 'g':
+				case 'G':
 					return AmmoType.grenade;
 				case 'b':
+				case 'B':
 					return AmmoType.bullet;
+				case 'e':
+				case 'E':
+					return AmmoType.empty;
 				default:
 					throw new Error('Invalid character');
 			}

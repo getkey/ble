@@ -22,4 +22,5 @@ export const blockAliases = {
 export const ammoAliases = {
 	[AmmoType.bullet]: 'Bomb',
 	[AmmoType.grenade]: 'Grenade',
+	[AmmoType.empty]: 'Empty',
 };

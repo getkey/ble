@@ -22,4 +22,5 @@ export enum EntityType {
 export enum AmmoType {
 	bullet = 'bullet',
 	grenade = 'grenade',
+	empty = 'empty',
 }

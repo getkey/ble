@@ -11,6 +11,7 @@ const LevelProcessor = types.snapshotProcessor(Level, {
 	postProcessor({ ...sn }): SerializedLevel {
 		const level = {
 			...sn,
+			formatVersion: 0,
 			entities: Object.values(sn.entities).map(({ id, ...stuff }) => {
 				// @ts-ignore
 				if (stuff.params !== undefined && stuff.params.vertices !== undefined) {

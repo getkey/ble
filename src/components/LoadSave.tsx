@@ -2,9 +2,10 @@ import React, { FunctionComponent, ChangeEvent } from 'react';
 import { getSnapshot, applySnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
+import { saveAs } from 'file-saver';
 
 import { useStore } from 'src/hooks/useStore';
-import { download, toFilename } from 'src/utils/io';
+import { toFilename } from 'src/utils/io';
 import { levelPreProcessor } from 'src/utils/snapshot';
 import { buttonCss } from 'src/utils/buttons';
 
@@ -43,7 +44,9 @@ const DomApp: FunctionComponent<{}> = () => {
 	function onSave(): void {
 		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
 		const filename = toFilename(level.name, 'json');
-		download(snapshot, filename, 'application/json');
+
+		const blob = new Blob([snapshot], { type: 'application/json; charset=utf-8' });
+		saveAs(blob, filename);
 	}
 
 	function onLoad(ev: ChangeEvent<HTMLInputElement>): void {

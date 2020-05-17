@@ -21,7 +21,7 @@ const RootStore = types.model({
 	level: types.optional(LevelProcessor, sampleLevel),
 }).actions((self) => ({
 	addEntity(entity: IEntity): void {
-		self.level.entities.put(entity);
+		self.level.entities.push(entity);
 		self.editor.selectedEntity = entity;
 	},
 })).actions((self) => ({

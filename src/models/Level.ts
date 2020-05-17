@@ -8,7 +8,7 @@ const Level = types.model({
 		types.array(types.integer),
 		(value) => value !== undefined && value.length === 2,
 	),
-	entities: types.map(Entity),
+	entities: types.array(Entity),
 }).actions((self) => ({
 	set2StarsTime(ms: number): void {
 		self.timings[0] = ms;

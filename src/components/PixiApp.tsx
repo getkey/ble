@@ -29,7 +29,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 
 	return (
 		<Level>
-			{Array.from(entities.values()).map((entity) => {
+			{entities.map((entity) => {
 				const isSelected = entity === selectedEntity;
 
 				if (DoorM.is(entity)) {

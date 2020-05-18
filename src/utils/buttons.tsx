@@ -36,6 +36,12 @@ export const buttonCss = css`
 	&:active {
 		${activeButtonCss}
 	}
+
+	&:disabled {
+		border-color: grey;
+		color: grey;
+		box-shadow: none;
+	}
 `;
 
 export const primaryButtonCss = css`

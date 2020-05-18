@@ -1,4 +1,4 @@
-import { types, SnapshotIn, destroy, Instance } from 'mobx-state-tree';
+import { types, SnapshotIn, destroy, Instance, detach } from 'mobx-state-tree';
 
 import Entity, { IEntity } from 'src/models/Entity';
 
@@ -8,7 +8,7 @@ const Level = types.model({
 		types.array(types.integer),
 		(value) => value !== undefined && value.length === 2,
 	),
-	entities: types.map(Entity),
+	entities: types.array(Entity),
 }).actions((self) => ({
 	set2StarsTime(ms: number): void {
 		self.timings[0] = ms;
@@ -31,6 +31,15 @@ const Level = types.model({
 	},
 	removeEntity(child: IEntity): void {
 		destroy(child);
+	},
+})).views((self) => ({
+	getEntityPosition(entity: IEntity): number {
+		return self.entities.findIndex((someEntity) => someEntity === entity);
+	},
+})).actions((self) => ({
+	move(entity: IEntity, position: number): void {
+		detach(entity);
+		self.entities.splice(position, 0, entity);
 	},
 }));
 

@@ -1,13 +1,15 @@
 import { fromEvent } from 'rxjs';
 import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
+import { resolveIdentifier } from 'mobx-state-tree';
 
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import BlockM from 'src/models/Block';
 import { IPoint } from 'src/models/Point';
+import EntityM from 'src/models/Entity';
 
-export const polygonMove: Epic = (action$, { store }) => {
+export const entityMove: Epic = (action$, { store }) => {
 	return action$.pipe (
 		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
@@ -37,9 +39,11 @@ export const polygonMove: Epic = (action$, { store }) => {
 					y: wantedPos.y - offset.y,
 				};
 
-				const storePolygon = store.level.entities.get(entityId);
-				if (storePolygon === undefined) return offset;
-				storePolygon.move(displacement.x, displacement.y);
+				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// @ts-ignore
+				const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
+				if (entity === undefined) return offset;
+				entity.move(displacement.x, displacement.y);
 
 				return wantedPos;
 			}, { x: 0, y: 0 }),
@@ -59,12 +63,9 @@ export const pointMove: Epic = (action$, { store }) => {
 					x: ev.clientX,
 					y: ev.clientY,
 				};
-				const storePolygon = store.level.entities.get(entityId);
+				const storePolygon = resolveIdentifier(BlockM, store.level.entities, entityId);
 				if (storePolygon === undefined) return;
-				if (!BlockM.is(storePolygon)) throw new Error('Not a block');
-				// I don't know why typescript complains
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-				// @ts-ignore
+
 				const storePoint: IPoint = storePolygon.params.vertices[vertexId];
 				if (storePoint === undefined) return;
 
@@ -84,7 +85,9 @@ export const selectEntity: Epic = (action$, { store }) => {
 		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId }) => {
-			const entity = store.level.entities.get(entityId);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+			// @ts-ignore
+			const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 			if (entity === undefined) return;
 
 			store.editor.setSelectedEntity(entity);
@@ -98,7 +101,7 @@ export const selectVertex: Epic = (action$, { store }) => {
 		ofType('vertexPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId, vertexId }) => {
-			const block = store.level.entities.get(entityId);
+			const block = resolveIdentifier(BlockM, store.level.entities, entityId);
 			if (block === undefined) return;
 
 			const point = block.params.vertices[vertexId];

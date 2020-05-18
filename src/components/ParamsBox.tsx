@@ -9,6 +9,7 @@ import { buttonCss } from 'src/utils/buttons';
 import AngleParam from 'src/components/AngleParam';
 import StaticParam from 'src/components/StaticParam';
 import HoppiParam from 'src/components/HoppiParam';
+import ZOrderParam from 'src/components/ZOrderParam';
 
 const DeleteButton = styled.button`
 	${buttonCss}
@@ -40,6 +41,7 @@ const ParamsBox: FunctionComponent<{}> = () => {
 			<StaticParam/>
 			<AngleParam/>
 			<TextParam/>
+			<ZOrderParam/>
 			<DeleteButton onClick={onDelete}>Delete entity</DeleteButton>
 		</Box>
 	);

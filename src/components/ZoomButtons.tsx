@@ -10,15 +10,16 @@ const Container = styled.div`
 	right: 16px;
 	display: flex;
 	flex-direction: column;
-	background-color: white;
+	background-color: transparent;
 	border-radius: 4px;
+	border: 2px solid #00ffff;
 `;
 
 const Button = styled(ButtonReset)`
 	padding: 2px 4px;
 	font-size: 1.2rem;
 	font-weight: bold;
-
+	color:white;
 `;
 
 const Separator = styled.hr`

@@ -17,7 +17,7 @@ const ButtonContainer = styled.fieldset`
 	flex-direction: column;
 	border: none;
 	padding: none;
-	background-color: white;
+	background-color: transparant;
 	position: absolute;
 	top: 100%;
 `;

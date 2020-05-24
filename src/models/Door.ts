@@ -9,7 +9,7 @@ const Door = types.model({
 	params: types.model({
 		x: types.number,
 		y: types.number,
-		isStatic: false,
+		isStatic: true,
 		rightFacing: true,
 		angle: 0,
 	}),

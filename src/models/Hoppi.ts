@@ -8,6 +8,7 @@ const ParamsBase = types.model({
 	x: types.number,
 	y: types.number,
 	angle: 0,
+	isStatic: false,
 });
 
 export const InfiniteParams = types.compose(ParamsBase,
@@ -78,6 +79,9 @@ const Hoppi = types.model({
 	move(deltaX: number, deltaY: number): void {
 		self.params.x += deltaX;
 		self.params.y += deltaY;
+	},
+	setIsStatic(isStatic: boolean): void {
+		self.params.isStatic = isStatic;
 	},
 	setAngle(angle: number): void {
 		self.params.angle = angle;

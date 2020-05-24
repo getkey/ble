@@ -6,7 +6,7 @@ import { useStore } from 'src/hooks/useStore';
 import Hoppi from 'src/models/Hoppi';
 import Door from 'src/models/Door';
 
-const AngleParam: FunctionComponent<{}> = () => {
+const AngleParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 
 	if (!(Hoppi.is(selectedEntity) || Door.is(selectedEntity)) || selectedEntity === undefined) return null;

@@ -38,7 +38,7 @@ const Button = styled.button`
 	${buttonCss};
 `;
 
-const DomApp: FunctionComponent<{}> = () => {
+const DomApp: FunctionComponent = () => {
 	const { level } = useStore();
 
 	function onSave(): void {
@@ -60,7 +60,6 @@ const DomApp: FunctionComponent<{}> = () => {
 				const snapshot = JSON.parse(ev_.target.result as string);
 				const actualSnapshot = levelPreProcessor(snapshot);
 				// we have to patch the snapshot here because of this bug https://github.com/mobxjs/mobx-state-tree/issues/1317
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore
 				applySnapshot(level, actualSnapshot);
 			} catch (err) {

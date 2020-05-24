@@ -37,10 +37,10 @@ const RadioButton = styled.input`
 	}
 `;
 
-const SelectButton: FunctionComponent<{}> = () => (
+const SelectButton: FunctionComponent = () => (
 	<Icon src={cursor}/>
 );
-const AddVertexButton: FunctionComponent<{}> = () => (
+const AddVertexButton: FunctionComponent = () => (
 	<Icon src={addVertex}/>
 );
 
@@ -50,7 +50,7 @@ const icons = {
 	[EditorMode.addVertex]: AddVertexButton,
 };
 
-const ModeBar: FunctionComponent<{}> = () => {
+const ModeBar: FunctionComponent = () => {
 	const { editor } = useStore();
 	const availableModes: Array<EditorMode> = useMemo(() => (
 		editor.selectedEntity === undefined || !BlockM.is(editor.selectedEntity)

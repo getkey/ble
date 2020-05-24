@@ -9,7 +9,7 @@ import Grid from 'src/components/Grid';
  * This component makes the position of its children relative.
  * It's a sort of camera.
  */
-const Level: FunctionComponent<{}> = ({ children }) => {
+const Level: FunctionComponent = ({ children }) => {
 	const { editor } = useStore();
 
 	return (

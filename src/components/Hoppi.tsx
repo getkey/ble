@@ -45,7 +45,6 @@ export const behavior = {
 		// mouth
 		instance.drawRect(0, 6, faceLineWidth, 3);
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 		// @ts-ignore
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},

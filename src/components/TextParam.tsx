@@ -17,7 +17,7 @@ const LanguageRow = styled.div`
 	}
 `;
 
-const ParamsBox: FunctionComponent<{}> = () => {
+const ParamsBox: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 	const selectRef = useRef(null);
 
@@ -39,7 +39,6 @@ const ParamsBox: FunctionComponent<{}> = () => {
 		}
 
 		// why is typescript being dumb?
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 		// @ts-ignore
 		selectedEntity.setCopy(selectRef.current.value, '');
 	}

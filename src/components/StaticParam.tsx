@@ -6,7 +6,7 @@ import Door from 'src/models/Door';
 import Block from 'src/models/Block';
 import Hoppi from 'src/models/Hoppi';
 
-const StaticParam: FunctionComponent<{}> = () => {
+const StaticParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 
 	if (selectedEntity === undefined || !(Door.is(selectedEntity) || Block.is(selectedEntity) || Hoppi.is(selectedEntity))) return null;

@@ -25,12 +25,12 @@ export const addVertexOrEntity: Epic = (action$, { store }) => {
 			switch (store.editor.mode) {
 				case EditorMode.addVertex:
 					return of({
-						type: 'addVertex' as 'addVertex',
+						type: 'addVertex',
 						pos: posInWorld,
 					});
 				case EditorMode.addBlock:
 					return of({
-						type: 'createEntity' as 'createEntity',
+						type: 'createEntity',
 						pos: posInWorld,
 					});
 			}

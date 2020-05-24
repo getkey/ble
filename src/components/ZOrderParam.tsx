@@ -19,7 +19,7 @@ const Tip = styled.p`
 	margin-top: 0.1em;
 `;
 
-const ZOrderParam: FunctionComponent<{}> = () => {
+const ZOrderParam: FunctionComponent = () => {
 	const { editor, level } = useStore();
 	const { selectedEntity } = editor;
 

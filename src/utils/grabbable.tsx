@@ -7,13 +7,13 @@ interface IProps {
 	pointerdown?: (ev: interaction.InteractionEvent) => void;
 }
 
-const grabbable = <P extends object>(
+const grabbable = <P extends IProps>(
 	Component: React.ComponentType<P>
-): React.FunctionComponent<P & IProps> => {
-	const WrappedComponent: FunctionComponent<P & IProps> = ({
+): React.FunctionComponent<P> => {
+	const WrappedComponent: FunctionComponent<P> = ({
 		pointerdown,
 		...props
-	}: IProps) => {
+	}: P) => {
 		const [grabbing, setGrabbing] = useState(false);
 
 		useEffect(() => {

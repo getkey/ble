@@ -23,7 +23,7 @@ const entityColors = {
 	bouncy: 0xff9900, // orange
 };
 
-const PixiApp: FunctionComponent<{}> = () => {
+const PixiApp: FunctionComponent = () => {
 	const { level: { entities }, editor: { selectedEntity } } = useStore();
 	const dispatch = useDispatch();
 

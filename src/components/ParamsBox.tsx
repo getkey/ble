@@ -24,7 +24,7 @@ const DeleteButton = styled.button`
 	}
 `;
 
-const ParamsBox: FunctionComponent<{}> = () => {
+const ParamsBox: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 
 	if (selectedEntity === undefined) return null;

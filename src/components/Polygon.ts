@@ -24,7 +24,6 @@ export const behavior = {
 		instance.drawPolygon(points);
 		instance.endFill();
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 		// @ts-ignore
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},

@@ -6,7 +6,7 @@ import { EditorMode } from 'src/types/editor';
 import addBlock from 'static/icons/add_block.svg';
 import addVertex from 'static/icons/add_vertex.svg';
 
-const ModeBar: FunctionComponent<{}> = () => {
+const ModeBar: FunctionComponent = () => {
 	const { editor } = useStore();
 
 	let cursor = 'default';

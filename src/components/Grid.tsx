@@ -25,7 +25,7 @@ function makeTilingSprite(snapping: number, scale: number, renderer: Renderer): 
 	return rt;
 }
 
-const Level: FunctionComponent<{}> = () => {
+const Level: FunctionComponent = () => {
 	const { editor } = useStore();
 
 	const { renderer } = useContext(AppContext);

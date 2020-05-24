@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { types } from 'mobx-state-tree';
 
 import { levelPreProcessor } from 'src/utils/snapshot';

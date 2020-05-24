@@ -25,7 +25,7 @@ const StarInput = styled(NumberInput)`
 	width: 10ex;
 `;
 
-const DomApp: FunctionComponent<{}> = () => {
+const DomApp: FunctionComponent = () => {
 	const { level, editor } = useStore();
 
 	function on2StarsChange(ev: FocusEvent<HTMLInputElement>): void {

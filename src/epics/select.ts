@@ -39,7 +39,6 @@ export const entityMove: Epic = (action$, { store }) => {
 					y: wantedPos.y - offset.y,
 				};
 
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore
 				const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 				if (entity === undefined) return offset;
@@ -85,7 +84,6 @@ export const selectEntity: Epic = (action$, { store }) => {
 		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId }) => {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 			// @ts-ignore
 			const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 			if (entity === undefined) return;

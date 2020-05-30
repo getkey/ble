@@ -15,7 +15,6 @@ const Text = types.model({
 	params: types.model({
 		x: types.number,
 		y: types.number,
-		isSelected: true,
 		copy: types.optional(types.model(l18nObj), {
 			en: 'Some text\nand a new line',
 		}),

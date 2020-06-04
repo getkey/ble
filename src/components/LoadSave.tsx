@@ -43,7 +43,7 @@ const DomApp: FunctionComponent = () => {
 	const { level } = useStore();
 
 	function onSave(): void {
-		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
+		const snapshot = getSnapshot(level);
 
 		try {
 			validate(snapshot);
@@ -56,8 +56,9 @@ ${JSON.stringify(err)}`);
 		}
 
 		const filename = toFilename(level.name, 'json');
+		const snapshotStr = JSON.stringify(snapshot, null, '\t');
 
-		const blob = new Blob([snapshot], { type: 'application/json; charset=utf-8' });
+		const blob = new Blob([snapshotStr], { type: 'application/json; charset=utf-8' });
 		saveAs(blob, filename);
 	}
 

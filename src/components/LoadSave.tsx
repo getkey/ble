@@ -3,6 +3,7 @@ import { getSnapshot, applySnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
+import { validate } from 'bombhopperio-level-tools';
 
 import { useStore } from 'src/hooks/useStore';
 import { toFilename } from 'src/utils/io';
@@ -43,6 +44,17 @@ const DomApp: FunctionComponent = () => {
 
 	function onSave(): void {
 		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
+
+		try {
+			validate(snapshot);
+		} catch (err) {
+			// eslint-disable-next-line no-console
+			console.error(err);
+			alert(`Error: your level contains invalid elements. Don't close this tab and come to https://discord.gg/KEb4wSN for help!
+
+${JSON.stringify(err)}`);
+		}
+
 		const filename = toFilename(level.name, 'json');
 
 		const blob = new Blob([snapshot], { type: 'application/json; charset=utf-8' });

@@ -1604,7 +1604,7 @@ ajv-keywords@^3.1.0, ajv-keywords@^3.4.1:
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.4.1.tgz#ef916e271c64ac12171fd8384eaae6b2345854da"
   integrity sha512-RO1ibKvd27e6FEShVFfPALuHI3WjSVNeK5FIsmme/LYRNxjKuNj+Dt7bucLa6NdSv3JcVTyMlm9kGR84z1XpaQ==
 
-ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.0:
+ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.0, ajv@^6.12.2:
   version "6.12.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.2.tgz#c629c5eced17baf314437918d2da88c99d5958cd"
   integrity sha512-k+V+hzjm5q/Mr8ef/1Y9goCmlsK4I6Sm74teeyGvFk1XrOsbsKLjEdrvny42CZ+a8sXbk8KWpY/bDwS+FLL2UQ==
@@ -1922,6 +1922,13 @@ body-parser@1.19.0:
     qs "6.7.0"
     raw-body "2.4.0"
     type-is "~1.6.17"
+
+bombhopperio-level-tools@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.1.0.tgz#c7b2236ecc2490930562dd8cc05e915a9b2cfde4"
+  integrity sha512-/Hz7BQJJGa4XgTBtTLLgK2F4wQHlJJ6EkBcd8xHcAUOVJQerEqDcs7qIJQx/QKDyyh6nYn5+57ve/aFgA50WHg==
+  dependencies:
+    ajv "^6.12.2"
 
 bonjour@^3.5.0:
   version "3.5.0"

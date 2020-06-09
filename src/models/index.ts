@@ -22,7 +22,7 @@ const RootStore = types.model({
 }).actions((self) => ({
 	addEntity(entity: IEntity): void {
 		self.level.entities.push(entity);
-		self.editor.selectedEntity = entity;
+		self.editor.setSelectedEntity(entity);
 	},
 })).actions((self) => ({
 	createEntity(pos: IPoint): void {

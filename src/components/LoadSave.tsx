@@ -43,6 +43,9 @@ const DomApp: FunctionComponent = () => {
 	const { level } = useStore();
 
 	function onSave(): void {
+		// don't want invalid entities to end up in the snapshot
+		level.cleanInvalidEntities();
+
 		const snapshot = getSnapshot(level);
 
 		try {

@@ -5,7 +5,7 @@ import languages from 'iso-639-1';
 import { ILevel } from 'src/models/Level';
 
 const l18nObj = languages.getAllCodes().reduce((acc, code) => {
-	acc[code] = types.maybe(types.string);
+	acc[code] = code === 'en' ? types.string : types.maybe(types.string);
 	return acc;
 }, {} as { [index: string]: IMaybe<ISimpleType<string>> });
 
@@ -39,11 +39,16 @@ const Text = types.model({
 		self.params.copy[lang] = copy;
 	},
 	removeLang(lang: string): void {
+		if (lang === 'en') throw new Error('Text must have at least an english translation');
+
 		self.params.copy[lang] = undefined;
 	},
-})).views(() => ({
+})).views((self) => ({
 	get displayName(): string {
 		return 'Text';
+	},
+	get isValid(): boolean {
+		return Object.values(self.params.copy).some((copy) => copy !== '' && copy !== undefined);
 	},
 }));
 export default Text;

@@ -58,6 +58,9 @@ const Block = types.model({
 	get displayName(): string {
 		return blockAliases[self.type];
 	},
+	get isValid(): boolean {
+		return self.params.vertices.length >= 3;
+	},
 }));
 export default Block;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

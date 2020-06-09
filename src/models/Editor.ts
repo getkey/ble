@@ -51,6 +51,10 @@ const Editor = types.model({
 		self.gridCellSize = cellSize;
 	},
 	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
+		// delete unfinished entity
+		if (Entity.is(self.selectedEntity) && self.selectedEntity.isValid === false) {
+			self.selectedEntity.remove();
+		}
 		self.selectedEntity = selected;
 	},
 	setAddType(addType: EntityType): void {

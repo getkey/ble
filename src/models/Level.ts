@@ -41,6 +41,13 @@ const Level = types.model({
 		detach(entity);
 		self.entities.splice(position, 0, entity);
 	},
+	cleanInvalidEntities(): void {
+		self.entities.forEach((entity) => {
+			if (!entity.isValid) {
+				entity.remove();
+			}
+		});
+	},
 }));
 
 export default Level;

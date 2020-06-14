@@ -8,6 +8,9 @@ import { EditorMode } from 'src/types/editor';
 import { EntityType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
 
+import addBlock from 'static/icons/add_block.svg';
+import addVertex from 'static/icons/add_vertex.svg';
+
 const Editor = types.model({
 	position: Point,
 	scale: 1,
@@ -76,6 +79,19 @@ const Editor = types.model({
 			x: Math.round(self.screen.width/2),
 			y: Math.round(self.screen.height/2),
 		};
+	},
+	get globalCursor(): string {
+		if (self.panning) return 'all-scroll';
+
+		switch(self.mode) {
+			case EditorMode.addBlock:
+				return `url(${addBlock}), default`;
+				break;
+			case EditorMode.addVertex:
+				return `url(${addVertex}), default`;
+		}
+
+		return 'auto';
 	},
 })).views((self) => ({
 	screenToWorld(screenPos: GenericPoint): GenericPoint {

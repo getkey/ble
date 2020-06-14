@@ -17,6 +17,8 @@ const Level: FunctionComponent = ({ children }) => {
 			pivot={editor.position.asPixiPoint}
 			scale={editor.scaleAsPixiPoint}
 			position={editor.cameraPos}
+			cursor={editor.globalCursor}
+			interactive={true} // for the cursor
 		>
 			<Grid/>
 			{children}

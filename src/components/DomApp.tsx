@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/hooks/useStore';
 import ModeBar from 'src/components/ModeBar';
 import ParamsBox from 'src/components/ParamsBox';
-import CursorStyle from 'src/components/CursorStyle';
 import LoadSave from 'src/components/LoadSave';
 import ZoomButtons from 'src/components/ZoomButtons';
 import NumberInput from 'src/components/NumberInput';
@@ -43,7 +42,6 @@ const DomApp: FunctionComponent = () => {
 
 	return (
 		<Fragment>
-			<CursorStyle/>
 			<ModeBar/>
 			<BottomLeftDiv>
 				<label>Level name: <input type="text"value={level.name} onChange={onNameChange}/></label>

@@ -10,18 +10,21 @@ const Vertex = types.compose(
 	types.model({
 		id: types.optional(types.identifier, nanoid),
 	}),
-).actions((self) => ({
+).views((self) => ({
+	get parentBlock(): IBlock {
+		return getParent(self, 3);
+	},
+})).actions((self) => ({
 	remove(): void {
 		const root: IRootStore = getRoot(self);
-		const parent: IBlock = getParent(self, 3);
 
 		// order matters here!
 		// we set the new selectedEntity first because if self is the last point, parent will get removed too
 		if (root.editor.selectedEntity === self) {
-			root.editor.setSelectedEntity(parent);
+			root.editor.setSelectedEntity(self.parentBlock);
 		}
 
-		parent.removeVertex(self);
+		self.parentBlock.removeVertex(self);
 	},
 }));
 

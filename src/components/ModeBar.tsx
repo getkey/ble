@@ -8,7 +8,6 @@ import AddButton from 'src/components/AddButton';
 import Icon from 'src/components/Icon';
 import cursor from 'static/icons/cursor.svg';
 import addVertex from 'static/icons/add_vertex.svg';
-import BlockM from 'src/models/Block';
 import { buttonCss, primaryButtonCss } from 'src/utils/buttons';
 
 const RadioGroup = styled.fieldset`
@@ -53,7 +52,7 @@ const icons = {
 const ModeBar: FunctionComponent = () => {
 	const { editor } = useStore();
 	const availableModes: Array<EditorMode> = useMemo(() => (
-		editor.selectedEntity === undefined || !BlockM.is(editor.selectedEntity)
+		editor.selectedEntity === undefined
 			? Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex)
 			: Object.values(EditorMode)
 	), [editor.selectedEntity]);

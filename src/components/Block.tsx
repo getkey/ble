@@ -20,7 +20,7 @@ type Props = {
 	isSelected: boolean;
 };
 
-const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected }) => {
+const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected }) => {
 	const actualPoints = points.map(({ point }) => point);
 
 	return (
@@ -48,4 +48,4 @@ const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonP
 	);
 };
 
-export default InteractivePolygon;
+export default Block;

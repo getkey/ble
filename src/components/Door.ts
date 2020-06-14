@@ -1,6 +1,7 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics } from 'pixi.js';
 
+import grabbable from 'src/utils/grabbable';
 import { getLineColor, getStrokeColor } from 'src/utils/color';
 import { lineWidth, doorWidth, doorHeight, doorColor, selectColor } from 'src/config';
 
@@ -49,4 +50,4 @@ export const behavior = {
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},
 };
-export default CustomPIXIComponent(behavior, 'Door');
+export default grabbable(CustomPIXIComponent(behavior, 'Door'));

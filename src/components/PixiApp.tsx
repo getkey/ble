@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import { interaction } from 'pixi.js';
 
-import InteractivePolygon from 'src/components/InteractivePolygon';
+import Block from 'src/components/Block.tsx';
 import Level from 'src/components/Level';
 import { useStore } from 'src/hooks/useStore';
 import { useDispatch } from 'src/hooks/useDispatch';
@@ -57,7 +57,7 @@ const PixiApp: FunctionComponent = () => {
 					}));
 
 					return (
-						<InteractivePolygon
+						<Block
 							fill={entityColors[type]}
 							points={points}
 							key={id}

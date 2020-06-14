@@ -3,6 +3,7 @@ import { Graphics } from 'pixi.js';
 import chroma from 'chroma-js';
 
 import { lineWidth, hoppiColor, darkSlateGray, eyeColor, selectColor } from 'src/config';
+import grabbable from 'src/utils/grabbable';
 
 type Props = {
 	// x and y represent the point in the middle of the Hoppi
@@ -49,4 +50,4 @@ export const behavior = {
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},
 };
-export default CustomPIXIComponent(behavior, 'Hoppi');
+export default grabbable(CustomPIXIComponent(behavior, 'Hoppi'));

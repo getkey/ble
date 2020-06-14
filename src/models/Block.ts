@@ -27,9 +27,6 @@ const Block = types.model({
 			);
 		});
 	},
-	deleteVertex(index: number): void {
-		self.params.vertices.splice(index, 1);
-	},
 	setIsStatic(isStatic: boolean): void {
 		self.params.isStatic = isStatic;
 	},

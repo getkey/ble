@@ -54,6 +54,7 @@ const PixiApp: FunctionComponent = () => {
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
 						isSelected: vertex === selectedEntity,
+						id: vertex.id,
 					}));
 
 					return (

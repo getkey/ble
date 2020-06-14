@@ -6,8 +6,8 @@ import { resolveIdentifier } from 'mobx-state-tree';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import BlockM from 'src/models/Block';
-import { IPoint } from 'src/models/Point';
 import EntityM from 'src/models/Entity';
+import VertexM from 'src/models/Vertex';
 
 export const entityMove: Epic = (action$, { store }) => {
 	return action$.pipe (
@@ -65,7 +65,7 @@ export const pointMove: Epic = (action$, { store }) => {
 				const storePolygon = resolveIdentifier(BlockM, store.level.entities, entityId);
 				if (storePolygon === undefined) return;
 
-				const storePoint: IPoint = storePolygon.params.vertices[vertexId];
+				const storePoint = resolveIdentifier(VertexM, storePolygon.params.vertices, vertexId);
 				if (storePoint === undefined) return;
 
 				const posInWorld = store.editor.screenToWorld(pos);
@@ -102,7 +102,7 @@ export const selectVertex: Epic = (action$, { store }) => {
 			const block = resolveIdentifier(BlockM, store.level.entities, entityId);
 			if (block === undefined) return;
 
-			const point = block.params.vertices[vertexId];
+			const point = resolveIdentifier(VertexM, block.params.vertices, vertexId);
 
 			store.editor.setSelectedEntity(point);
 		}),

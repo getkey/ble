@@ -82,5 +82,7 @@ const RootStore = types.model({
 	},
 }));
 export const store = RootStore.create();
+// @ts-ignore
+window.store = store;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IRootStore extends Instance<typeof RootStore> {}

@@ -8,7 +8,7 @@ export type Actions = {
 } | {
 	type: 'vertexPointerDown';
 	entityId: string;
-	vertexId: number;
+	vertexId: string;
 	ev: interaction.InteractionEvent;
 } | {
 	type: 'addVertex';

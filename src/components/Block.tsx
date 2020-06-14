@@ -14,9 +14,10 @@ type Props = {
 	points: Array<{
 		point: PixiPoint;
 		isSelected: boolean;
+		id: string;
 	}>;
 	onPolygonPointerDown: (ev: interaction.InteractionEvent) => void;
-	onVertexPointerDown: (ev: interaction.InteractionEvent, vertexId: number) => void;
+	onVertexPointerDown: (ev: interaction.InteractionEvent, vertexId: string) => void;
 	isSelected: boolean;
 };
 
@@ -32,15 +33,15 @@ const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, o
 				pointerdown={onPolygonPointerDown}
 				isSelected={isSelected}
 			/>
-			{points.map(({ point: point_, isSelected: isSelected_ }, i) => (
+			{points.map(({ point: point_, isSelected: isSelected_, id }) => (
 				<GrabbablePoint
 					fill={0x0000ff}
 					x={point_.x}
 					y={point_.y}
-					key={i}
+					key={id}
 					radius={5}
 					interactive
-					pointerdown={(ev): void => onVertexPointerDown(ev, i)}
+					pointerdown={(ev): void => onVertexPointerDown(ev, id)}
 					isSelected={isSelected_}
 				/>
 			))}

@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { types, resolveIdentifier } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
@@ -7,6 +7,7 @@ import GenericPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
 import { EntityType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
+import Block from 'src/models/Block';
 
 import addBlock from 'static/icons/add_block.svg';
 import addVertex from 'static/icons/add_vertex.svg';
@@ -54,8 +55,10 @@ const Editor = types.model({
 		self.gridCellSize = cellSize;
 	},
 	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
+		// do not delete if we replace a block by one of its vertices
+		const isInSelf = Vertex.is(selected) && Block.is(self.selectedEntity) && resolveIdentifier(Vertex, self.selectedEntity.params.vertices, selected.id) !== undefined;
 		// delete unfinished entity
-		if (Entity.is(self.selectedEntity) && self.selectedEntity.isValid === false) {
+		if (Entity.is(self.selectedEntity) && self.selectedEntity.isValid === false && !isInSelf) {
 			self.selectedEntity.remove();
 		}
 		self.selectedEntity = selected;

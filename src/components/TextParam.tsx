@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 
 import { useStore } from 'src/hooks/useStore';
 import Text from 'src/models/Text';
+import DangerButton from 'src/components/DangerButton';
 
 const LanguageList = styled.div`
 	display: table;
@@ -14,7 +15,12 @@ const LanguageRow = styled.div`
 
 	* {
 		display: table-cell;
+		vertical-align: middle;
 	}
+`;
+
+const LangLabel = styled.label`
+	text-align: right;
 `;
 
 const ParamsBox: FunctionComponent = () => {
@@ -63,18 +69,18 @@ const ParamsBox: FunctionComponent = () => {
 					.filter(([, copy]) => copy !== undefined)
 					.map(([code, copy]) => (
 						<LanguageRow key={code}>
-							<label htmlFor={`text-param-${code}`}>{languages.getNativeName(code)}:</label>
+							<LangLabel htmlFor={`text-param-${code}`}>{languages.getNativeName(code)}:</LangLabel>
 							<textarea
 								id={`text-param-${code}`}
-								rows={1}
-								cols={20}
+								rows={3}
+								cols={40}
 								wrap="off"
 								value={copy}
 								onChange={(ev): void => onChangeText(ev, code)}
 								minLength={1}
 							/>
 							{code !== 'en' && (
-								<button onClick={(): void => onRemoveLanguage(code)}>Remove</button>
+								<DangerButton onClick={(): void => onRemoveLanguage(code)}>Remove</DangerButton>
 							)}
 						</LanguageRow>
 					))}

@@ -25,6 +25,7 @@ const Text = types.model({
 			x: 0.5,
 			y: 0.5,
 		}),
+		angle: 0,
 	}),
 }).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {
@@ -34,6 +35,9 @@ const Text = types.model({
 	remove(): void {
 		const parent = (getParent(self, 2) as ILevel);
 		parent.removeEntity(self as IText);
+	},
+	setAngle(angle: number): void {
+		self.params.angle = angle;
 	},
 	setCopy(lang: string, copy: string): void {
 		self.params.copy[lang] = copy;

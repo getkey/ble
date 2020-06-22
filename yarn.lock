@@ -1980,10 +1980,10 @@ body-parser@1.19.0:
     raw-body "2.4.0"
     type-is "~1.6.17"
 
-bombhopperio-level-tools@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.2.1.tgz#7e059d74b3530cd10721ea2110fbe4c65649dd11"
-  integrity sha512-6byBT3O2jEWjnbaEJAshx7NPYYFPssik8u1ztCUID8BPtCgrXPF8tvGounp6WpyjfhUxd2/r0tIchhQ5C1F+QQ==
+bombhopperio-level-tools@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.2.2.tgz#d847b9434094546f69f862c2f8019107b3839d42"
+  integrity sha512-dN3Tdca3v2PuGt53lP6i2aqM/n7GQsqial7u4bWgG/a4LDRA2GpL5YD2earLvInwpkXVwyl1A8FjCIaHypyfuw==
   dependencies:
     ajv "^6.12.2"
 

@@ -1,11 +1,13 @@
 import { fromEvent } from 'rxjs';
-import { pluck, map, tap, switchMap, takeUntil, ignoreElements } from 'rxjs/operators';
-
+import { pluck, map, tap, switchMap, takeUntil, ignoreElements, filter } from 'rxjs/operators';
 import { Epic, ofType } from 'epix';
+
+import { EditorMode } from 'src/types/editor';
 
 export const globalPan: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('backgroundClick'),
+		filter(() => store.editor.mode === EditorMode.select),
 		pluck('ev', 'data', 'global'),
 		tap(() => {
 			store.editor.setPanning(true);

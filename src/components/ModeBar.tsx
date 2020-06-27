@@ -10,7 +10,7 @@ import cursor from 'static/icons/cursor.svg';
 import addVertex from 'static/icons/add_vertex.svg';
 import { buttonCss, primaryButtonCss } from 'src/utils/buttons';
 
-const RadioGroup = styled.fieldset`
+const RadioGroup = styled.div`
 	display: inline-flex;
 	list-style-type: none;
 	border: none;

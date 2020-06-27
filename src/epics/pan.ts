@@ -1,21 +1,19 @@
 import { fromEvent } from 'rxjs';
-import { filter, map, tap, switchMap, takeUntil, ignoreElements } from 'rxjs/operators';
+import { pluck, map, tap, switchMap, takeUntil, ignoreElements } from 'rxjs/operators';
 
-import { Epic } from 'epix';
+import { Epic, ofType } from 'epix';
 
 export const globalPan: Epic = (action$, { store }) => {
-	return fromEvent<MouseEvent>(document, 'mousedown').pipe(
-		filter((ev) => ev.button === 1),
-		tap((ev) => {
-			// on Windows middle-click is for multidirectional scroll
-			ev.preventDefault();
-
+	return action$.pipe(
+		ofType('backgroundClick'),
+		pluck('ev', 'data', 'global'),
+		tap(() => {
 			store.editor.setPanning(true);
 		}),
-		map((ev) => ({ // save starting values
+		map(({ x, y }) => ({ // save starting values
 			start: {
-				x: ev.clientX,
-				y: ev.clientY,
+				x,
+				y,
 			},
 			pivot: {
 				x: store.editor.position.x,

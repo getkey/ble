@@ -9,11 +9,16 @@ import StaticParam from 'src/components/StaticParam';
 import HoppiParam from 'src/components/HoppiParam';
 import ZOrderParam from 'src/components/ZOrderParam';
 import DangerButton from 'src/components/DangerButton';
+import LevelParamsBox from 'src/components/LevelParamsBox';
 
 const ParamsBox: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 
-	if (selectedEntity === undefined) return null;
+	if (selectedEntity === undefined){
+		return (
+			<LevelParamsBox/>
+		);
+	}
 
 	function onDelete(): void {
 		if (selectedEntity === undefined) return;

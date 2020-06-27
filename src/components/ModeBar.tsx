@@ -11,13 +11,9 @@ import addVertex from 'static/icons/add_vertex.svg';
 import { buttonCss, primaryButtonCss } from 'src/utils/buttons';
 
 const RadioGroup = styled.fieldset`
-	display: flex;
+	display: inline-flex;
 	list-style-type: none;
-	position: absolute;
-	top: 0;
-	left: 0;
 	border: none;
-	background-color: white;
 	margin: 0;
 	padding: 0;
 `;

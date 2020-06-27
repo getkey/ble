@@ -12,7 +12,6 @@ import { buttonCss } from 'src/utils/buttons';
 
 const Container = styled.div`
 	display: flex;
-	justify-content: space-between;
 	margin: 4px 0;
 	font-size: 1rem;
 

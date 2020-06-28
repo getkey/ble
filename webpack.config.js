@@ -5,7 +5,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
 	mode: isProd ? 'production' : 'development',
-	devtool: isProd ? false : 'eval-source-map',
+	devtool: isProd ? 'source-map' : 'eval-source-map',
 	entry: './src/index.tsx',
 	output: {
 		filename: 'main.js',

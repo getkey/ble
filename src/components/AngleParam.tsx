@@ -42,9 +42,9 @@ const AngleParam: FunctionComponent = () => {
 			<label>
 				angle:
 				<AngleInput
-					min="-180"
-					max="180"
-					step="1"
+					min={-180}
+					max={180}
+					step={1}
 					value={angleDegrees}
 					onChange={onChangeAngleInput}
 				/>

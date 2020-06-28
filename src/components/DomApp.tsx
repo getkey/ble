@@ -36,7 +36,7 @@ const DomApp: FunctionComponent = () => {
 		<Fragment>
 			<TopLeftDiv>
 				<ModeBar/>
-				<GridSizeLabel><span>Grid</span><span>size:</span><GridSizeInput min="0" value={editor.gridCellSize} onChange={onCellSizeChange}/></GridSizeLabel>
+				<GridSizeLabel><span>Grid</span><span>size:</span><GridSizeInput min={0} value={editor.gridCellSize} onChange={onCellSizeChange}/></GridSizeLabel>
 			</TopLeftDiv>
 			<ParamsBox/>
 			<ZoomButtons/>

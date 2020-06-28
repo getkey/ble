@@ -27,8 +27,8 @@ const ParamsBox: FunctionComponent = () => {
 	return (
 		<Box title={level.name}>
 			<label>Level name: <input type="text"value={level.name} onChange={onNameChange}/></label>
-			<label>2 stars: finish in <StarInput min="0" value={level.timings[0]} onChange={on2StarsChange}/> ms or less</label>
-			<label>3 stars: finish in <StarInput min="0" value={level.timings[1]} onChange={on3StarsChange}/> ms or less</label>
+			<label>2 stars: finish in <StarInput min={0} value={level.timings[0]} onChange={on2StarsChange}/> ms or less</label>
+			<label>3 stars: finish in <StarInput min={0} value={level.timings[1]} onChange={on3StarsChange}/> ms or less</label>
 			<LoadSave/>
 		</Box>
 	);

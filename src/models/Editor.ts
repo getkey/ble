@@ -54,15 +54,6 @@ const Editor = types.model({
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
 	},
-	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
-		// do not delete if we replace a block by one of its vertices
-		const isInSelf = Vertex.is(selected) && Block.is(self.selectedEntity) && resolveIdentifier(Vertex, self.selectedEntity.params.vertices, selected.id) !== undefined;
-		// delete unfinished entity
-		if (Entity.is(self.selectedEntity) && self.selectedEntity.isValid === false && !isInSelf) {
-			self.selectedEntity.remove();
-		}
-		self.selectedEntity = selected;
-	},
 	setAddType(addType: EntityType): void {
 		self.addType = addType;
 	},
@@ -75,6 +66,21 @@ const Editor = types.model({
 	},
 	setClipboard(copied: IEntity): void {
 		self.clipboard = copied;
+	},
+})).actions((self) => ({
+	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
+		// do not delete if we replace a block by one of its vertices
+		const isInSelf = Vertex.is(selected) && Block.is(self.selectedEntity) && resolveIdentifier(Vertex, self.selectedEntity.params.vertices, selected.id) !== undefined;
+		// delete unfinished entity
+		if (Entity.is(self.selectedEntity) && self.selectedEntity.isValid === false && !isInSelf) {
+			self.selectedEntity.remove();
+		}
+
+		if (selected === undefined && self.mode === EditorMode.addVertex) {
+			self.setMode(EditorMode.select);
+		}
+
+		self.selectedEntity = selected;
 	},
 })).views((self) => ({
 	get cameraPos(): GenericPoint {

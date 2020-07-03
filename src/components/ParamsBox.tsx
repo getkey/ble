@@ -7,6 +7,7 @@ import TextParam from 'src/components/TextParam';
 import AngleParam from 'src/components/AngleParam';
 import StaticParam from 'src/components/StaticParam';
 import HoppiParam from 'src/components/HoppiParam';
+import RadiusParam from 'src/components/RadiusParam';
 import ZOrderParam from 'src/components/ZOrderParam';
 import DangerButton from 'src/components/DangerButton';
 import LevelParamsBox from 'src/components/LevelParamsBox';
@@ -29,9 +30,10 @@ const ParamsBox: FunctionComponent = () => {
 	return (
 		<Box title={selectedEntity.displayName}>
 			<HoppiParam/>
-			<StaticParam/>
 			<AngleParam/>
+			<RadiusParam/>
 			<TextParam/>
+			<StaticParam/>
 			<ZOrderParam/>
 			<DangerButton onClick={onDelete}>Delete entity</DangerButton>
 		</Box>

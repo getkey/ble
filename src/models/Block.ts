@@ -53,7 +53,7 @@ const Block = types.model({
 		return self.params.vertices.map((vertex) => vertex.asPixiPoint);
 	},
 	get displayName(): string {
-		return blockAliases[self.type];
+		return `${blockAliases[self.type]} polygon`;
 	},
 	get isValid(): boolean {
 		return self.params.vertices.length >= 3;

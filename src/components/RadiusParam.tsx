@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/hooks/useStore';
 import Ball from 'src/models/Ball';
 import NumberInput from 'src/components/NumberInput';
+import InfiniteRange from 'src/components/InfiniteRange';
 
 const RadiusParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
@@ -24,12 +25,18 @@ const RadiusParam: FunctionComponent = () => {
 			<label>
 				radius:
 				<NumberInput
-					min={0}
+					min={1}
 					step={1}
 					value={selectedEntity.params.radius}
 					onChange={onChangeRadius}
 				/>
 			</label>
+			<InfiniteRange
+				value={selectedEntity.params.radius}
+				min={1}
+				step={1}
+				onChange={onChangeRadius}
+			/>
 		</div>
 	);
 };

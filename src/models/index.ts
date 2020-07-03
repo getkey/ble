@@ -2,8 +2,10 @@ import { types, Instance } from 'mobx-state-tree';
 
 import Editor from 'src/models/Editor';
 import LevelProcessor from 'src/models/LevelProcessor';
-import { EntityType, BlockType, AmmoType } from 'src/types/entity';
+import { AddType, AmmoType, blockAddTypes, ballAddTypes } from 'src/types/entity';
+import { addTypeToBlock } from 'src/aliases';
 import Block from 'src/models/Block';
+import Ball from 'src/models/Ball';
 import Door from 'src/models/Door';
 import Hoppi from 'src/models/Hoppi';
 import Text from 'src/models/Text';
@@ -26,56 +28,63 @@ const RootStore = types.model({
 	},
 })).actions((self) => ({
 	createEntity(pos: IPoint): void {
-		let entity = null;
-
-		if (self.editor.addType in BlockType) {
-			entity = Block.create({
-				type: self.editor.addType as unknown as BlockType,
-				params: {
-					vertices: [
-						pos,
-					],
-					isStatic: true,
-				},
-			});
-		}
-
-		if (self.editor.addType === EntityType.endpoint) {
-			entity = Door.create({
-				type: EntityType.endpoint,
-				params: {
-					x: pos.x,
-					y: pos.y,
-				},
-			});
-		}
-
-		if (self.editor.addType === EntityType.player) {
-			entity = Hoppi.create({
-				type: EntityType.player,
-				params: {
-					x: pos.x,
-					y: pos.y,
-					magazine: [
-						AmmoType.bullet,
-						AmmoType.bullet,
-					],
-				},
-			});
-		}
-
-		if (self.editor.addType === EntityType.text) {
-			entity = Text.create({
-				type: EntityType.text,
-				params: {
-					x: pos.x,
-					y: pos.y,
-				},
-			});
-		}
-
-		if (entity !== null) {
-			self.addEntity(entity);
+		if (self.editor.addType === AddType.endpoint) {
+			self.addEntity(
+				Door.create({
+					type: AddType.endpoint,
+					params: {
+						x: pos.x,
+						y: pos.y,
+					},
+				})
+			);
+		} else if (self.editor.addType === AddType.player) {
+			self.addEntity(
+				Hoppi.create({
+					type: AddType.player,
+					params: {
+						x: pos.x,
+						y: pos.y,
+						magazine: [
+							AmmoType.bullet,
+							AmmoType.bullet,
+						],
+					},
+				})
+			);
+		} else if (self.editor.addType === AddType.text) {
+			self.addEntity(
+				Text.create({
+					type: AddType.text,
+					params: {
+						x: pos.x,
+						y: pos.y,
+					},
+				})
+			);
+		} else if (blockAddTypes.includes(self.editor.addType)) {
+			self.addEntity(
+				Block.create({
+					type: addTypeToBlock[self.editor.addType],
+					params: {
+						vertices: [
+							pos,
+						],
+						isStatic: true,
+					},
+				})
+			);
+		} else if (ballAddTypes.includes(self.editor.addType)) {
+			self.addEntity(
+				Ball.create({
+					type: addTypeToBlock[self.editor.addType],
+					params: {
+						x: pos.x,
+						y: pos.y,
+						isStatic: true,
+					},
+				})
+			);
 		} else {
 			throw new Error('Invalid entity type');
 		}

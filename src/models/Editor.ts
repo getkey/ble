@@ -5,7 +5,7 @@ import Point from 'src/models/Point';
 import Vertex, { IVertex } from 'src/models/Vertex';
 import GenericPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
-import { EntityType } from 'src/types/entity';
+import { AddType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
 import Block from 'src/models/Block';
 
@@ -27,8 +27,8 @@ const Editor = types.model({
 	),
 	clipboard: types.maybe(Entity),
 	addType: types.optional(
-		types.enumeration(Object.values(EntityType)),
-		EntityType.normal,
+		types.enumeration(Object.values(AddType)),
+		AddType.normalBlock,
 	),
 	screen: types.optional(
 		types.model({
@@ -54,7 +54,7 @@ const Editor = types.model({
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
 	},
-	setAddType(addType: EntityType): void {
+	setAddType(addType: AddType): void {
 		self.addType = addType;
 	},
 	setScreenSize(width: number, height: number): void {
@@ -101,6 +101,13 @@ const Editor = types.model({
 		}
 
 		return 'auto';
+	},
+	get availableModes(): Array<EditorMode> {
+		if (Block.is(self.selectedEntity)) {
+			return Object.values(EditorMode);
+		}
+
+		return Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex);
 	},
 })).views((self) => ({
 	screenToWorld(screenPos: GenericPoint): GenericPoint {

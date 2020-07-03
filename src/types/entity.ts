@@ -8,15 +8,20 @@ export enum BlockType {
 	bouncy = 'bouncy',
 }
 
-export enum EntityType {
-	normal = 'normal',
-	ice = 'ice',
-	breakable = 'breakable',
-	deadly = 'deadly',
-	bouncy = 'bouncy',
-	endpoint = 'endpoint',
+export enum AddType {
 	player = 'player',
+	endpoint = 'endpoint',
 	text = 'text',
+	normalBlock = 'normalBlock',
+	iceBlock = 'iceBlock',
+	breakableBlock = 'breakableBlock',
+	deadlyBlock = 'deadlyBlock',
+	bouncyBlock = 'bouncyBlock',
+	normalBall = 'normalBall',
+	iceBall = 'iceBall',
+	breakableBall = 'breakableBall',
+	deadlyBall = 'deadlyBall',
+	bouncyBall = 'bouncyBall',
 }
 
 export enum AmmoType {
@@ -24,3 +29,19 @@ export enum AmmoType {
 	grenade = 'grenade',
 	empty = 'empty',
 }
+
+export const blockAddTypes = [
+	AddType.normalBlock,
+	AddType.iceBlock,
+	AddType.breakableBlock,
+	AddType.deadlyBlock,
+	AddType.bouncyBlock,
+];
+
+export const ballAddTypes = [
+	AddType.normalBall,
+	AddType.iceBall,
+	AddType.breakableBall,
+	AddType.deadlyBall,
+	AddType.bouncyBall,
+];

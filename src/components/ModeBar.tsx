@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, ChangeEvent, useMemo } from 'react';
+import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 
@@ -47,14 +47,9 @@ const icons = {
 
 const ModeBar: FunctionComponent = () => {
 	const { editor } = useStore();
-	const availableModes: Array<EditorMode> = useMemo(() => (
-		editor.selectedEntity === undefined
-			? Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex)
-			: Object.values(EditorMode)
-	), [editor.selectedEntity]);
 
 	function onChange(ev: ChangeEvent<HTMLInputElement>): void {
-		if (!availableModes.some((allowedMode) => allowedMode === ev.target.value)) {
+		if (!editor.availableModes.some((allowedMode: EditorMode) => allowedMode === ev.target.value)) {
 			throw new TypeError('Incorrect editor mode');
 		}
 		const newMode: EditorMode = EditorMode[ev.target.value as keyof typeof EditorMode];
@@ -63,7 +58,7 @@ const ModeBar: FunctionComponent = () => {
 
 	return (
 		<RadioGroup>
-			{availableModes.map((availableMode: EditorMode) => {
+			{editor.availableModes.map((availableMode: EditorMode) => {
 				const selected = availableMode === editor.mode;
 				const Component = icons[availableMode];
 				return (

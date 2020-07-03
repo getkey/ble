@@ -11,9 +11,12 @@ const Ball = types.model({
 	params: types.model({
 		x: types.number,
 		y: types.number,
-		radius: types.refinement(
-			types.number,
-			(value) => value >= 0,
+		radius: types.optional(
+			types.refinement(
+				types.number,
+				(value) => value >= 0,
+			),
+			15,
 		),
 		isStatic: false,
 	}),

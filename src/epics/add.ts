@@ -3,7 +3,7 @@ import { filter, map, tap, ignoreElements, mergeMap, pluck } from 'rxjs/operator
 import { ofType, Epic } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
-import { BlockType } from 'src/types/entity';
+import { blockAddTypes } from 'src/types/entity';
 import IPoint from 'src/types/point';
 import { snapToGrid } from 'src/utils/geom';
 import BlockM, { IBlock } from 'src/models/Block';
@@ -47,7 +47,7 @@ export const createEntity: Epic = (action$, { store }) => {
 		tap(({ pos }) => {
 			store.createEntity(pos);
 		}),
-		filter(() => store.editor.addType in BlockType),
+		filter(() => blockAddTypes.includes(store.editor.addType)),
 		tap(() => {
 			store.editor.setMode(EditorMode.addVertex);
 		}),

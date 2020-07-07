@@ -14,7 +14,7 @@ export const entityMove: Epic = (action$, { store }) => {
 		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		// middle click is panning only
-		filter(({ ev }) => ev.data.button !== 1),
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		// we copy the relevant data because react pools events
 		map(({ ev, entityId }) => ({
 			x: ev.data.global.x,
@@ -58,7 +58,7 @@ export const pointMove: Epic = (action$, { store }) => {
 	return action$.pipe (
 		ofType('vertexPointerDown'),
 		// middle click is panning only
-		filter(({ ev }) => ev.data.button !== 1),
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		switchMap(({ entityId, vertexId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {
@@ -87,7 +87,7 @@ export const selectEntity: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('entityPointerDown'),
 		// middle click is panning only
-		filter(({ ev }) => ev.data.button !== 1),
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId }) => {
 			// @ts-ignore
@@ -104,7 +104,7 @@ export const selectVertex: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('vertexPointerDown'),
 		// middle click is panning only
-		filter(({ ev }) => ev.data.button !== 1),
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId, vertexId }) => {
 			const block = resolveIdentifier(BlockM, store.level.entities, entityId);
@@ -122,7 +122,7 @@ export const unselect: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('backgroundPointerDown'),
 		// middle click is panning only
-		filter(({ ev }) => ev.data.button !== 1),
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(() => {
 			store.editor.setSelectedEntity(undefined);

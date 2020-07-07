@@ -4,15 +4,19 @@ import { Epic, ofType } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
 
-export const globalPan: Epic = (action$, { store }) => {
+export const globalPan: Epic = (action$, { store, app }) => {
 	const startPanning$ = merge(
 		action$.pipe(
 			ofType('backgroundPointerDown'),
 			filter(() => store.editor.mode === EditorMode.select),
 			pluck('ev', 'data', 'global'),
 		),
-		fromEvent<PointerEvent>(document, 'mousedown').pipe(
+		fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
 			filter((ev) => ev.button === 1),
+			map(({ clientX, clientY }) => ({
+				x: clientX,
+				y: clientY,
+			}))
 		),
 	);
 

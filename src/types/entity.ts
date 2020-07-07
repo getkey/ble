@@ -45,3 +45,9 @@ export const ballAddTypes = [
 	AddType.deadlyBall,
 	AddType.bouncyBall,
 ];
+
+export const miscAddTypes = [
+	AddType.player,
+	AddType.endpoint,
+	AddType.text,
+];

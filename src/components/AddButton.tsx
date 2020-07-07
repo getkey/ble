@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import Icon from 'src/components/Icon';
 import { useStore } from 'src/hooks/useStore';
-import { AddType } from 'src/types/entity';
+import { AddType, blockAddTypes, ballAddTypes, miscAddTypes } from 'src/types/entity';
 import addBlock from 'static/icons/add_block.svg'; // not to be confused with adblock :P
 import { addTypeAliases } from 'src/aliases';
 
@@ -26,6 +26,17 @@ const Label = styled.label`
 	display: flex;
 	color: black;
 	white-space: nowrap;
+`;
+
+const AddTypeCategory = styled.div`
+	margin: 0.5em 0;
+
+	&:first-child {
+		margin-top: 0;
+	}
+	&:last-child {
+		margin-bottom: 0;
+	}
 `;
 
 const AddButton: FunctionComponent<Props> = ({ selected }) => {
@@ -55,16 +66,20 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 			<Icon src={addBlock} onClick={toggleDropdown}/>
 			{showDropdown && (
 				<ButtonContainer>
-					{Object.values(AddType).map((type) => (
-						<Label key={type}>
-							<input
-								type="radio"
-								onChange={setBlockType}
-								checked={type === editor.addType}
-								value={type}
-							/>
-							{addTypeAliases[type]}
-						</Label>
+					{[miscAddTypes, blockAddTypes, ballAddTypes].map((addTypes, i) => (
+						<AddTypeCategory key={i}>
+							{addTypes.map((type: AddType) => (
+								<Label key={type}>
+									<input
+										type="radio"
+										onChange={setBlockType}
+										checked={type === editor.addType}
+										value={type}
+									/>
+									{addTypeAliases[type]}
+								</Label>
+							))}
+						</AddTypeCategory>
 					))}
 				</ButtonContainer>
 			)}

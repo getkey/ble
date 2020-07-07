@@ -17,7 +17,7 @@ export type Actions = {
 	type: 'createEntity';
 	pos: IPoint;
 } | {
-	type: 'backgroundClick';
+	type: 'backgroundPointerDown';
 	ev: interaction.InteractionEvent;
 } | {
 	type: 'zoom';

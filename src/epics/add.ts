@@ -13,7 +13,7 @@ export const addVertexOrEntity: Epic = (action$, { store }) => {
 	return action$.pipe(
 		// we listen specifically on the background because when a user clicks another object they
 		// probably expect to select it
-		ofType('backgroundClick'),
+		ofType('backgroundPointerDown'),
 		pluck('ev', 'data'),
 		filter((data) => data.button === 0 || data.pointerType === 'touch'),
 		map(({ global }) => store.editor.screenToWorld({

@@ -51,7 +51,7 @@ const Level: FunctionComponent = () => {
 			width={width}
 			height={height}
 			interactive
-			pointerdown={(ev): void => dispatch({ type: 'backgroundClick', ev })}
+			pointerdown={(ev): void => dispatch({ type: 'backgroundPointerDown', ev })}
 		/>
 	);
 };

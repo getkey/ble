@@ -112,7 +112,7 @@ export const selectVertex: Epic = (action$, { store }) => {
 
 export const unselect: Epic = (action$, { store }) => {
 	return action$.pipe(
-		ofType('backgroundClick'),
+		ofType('backgroundPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(() => {
 			store.editor.setSelectedEntity(undefined);

@@ -10,6 +10,13 @@ const Container = styled.div`
 	right: 0;
 	background-color: white;
 
+	@media (orientation: portrait) {
+		top: initial;
+		right: initial;
+		bottom: 0;
+		left: 0;
+	}
+
 	& > * {
 		padding: 8px;
 	}

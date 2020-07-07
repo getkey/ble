@@ -1,14 +1,22 @@
-import { fromEvent } from 'rxjs';
+import { fromEvent, merge } from 'rxjs';
 import { pluck, map, tap, switchMap, takeUntil, ignoreElements, filter } from 'rxjs/operators';
 import { Epic, ofType } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
 
 export const globalPan: Epic = (action$, { store }) => {
-	return action$.pipe(
-		ofType('backgroundPointerDown'),
-		filter(() => store.editor.mode === EditorMode.select),
-		pluck('ev', 'data', 'global'),
+	const startPanning$ = merge(
+		action$.pipe(
+			ofType('backgroundPointerDown'),
+			filter(() => store.editor.mode === EditorMode.select),
+			pluck('ev', 'data', 'global'),
+		),
+		fromEvent<PointerEvent>(document, 'mousedown').pipe(
+			filter((ev) => ev.button === 1),
+		),
+	);
+
+	return startPanning$.pipe(
 		tap(() => {
 			store.editor.setPanning(true);
 		}),

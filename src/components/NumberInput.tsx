@@ -70,7 +70,7 @@ const NumberInput: FunctionComponent<Props> = ({ value, onChange, onBlur, min, m
 	// state updates are asynchronous
 	// so we do our onChange here
 	useEffect(() => {
-		if (onChange !== undefined) {
+		if (onChange !== undefined && latestValidValue !== value) {
 			onChange(latestValidValue);
 		}
 	}, [latestValidValue]);

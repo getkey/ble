@@ -13,10 +13,14 @@ export const globalPan: Epic = (action$, { store, app }) => {
 		),
 		fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
 			filter((ev) => ev.button === 1),
+			tap((ev) => {
+				// on Windows middle-click is for multidirectional scroll
+				ev.preventDefault();
+			}),
 			map(({ clientX, clientY }) => ({
 				x: clientX,
 				y: clientY,
-			}))
+			})),
 		),
 	);
 

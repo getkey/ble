@@ -61,6 +61,7 @@ const PixiApp: FunctionComponent = () => {
 
 					return (
 						<Block
+							isSimple={entity.isSimple}
 							fill={entityColors[type]}
 							points={points}
 							key={id}

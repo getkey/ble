@@ -19,14 +19,16 @@ type Props = {
 	onPolygonPointerDown: (ev: interaction.InteractionEvent) => void;
 	onVertexPointerDown: (ev: interaction.InteractionEvent, vertexId: string) => void;
 	isSelected: boolean;
+	isSimple: boolean;
 };
 
-const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected }) => {
+const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected, isSimple }) => {
 	const actualPoints = points.map(({ point }) => point);
 
 	return (
 		<Container>
 			<GrabbablePolygon
+				showInvalidTexture={!isSimple}
 				fill={fill}
 				points={actualPoints}
 				interactive

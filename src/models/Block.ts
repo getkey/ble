@@ -7,6 +7,8 @@ import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
+import { polygonIsSimple } from 'src/utils/geom';
+
 
 const Block = types.model({
 	id: types.optional(types.identifier, nanoid),
@@ -57,6 +59,9 @@ const Block = types.model({
 	},
 	get isValid(): boolean {
 		return self.params.vertices.length >= 3;
+	},
+	get isSimple(): boolean {
+		return polygonIsSimple(self.params.vertices);
 	},
 }));
 export default Block;

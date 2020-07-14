@@ -1,13 +1,13 @@
 import { types, Instance, destroy, getParent, SnapshotOut } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 import { Point as PixiPoint } from 'pixi.js';
+import { polygonIsSimple } from 'bombhopperio-level-tools';
 
 import Vertex from 'src/models/Vertex';
 import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
-import { polygonIsSimple } from 'src/utils/geom';
 
 
 const Block = types.model({

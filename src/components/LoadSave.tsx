@@ -54,7 +54,7 @@ const DomApp: FunctionComponent = () => {
 			console.error(err);
 			alert(`Error: your level contains invalid elements. Don't close this tab and come to https://discord.gg/KEb4wSN for help!
 
-${JSON.stringify(err)}`);
+${err.message || JSON.stringify(err)}`);
 		}
 
 		const filename = toFilename(level.name, 'json');

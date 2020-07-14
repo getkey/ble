@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Container } from 'react-pixi-fiber';
-import { Point as PixiPoint, interaction } from 'pixi.js';
+import { Point as PixiPoint, InteractionEvent } from 'pixi.js';
 
 import Polygon from 'src/components/Polygon';
 import Point from 'src/components/Point';
@@ -16,8 +16,8 @@ type Props = {
 		isSelected: boolean;
 		id: string;
 	}>;
-	onPolygonPointerDown: (ev: interaction.InteractionEvent) => void;
-	onVertexPointerDown: (ev: interaction.InteractionEvent, vertexId: string) => void;
+	onPolygonPointerDown: (ev: InteractionEvent) => void;
+	onVertexPointerDown: (ev: InteractionEvent, vertexId: string) => void;
 	isSelected: boolean;
 	isSimple: boolean;
 };

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
-import { interaction } from 'pixi.js';
+import { InteractionEvent } from 'pixi.js';
 
 import Block from 'src/components/Block';
 import Circle from 'src/components/Circle';
@@ -83,7 +83,7 @@ const PixiApp: FunctionComponent = () => {
 							radius={radius}
 							key={id}
 							interactive
-							pointerdown={(ev: interaction.InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
+							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							isSelected={isSelected}
 						/>
 					);
@@ -115,7 +115,7 @@ const PixiApp: FunctionComponent = () => {
 							anchor={anchor}
 							key={id}
 							interactive
-							pointerdown={(ev: interaction.InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
+							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							color={isSelected ? selectColor : 0xffffff}
 							rotation={angle}
 						/>

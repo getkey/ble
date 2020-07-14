@@ -1,10 +1,10 @@
 import React, { useState, useEffect, FunctionComponent, ComponentType } from 'react';
 import { fromEvent } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { interaction } from 'pixi.js';
+import { InteractionEvent } from 'pixi.js';
 
 type IProps = {
-	pointerdown?: (ev: interaction.InteractionEvent) => void;
+	pointerdown?: (ev: InteractionEvent) => void;
 };
 
 // can't use an arrow function here, it breaks TSX
@@ -28,7 +28,7 @@ const grabbable = function<P>(
 			return (): void => subs.unsubscribe();
 		}, []);
 
-		function onPointerDown(ev: interaction.InteractionEvent): void {
+		function onPointerDown(ev: InteractionEvent): void {
 			setGrabbing(true);
 			if (pointerdown !== undefined) {
 				pointerdown(ev);

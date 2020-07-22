@@ -16,7 +16,7 @@ export function pointSegmentDistanceSquared(seg1: IPoint, seg2: IPoint, point: I
 
 	const segMagSquared = Vector.magnitudeSquared(segment);
 	// cast because of https://github.com/DefinitelyTyped/DefinitelyTyped/pull/46168
-	let t = (Vector.dot(a, segment) as number) / segMagSquared;
+	let t = Vector.dot(a, segment) / segMagSquared;
 	// clamp to turn the line into a segment
 	t = Math.min(Math.max(t, 0), 1);
 

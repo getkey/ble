@@ -4,6 +4,7 @@ import { BitmapText, Text } from 'react-pixi-fiber';
 
 import { useStore } from 'src/hooks/useStore';
 import { fontSize } from 'src/config';
+import grabbable from 'src/utils/grabbable';
 
 type Props = {
 	color: number;
@@ -36,4 +37,4 @@ const ProgressiveText: FunctionComponent<Props> = ({ color, ...props }) => {
 		/>
 	);
 };
-export default observer(ProgressiveText);
+export default grabbable<Props>(observer(ProgressiveText));

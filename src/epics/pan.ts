@@ -1,28 +1,44 @@
-import { fromEvent } from 'rxjs';
-import { filter, map, tap, switchMap, takeUntil, ignoreElements } from 'rxjs/operators';
+import { fromEvent, merge } from 'rxjs';
+import { pluck, map, tap, switchMap, takeUntil, ignoreElements, filter } from 'rxjs/operators';
+import { Epic, ofType } from 'epix';
 
-import { Epic } from 'epix';
+import { EditorMode } from 'src/types/editor';
 
-export const globalPan: Epic = (action$, { store }) => {
-	return fromEvent<MouseEvent>(document, 'mousedown').pipe(
-		filter((ev) => ev.button === 1),
-		tap((ev) => {
-			// on Windows middle-click is for multidirectional scroll
-			ev.preventDefault();
+export const globalPan: Epic = (action$, { store, app }) => {
+	const startPanning$ = merge(
+		action$.pipe(
+			ofType('backgroundPointerDown'),
+			filter(() => store.editor.mode === EditorMode.select),
+			pluck('ev', 'data', 'global'),
+		),
+		fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
+			filter((ev) => ev.button === 1),
+			tap((ev) => {
+				// on Windows middle-click is for multidirectional scroll
+				ev.preventDefault();
+			}),
+			map(({ clientX, clientY }) => ({
+				x: clientX,
+				y: clientY,
+			})),
+		),
+	);
 
+	return startPanning$.pipe(
+		tap(() => {
 			store.editor.setPanning(true);
 		}),
-		map((ev) => ({ // save starting values
+		map(({ x, y }) => ({ // save starting values
 			start: {
-				x: ev.clientX,
-				y: ev.clientY,
+				x,
+				y,
 			},
 			pivot: {
 				x: store.editor.position.x,
 				y: store.editor.position.y,
 			},
 		})),
-		switchMap(({ start, pivot }) => fromEvent<MouseEvent>(document, 'mousemove').pipe(
+		switchMap(({ start, pivot }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap(({ clientX, clientY }) => {
 				const { scale } = store.editor;
 				const deltaX = pivot.x + (start.x - clientX) * (1/scale);
@@ -30,7 +46,7 @@ export const globalPan: Epic = (action$, { store }) => {
 
 				store.editor.position.set(deltaX, deltaY);
 			}),
-			takeUntil(fromEvent(document, 'mouseup').pipe(
+			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
 					store.editor.setPanning(false);
 				})

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { types } from 'mobx-state-tree';
 
 import { levelPreProcessor } from 'src/utils/snapshot';
@@ -35,9 +34,13 @@ const LevelProcessor = types.snapshotProcessor(Level, {
 						params: {
 							...stuff.params,
 							copy: Object.entries(stuff.params.copy).reduce((acc, [code, text]) => {
-								if (text !== undefined && text !== '') {
-									acc[code] = text;
+								if (text === undefined) return acc;
+
+								if (code !== 'en' && text === '') {
+									return acc;
 								}
+
+								acc[code] = text;
 								return acc;
 							}, {} as { [index: string]: string }),
 						},

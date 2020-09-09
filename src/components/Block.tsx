@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Container } from 'react-pixi-fiber';
-import { Point as PixiPoint, interaction } from 'pixi.js';
+import { Point as PixiPoint, InteractionEvent } from 'pixi.js';
 
 import Polygon from 'src/components/Polygon';
 import Point from 'src/components/Point';
@@ -14,33 +14,36 @@ type Props = {
 	points: Array<{
 		point: PixiPoint;
 		isSelected: boolean;
+		id: string;
 	}>;
-	onPolygonPointerDown: (ev: interaction.InteractionEvent) => void;
-	onVertexPointerDown: (ev: interaction.InteractionEvent, vertexId: number) => void;
+	onPolygonPointerDown: (ev: InteractionEvent) => void;
+	onVertexPointerDown: (ev: InteractionEvent, vertexId: string) => void;
 	isSelected: boolean;
+	isSimple: boolean;
 };
 
-const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected }) => {
+const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected, isSimple }) => {
 	const actualPoints = points.map(({ point }) => point);
 
 	return (
 		<Container>
 			<GrabbablePolygon
+				showInvalidTexture={!isSimple}
 				fill={fill}
 				points={actualPoints}
 				interactive
 				pointerdown={onPolygonPointerDown}
 				isSelected={isSelected}
 			/>
-			{points.map(({ point: point_, isSelected: isSelected_ }, i) => (
+			{points.map(({ point: point_, isSelected: isSelected_, id }) => (
 				<GrabbablePoint
 					fill={0x0000ff}
 					x={point_.x}
 					y={point_.y}
-					key={i}
+					key={id}
 					radius={5}
 					interactive
-					pointerdown={(ev): void => onVertexPointerDown(ev, i)}
+					pointerdown={(ev): void => onVertexPointerDown(ev, id)}
 					isSelected={isSelected_}
 				/>
 			))}
@@ -48,4 +51,4 @@ const InteractivePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonP
 	);
 };
 
-export default InteractivePolygon;
+export default Block;

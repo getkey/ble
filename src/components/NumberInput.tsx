@@ -1,31 +1,93 @@
-import React, { FunctionComponent, ChangeEvent, useState, useEffect, FocusEvent } from 'react';
+import React, { FunctionComponent, ChangeEvent, FocusEvent, useEffect, useReducer } from 'react';
 
 type Props = {
-	value: number | string;
-	onChange?: (ev: ChangeEvent<HTMLInputElement>) => void;
+	value: number;
+	onChange?: (value: number) => void;
 	onBlur?: (ev: FocusEvent<HTMLInputElement>) => void;
+	min?: number;
+	max?: number;
+	step?: number;
 	[index: string]: unknown;
 };
 
+type State = {
+	innerValue: string;
+	latestValidValue: number;
+}
+
+type Action = {
+	type: 'set';
+	value: string;
+	valueAsNumber: number;
+} | {
+	type: 'resetLatestSafe';
+}
+
+function isValid(val: number, { min, max, step }: { min?: number; max?: number; step?: number }) {
+	return !(
+		isNaN(val) ||
+		(min && val < min) ||
+		(max && val > max) ||
+		(step && val % step !== 0)
+	);
+}
+
 // this is a number input that can temporarily contain invalid values such as '' or '12enoen'
-const NumberInput: FunctionComponent<Props> = ({ value, onChange, onBlur, ...props }) => {
-	const [innerValue, setInnerValue] = useState(value);
+const NumberInput: FunctionComponent<Props> = ({ value, onChange, onBlur, min, max, step, ...props }) => {
+	function reducer(state: State, action: Action): State {
+		switch (action.type) {
+			case 'set': {
+				const safeValue = !isValid(action.valueAsNumber, { min, max, step }) ? state.latestValidValue : action.valueAsNumber;
+				return {
+					...state,
+					innerValue: action.value,
+					latestValidValue: safeValue,
+
+				};
+			}
+			case 'resetLatestSafe':
+				return {
+					...state,
+					innerValue: state.latestValidValue.toString(),
+				};
+			default:
+				throw new Error('Invalid action type');
+		}
+	}
+	const [{ innerValue, latestValidValue }, dispatch] = useReducer(reducer, {
+		innerValue: value.toString(),
+		latestValidValue: value,
+	});
 
 	useEffect(() => {
-		setInnerValue(value);
+		dispatch({
+			type: 'set',
+			value: value.toString(),
+			valueAsNumber: value,
+		});
 	}, [value]);
 
-	function onInnerChange(ev: ChangeEvent<HTMLInputElement>): void {
-		if (!isNaN(ev.target.valueAsNumber) && onChange !== undefined) {
-			onChange(ev);
+	// state updates are asynchronous
+	// so we do our onChange here
+	useEffect(() => {
+		if (onChange !== undefined && latestValidValue !== value) {
+			onChange(latestValidValue);
 		}
+	}, [latestValidValue]);
 
-		setInnerValue(ev.target.value);
+	function onInnerChange(ev: ChangeEvent<HTMLInputElement>): void {
+		dispatch({
+			type: 'set',
+			value: ev.target.value,
+			valueAsNumber: ev.target.valueAsNumber,
+		});
 	}
 
 	// put the latest correct value when losing focus
 	function onInnerBlur(ev: FocusEvent<HTMLInputElement>): void {
-		setInnerValue(value);
+		dispatch({
+			type: 'resetLatestSafe',
+		});
 
 		if (onBlur !== undefined) {
 			onBlur(ev);

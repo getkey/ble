@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, ChangeEvent, useMemo } from 'react';
+import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 
@@ -8,17 +8,12 @@ import AddButton from 'src/components/AddButton';
 import Icon from 'src/components/Icon';
 import cursor from 'static/icons/cursor.svg';
 import addVertex from 'static/icons/add_vertex.svg';
-import BlockM from 'src/models/Block';
 import { buttonCss, primaryButtonCss } from 'src/utils/buttons';
 
-const RadioGroup = styled.fieldset`
-	display: flex;
+const RadioGroup = styled.div`
+	display: inline-flex;
 	list-style-type: none;
-	position: absolute;
-	top: 0;
-	left: 0;
 	border: none;
-	background-color: white;
 	margin: 0;
 	padding: 0;
 `;
@@ -37,10 +32,10 @@ const RadioButton = styled.input`
 	}
 `;
 
-const SelectButton: FunctionComponent<{}> = () => (
+const SelectButton: FunctionComponent = () => (
 	<Icon src={cursor}/>
 );
-const AddVertexButton: FunctionComponent<{}> = () => (
+const AddVertexButton: FunctionComponent = () => (
 	<Icon src={addVertex}/>
 );
 
@@ -50,16 +45,11 @@ const icons = {
 	[EditorMode.addVertex]: AddVertexButton,
 };
 
-const ModeBar: FunctionComponent<{}> = () => {
+const ModeBar: FunctionComponent = () => {
 	const { editor } = useStore();
-	const availableModes: Array<EditorMode> = useMemo(() => (
-		editor.selectedEntity === undefined || !BlockM.is(editor.selectedEntity)
-			? Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex)
-			: Object.values(EditorMode)
-	), [editor.selectedEntity]);
 
 	function onChange(ev: ChangeEvent<HTMLInputElement>): void {
-		if (!availableModes.some((allowedMode) => allowedMode === ev.target.value)) {
+		if (!editor.availableModes.some((allowedMode: EditorMode) => allowedMode === ev.target.value)) {
 			throw new TypeError('Incorrect editor mode');
 		}
 		const newMode: EditorMode = EditorMode[ev.target.value as keyof typeof EditorMode];
@@ -68,7 +58,7 @@ const ModeBar: FunctionComponent<{}> = () => {
 
 	return (
 		<RadioGroup>
-			{availableModes.map((availableMode: EditorMode) => {
+			{editor.availableModes.map((availableMode: EditorMode) => {
 				const selected = availableMode === editor.mode;
 				const Component = icons[availableMode];
 				return (

@@ -26,7 +26,7 @@ const Separator = styled.hr`
 	color: rgba(0,0,0, 0.5);
 `;
 
-const ZoomButtons: FunctionComponent<{}> = () => {
+const ZoomButtons: FunctionComponent = () => {
 	const dispatch = useDispatch();
 
 	return (

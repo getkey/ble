@@ -9,7 +9,7 @@ const Door = types.model({
 	params: types.model({
 		x: types.number,
 		y: types.number,
-		isStatic: false,
+		isStatic: true,
 		rightFacing: true,
 		angle: 0,
 	}),
@@ -31,6 +31,9 @@ const Door = types.model({
 })).views(() => ({
 	get displayName(): string {
 		return 'Door';
+	},
+	get isValid(): boolean {
+		return true;
 	},
 }));
 export default Door;

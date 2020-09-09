@@ -1,6 +1,7 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics } from 'pixi.js';
 
+import grabbable from 'src/utils/grabbable';
 import { getLineColor, getStrokeColor } from 'src/utils/color';
 import { lineWidth, doorWidth, doorHeight, doorColor, selectColor } from 'src/config';
 
@@ -45,9 +46,8 @@ export const behavior = {
 		instance.moveTo(77 - doorWidth/2, 90 - doorHeight/2);
 		instance.lineTo(77 - doorWidth/2, 100 - doorHeight/2);
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 		// @ts-ignore
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},
 };
-export default CustomPIXIComponent(behavior, 'Door');
+export default grabbable(CustomPIXIComponent(behavior, 'Door'));

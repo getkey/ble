@@ -9,8 +9,7 @@
 			"type": "text",
 			"params": {
 				"copy": {
-					"en": "This is the default level!\nEdit it to your liking.",
-					"fr": "Voici le niveau par défaut\nÉdite comme il te plait."
+					"en": "This is the default level!\nEdit it to your liking."
 				},
 				"x": 500,
 				"y": 300,

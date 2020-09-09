@@ -6,13 +6,15 @@ import { resolveIdentifier } from 'mobx-state-tree';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import BlockM from 'src/models/Block';
-import { IPoint } from 'src/models/Point';
 import EntityM from 'src/models/Entity';
+import VertexM from 'src/models/Vertex';
 
 export const entityMove: Epic = (action$, { store }) => {
 	return action$.pipe (
 		ofType('entityPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
+		// middle click is panning only
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		// we copy the relevant data because react pools events
 		map(({ ev, entityId }) => ({
 			x: ev.data.global.x,
@@ -39,7 +41,6 @@ export const entityMove: Epic = (action$, { store }) => {
 					y: wantedPos.y - offset.y,
 				};
 
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore
 				const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 				if (entity === undefined) return offset;
@@ -56,6 +57,8 @@ export const entityMove: Epic = (action$, { store }) => {
 export const pointMove: Epic = (action$, { store }) => {
 	return action$.pipe (
 		ofType('vertexPointerDown'),
+		// middle click is panning only
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		switchMap(({ entityId, vertexId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {
@@ -66,7 +69,7 @@ export const pointMove: Epic = (action$, { store }) => {
 				const storePolygon = resolveIdentifier(BlockM, store.level.entities, entityId);
 				if (storePolygon === undefined) return;
 
-				const storePoint: IPoint = storePolygon.params.vertices[vertexId];
+				const storePoint = resolveIdentifier(VertexM, storePolygon.params.vertices, vertexId);
 				if (storePoint === undefined) return;
 
 				const posInWorld = store.editor.screenToWorld(pos);
@@ -83,9 +86,10 @@ export const pointMove: Epic = (action$, { store }) => {
 export const selectEntity: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('entityPointerDown'),
+		// middle click is panning only
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId }) => {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 			// @ts-ignore
 			const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 			if (entity === undefined) return;
@@ -99,12 +103,14 @@ export const selectEntity: Epic = (action$, { store }) => {
 export const selectVertex: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('vertexPointerDown'),
+		// middle click is panning only
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId, vertexId }) => {
 			const block = resolveIdentifier(BlockM, store.level.entities, entityId);
 			if (block === undefined) return;
 
-			const point = block.params.vertices[vertexId];
+			const point = resolveIdentifier(VertexM, block.params.vertices, vertexId);
 
 			store.editor.setSelectedEntity(point);
 		}),
@@ -114,7 +120,9 @@ export const selectVertex: Epic = (action$, { store }) => {
 
 export const unselect: Epic = (action$, { store }) => {
 	return action$.pipe(
-		ofType('backgroundClick'),
+		ofType('backgroundPointerDown'),
+		// middle click is panning only
+		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(() => {
 			store.editor.setSelectedEntity(undefined);

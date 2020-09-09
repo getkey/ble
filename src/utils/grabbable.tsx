@@ -1,19 +1,21 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent, ComponentType } from 'react';
 import { fromEvent } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { interaction } from 'pixi.js';
+import { InteractionEvent } from 'pixi.js';
 
-interface IProps {
-	pointerdown?: (ev: interaction.InteractionEvent) => void;
-}
+type IProps = {
+	pointerdown?: (ev: InteractionEvent) => void;
+};
 
-const grabbable = <P extends object>(
-	Component: React.ComponentType<P>
-): React.FunctionComponent<P & IProps> => {
-	const WrappedComponent: FunctionComponent<P & IProps> = ({
+// can't use an arrow function here, it breaks TSX
+// see https://stackoverflow.com/a/54614279
+const grabbable = function<P>(
+	Component: ComponentType<P>
+): FunctionComponent<P & IProps> {
+	const WrappedComponent: FunctionComponent<P> = ({
 		pointerdown,
 		...props
-	}: IProps) => {
+	}: P & IProps) => {
 		const [grabbing, setGrabbing] = useState(false);
 
 		useEffect(() => {
@@ -26,7 +28,7 @@ const grabbable = <P extends object>(
 			return (): void => subs.unsubscribe();
 		}, []);
 
-		function onPointerDown(ev: interaction.InteractionEvent): void {
+		function onPointerDown(ev: InteractionEvent): void {
 			setGrabbing(true);
 			if (pointerdown !== undefined) {
 				pointerdown(ev);

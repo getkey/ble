@@ -8,6 +8,7 @@ const ParamsBase = types.model({
 	x: types.number,
 	y: types.number,
 	angle: 0,
+	isStatic: false,
 });
 
 export const InfiniteParams = types.compose(ParamsBase,
@@ -79,6 +80,9 @@ const Hoppi = types.model({
 		self.params.x += deltaX;
 		self.params.y += deltaY;
 	},
+	setIsStatic(isStatic: boolean): void {
+		self.params.isStatic = isStatic;
+	},
 	setAngle(angle: number): void {
 		self.params.angle = angle;
 	},
@@ -115,6 +119,9 @@ const Hoppi = types.model({
 	},
 	get displayName(): string {
 		return 'Hoppi';
+	},
+	get isValid(): boolean {
+		return true;
 	},
 }));
 export default Hoppi;

@@ -1,33 +1,25 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
-import styled from '@emotion/styled';
 
 import { useStore } from 'src/hooks/useStore';
 import Box from 'src/components/Box';
 import TextParam from 'src/components/TextParam';
-import { buttonCss } from 'src/utils/buttons';
 import AngleParam from 'src/components/AngleParam';
 import StaticParam from 'src/components/StaticParam';
 import HoppiParam from 'src/components/HoppiParam';
+import RadiusParam from 'src/components/RadiusParam';
 import ZOrderParam from 'src/components/ZOrderParam';
+import DangerButton from 'src/components/DangerButton';
+import LevelParamsBox from 'src/components/LevelParamsBox';
 
-const DeleteButton = styled.button`
-	${buttonCss}
-	background-color: red;
-	border-color: red;
-	box-shadow: none;
-	color: white;
-
-	&:active {
-		background: white;
-		color: red;
-	}
-`;
-
-const ParamsBox: FunctionComponent<{}> = () => {
+const ParamsBox: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 
-	if (selectedEntity === undefined) return null;
+	if (selectedEntity === undefined){
+		return (
+			<LevelParamsBox/>
+		);
+	}
 
 	function onDelete(): void {
 		if (selectedEntity === undefined) return;
@@ -38,11 +30,12 @@ const ParamsBox: FunctionComponent<{}> = () => {
 	return (
 		<Box title={selectedEntity.displayName}>
 			<HoppiParam/>
-			<StaticParam/>
 			<AngleParam/>
+			<RadiusParam/>
 			<TextParam/>
+			<StaticParam/>
 			<ZOrderParam/>
-			<DeleteButton onClick={onDelete}>Delete entity</DeleteButton>
+			<DangerButton onClick={onDelete}>Delete entity</DangerButton>
 		</Box>
 	);
 };

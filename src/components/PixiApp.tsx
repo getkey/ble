@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
-import { interaction } from 'pixi.js';
+import { InteractionEvent } from 'pixi.js';
 
-import InteractivePolygon from 'src/components/InteractivePolygon';
+import Block from 'src/components/Block';
+import Circle from 'src/components/Circle';
 import Level from 'src/components/Level';
 import { useStore } from 'src/hooks/useStore';
 import { useDispatch } from 'src/hooks/useDispatch';
@@ -10,6 +11,7 @@ import Door from 'src/components/Door';
 import Hoppi from 'src/components/Hoppi';
 import DoorM from 'src/models/Door';
 import BlockM from 'src/models/Block';
+import BallM from 'src/models/Ball';
 import HoppiM from 'src/models/Hoppi';
 import TextM from 'src/models/Text';
 import { selectColor } from 'src/config';
@@ -23,7 +25,7 @@ const entityColors = {
 	bouncy: 0xff9900, // orange
 };
 
-const PixiApp: FunctionComponent<{}> = () => {
+const PixiApp: FunctionComponent = () => {
 	const { level: { entities }, editor: { selectedEntity } } = useStore();
 	const dispatch = useDispatch();
 
@@ -54,15 +56,34 @@ const PixiApp: FunctionComponent<{}> = () => {
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
 						isSelected: vertex === selectedEntity,
+						id: vertex.id,
 					}));
 
 					return (
-						<InteractivePolygon
+						<Block
+							isSimple={entity.isSimple}
 							fill={entityColors[type]}
 							points={points}
 							key={id}
 							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}
 							onPolygonPointerDown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
+							isSelected={isSelected}
+						/>
+					);
+				}
+
+				if (BallM.is(entity)) {
+					const { id, type, params: { x, y, radius } } = entity;
+
+					return (
+						<Circle
+							fill={entityColors[type]}
+							x={x}
+							y={y}
+							radius={radius}
+							key={id}
+							interactive
+							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							isSelected={isSelected}
 						/>
 					);
@@ -84,7 +105,7 @@ const PixiApp: FunctionComponent<{}> = () => {
 					);
 				}
 				if (TextM.is(entity)) {
-					const { id, params: { x, y, copy, anchor} } = entity;
+					const { id, params: { x, y, copy, anchor, angle } } = entity;
 
 					return (
 						<ProgressiveText
@@ -94,8 +115,9 @@ const PixiApp: FunctionComponent<{}> = () => {
 							anchor={anchor}
 							key={id}
 							interactive
-							pointerdown={(ev: interaction.InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
+							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							color={isSelected ? selectColor : 0xffffff}
+							rotation={angle}
 						/>
 					);
 				}

@@ -1,15 +1,15 @@
 import IPoint from 'src/types/point';
-import { interaction } from 'pixi.js';
+import { InteractionEvent } from 'pixi.js';
 
 export type Actions = {
 	type: 'entityPointerDown';
 	entityId: string;
-	ev: interaction.InteractionEvent;
+	ev: InteractionEvent;
 } | {
 	type: 'vertexPointerDown';
 	entityId: string;
-	vertexId: number;
-	ev: interaction.InteractionEvent;
+	vertexId: string;
+	ev: InteractionEvent;
 } | {
 	type: 'addVertex';
 	pos: IPoint;
@@ -17,8 +17,8 @@ export type Actions = {
 	type: 'createEntity';
 	pos: IPoint;
 } | {
-	type: 'backgroundClick';
-	ev: interaction.InteractionEvent;
+	type: 'backgroundPointerDown';
+	ev: InteractionEvent;
 } | {
 	type: 'zoom';
 	factor: number;

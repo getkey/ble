@@ -3,6 +3,7 @@ import { getSnapshot, applySnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
+import { validate } from 'bombhopperio-level-tools';
 
 import { useStore } from 'src/hooks/useStore';
 import { toFilename } from 'src/utils/io';
@@ -11,7 +12,6 @@ import { buttonCss } from 'src/utils/buttons';
 
 const Container = styled.div`
 	display: flex;
-	justify-content: space-between;
 	margin: 4px 0;
 	font-size: 1rem;
 
@@ -38,14 +38,29 @@ const Button = styled.button`
 	${buttonCss};
 `;
 
-const DomApp: FunctionComponent<{}> = () => {
+const DomApp: FunctionComponent = () => {
 	const { level } = useStore();
 
 	function onSave(): void {
-		const snapshot = JSON.stringify(getSnapshot(level), null, '\t');
-		const filename = toFilename(level.name, 'json');
+		// don't want invalid entities to end up in the snapshot
+		level.cleanInvalidEntities();
 
-		const blob = new Blob([snapshot], { type: 'application/json; charset=utf-8' });
+		const snapshot = getSnapshot(level);
+
+		try {
+			validate(snapshot);
+		} catch (err) {
+			// eslint-disable-next-line no-console
+			console.error(err);
+			alert(`Error: your level contains invalid elements. Don't close this tab and come to https://discord.gg/KEb4wSN for help!
+
+${err.message || JSON.stringify(err)}`);
+		}
+
+		const filename = toFilename(level.name, 'json');
+		const snapshotStr = JSON.stringify(snapshot, null, '\t');
+
+		const blob = new Blob([snapshotStr], { type: 'application/json; charset=utf-8' });
 		saveAs(blob, filename);
 	}
 
@@ -60,7 +75,6 @@ const DomApp: FunctionComponent<{}> = () => {
 				const snapshot = JSON.parse(ev_.target.result as string);
 				const actualSnapshot = levelPreProcessor(snapshot);
 				// we have to patch the snapshot here because of this bug https://github.com/mobxjs/mobx-state-tree/issues/1317
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore
 				applySnapshot(level, actualSnapshot);
 			} catch (err) {

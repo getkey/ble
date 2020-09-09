@@ -25,7 +25,7 @@ function makeTilingSprite(snapping: number, scale: number, renderer: Renderer): 
 	return rt;
 }
 
-const Level: FunctionComponent<{}> = () => {
+const Level: FunctionComponent = () => {
 	const { editor } = useStore();
 
 	const { renderer } = useContext(AppContext);
@@ -51,7 +51,7 @@ const Level: FunctionComponent<{}> = () => {
 			width={width}
 			height={height}
 			interactive
-			pointerdown={(ev): void => dispatch({ type: 'backgroundClick', ev })}
+			pointerdown={(ev): void => dispatch({ type: 'backgroundPointerDown', ev })}
 		/>
 	);
 };

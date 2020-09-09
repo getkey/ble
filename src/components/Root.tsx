@@ -16,7 +16,7 @@ import app from 'src/app';
 const action$ = new Subject<Actions>();
 startEpics<Actions, { store: IRootStore; app: Application }>(epics, action$, { store, app });
 
-const Root: FunctionComponent<{}> = () => {
+const Root: FunctionComponent = () => {
 	// WARNING:
 	// StoreProvider has to be inside Stage or the context gets all fucked up.
 	// Check out the React devtool, it looks like react-pixi-fiber is doing some magic

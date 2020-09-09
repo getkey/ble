@@ -5,7 +5,7 @@ import languages from 'iso-639-1';
 import { ILevel } from 'src/models/Level';
 
 const l18nObj = languages.getAllCodes().reduce((acc, code) => {
-	acc[code] = types.maybe(types.string);
+	acc[code] = code === 'en' ? types.string : types.maybe(types.string);
 	return acc;
 }, {} as { [index: string]: IMaybe<ISimpleType<string>> });
 
@@ -15,7 +15,6 @@ const Text = types.model({
 	params: types.model({
 		x: types.number,
 		y: types.number,
-		isSelected: true,
 		copy: types.optional(types.model(l18nObj), {
 			en: 'Some text\nand a new line',
 		}),
@@ -26,6 +25,7 @@ const Text = types.model({
 			x: 0.5,
 			y: 0.5,
 		}),
+		angle: 0,
 	}),
 }).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {
@@ -36,15 +36,23 @@ const Text = types.model({
 		const parent = (getParent(self, 2) as ILevel);
 		parent.removeEntity(self as IText);
 	},
+	setAngle(angle: number): void {
+		self.params.angle = angle;
+	},
 	setCopy(lang: string, copy: string): void {
 		self.params.copy[lang] = copy;
 	},
 	removeLang(lang: string): void {
+		if (lang === 'en') throw new Error('Text must have at least an english translation');
+
 		self.params.copy[lang] = undefined;
 	},
-})).views(() => ({
+})).views((self) => ({
 	get displayName(): string {
 		return 'Text';
+	},
+	get isValid(): boolean {
+		return Object.values(self.params.copy).some((copy) => copy !== '' && copy !== undefined);
 	},
 }));
 export default Text;

@@ -7,7 +7,7 @@ import { AmmoType } from 'src/types/entity';
 import { ammoAliases } from 'src/aliases';
 
 
-const HoppiParam: FunctionComponent<{}> = () => {
+const HoppiParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 
 	if (selectedEntity === undefined || !Hoppi.is(selectedEntity)) return null;

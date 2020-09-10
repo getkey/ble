@@ -32,6 +32,9 @@ const Text = types.model({
 		self.params.x += deltaX;
 		self.params.y += deltaY;
 	},
+	setIsStatic(isStatic: boolean): void {
+		self.params.isStatic = isStatic;
+	},
 	remove(): void {
 		const parent = (getParent(self, 2) as ILevel);
 		parent.removeEntity(self as IText);

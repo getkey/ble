@@ -6,6 +6,7 @@ import Door from 'src/models/Door';
 import Block from 'src/models/Block';
 import Hoppi from 'src/models/Hoppi';
 import Ball from 'src/models/Ball';
+import Text from 'src/models/Text';
 
 const StaticParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
@@ -14,7 +15,7 @@ const StaticParam: FunctionComponent = () => {
 
 	function onToggleStatic(ev: ChangeEvent<HTMLInputElement>): void {
 		if (selectedEntity === undefined) return;
-		if (!(Door.is(selectedEntity) || Block.is(selectedEntity) || Hoppi.is(selectedEntity) || Ball.is(selectedEntity))) throw new Error('Doesn\'t have isStatic');
+		if (!(Door.is(selectedEntity) || Block.is(selectedEntity) || Hoppi.is(selectedEntity) || Ball.is(selectedEntity) || Text.is(selectedEntity))) throw new Error('Doesn\'t have isStatic');
 
 		selectedEntity.setIsStatic(ev.target.checked);
 	}

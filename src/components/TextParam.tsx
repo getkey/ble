@@ -94,6 +94,7 @@ const ParamsBox: FunctionComponent = () => {
 				<button onClick={onAddLanguage}>Add language</button>
 			</div>
 		</Fragment>
+		<label>static: <input type="checkbox" checked={selectedEntity.params.isStatic} onChange={onToggleStatic}/></label>
 	);
 };
 

@@ -11,7 +11,7 @@ import Text from 'src/models/Text';
 const StaticParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 
-	if (selectedEntity === undefined || !(Door.is(selectedEntity) || Block.is(selectedEntity) || Hoppi.is(selectedEntity) || Ball.is(selectedEntity))) return null;
+	if (selectedEntity === undefined || !(Door.is(selectedEntity) || Block.is(selectedEntity) || Hoppi.is(selectedEntity) || Ball.is(selectedEntity) || Text.is(selectedEntity)))) return null;
 
 	function onToggleStatic(ev: ChangeEvent<HTMLInputElement>): void {
 		if (selectedEntity === undefined) return;

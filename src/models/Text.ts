@@ -26,7 +26,7 @@ const Text = types.model({
 			y: 0.5,
 		}),
 		angle: 0,
-		isStatic: True,
+		isStatic: true,
 	}),
 }).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {

@@ -58,7 +58,7 @@ ${err.message || JSON.stringify(err)}`);
 		}
 
 		const filename = toFilename(level.name, 'json');
-		const snapshotStr = JSON.stringify(snapshot, null, '\t');
+		const snapshotStr = JSON.stringify(snapshot, null, '\t') + '\n';
 
 		const blob = new Blob([snapshotStr], { type: 'application/json; charset=utf-8' });
 		saveAs(blob, filename);

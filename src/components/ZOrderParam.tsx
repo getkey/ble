@@ -24,18 +24,14 @@ const ZOrderParam: FunctionComponent = () => {
 
 	const position = level.getEntityPosition(selectedEntity);
 
-	function onChange(newPosition: number): void {
-		if (selectedEntity === undefined || Vertex.is(selectedEntity)) return;
-
+	const onChange = (newPosition: number): void => {
 		level.move(selectedEntity, newPosition - 1);
 		editor.setSelectedEntity(selectedEntity);
-	}
-	function onChangeSlider(ev: ChangeEvent<HTMLInputElement>): void {
-		if (selectedEntity === undefined || Vertex.is(selectedEntity)) return;
-
+	};
+	const onChangeSlider = (ev: ChangeEvent<HTMLInputElement>): void => {
 		level.move(selectedEntity, ev.target.valueAsNumber - 1);
 		editor.setSelectedEntity(selectedEntity);
-	}
+	};
 
 	const posDisplay = position + 1;
 	return (

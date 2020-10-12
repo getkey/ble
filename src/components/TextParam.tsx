@@ -29,34 +29,23 @@ const ParamsBox: FunctionComponent = () => {
 
 	if (!Text.is(selectedEntity)) return null;
 
-	function onChangeText(ev: ChangeEvent<HTMLTextAreaElement>, code: string): void {
-		if (selectedEntity === undefined) return;
-		if (!Text.is(selectedEntity)) {
-			throw new Error('Not a text entity');
-		}
-
+	const onChangeText = (ev: ChangeEvent<HTMLTextAreaElement>, code: string): void => {
 		selectedEntity.setCopy(code, ev.target.value);
-	}
+	};
 
-	function onAddLanguage(): void {
-		if (selectedEntity === undefined || selectRef.current === null) return;
-		if (!Text.is(selectedEntity)) {
-			throw new Error('Not a text entity');
-		}
+	const onAddLanguage = (): void => {
+		if (selectRef.current === null) return;
 
 		// why is typescript being dumb?
 		// @ts-ignore
 		selectedEntity.setCopy(selectRef.current.value, '');
-	}
+	};
 
-	function onRemoveLanguage(code: string): void {
-		if (selectedEntity === undefined || selectRef.current === null) return;
-		if (!Text.is(selectedEntity)) {
-			throw new Error('Not a text entity');
-		}
+	const onRemoveLanguage = (code: string): void => {
+		if (selectRef.current === null) return;
 
 		selectedEntity.removeLang(code);
-	}
+	};
 
 	const unusedLanguages = Object.entries(selectedEntity.params.copy)
 		.filter(([, copy]) => copy === undefined)

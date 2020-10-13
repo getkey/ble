@@ -48,9 +48,6 @@ const Ball = types.model({
 	get displayName(): string {
 		return `${blockAliases[self.type]} circle`;
 	},
-	get isValid(): boolean {
-		return true;
-	},
 }));
 export default Ball;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

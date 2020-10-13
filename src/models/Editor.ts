@@ -1,4 +1,4 @@
-import { types, resolveIdentifier } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
@@ -69,12 +69,25 @@ const Editor = types.model({
 	},
 })).actions((self) => ({
 	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
-		// do not delete if we replace a block by one of its vertices
-		const isInSelf = Vertex.is(selected) && Block.is(self.selectedEntity) && resolveIdentifier(Vertex, self.selectedEntity.params.vertices, selected.id) !== undefined;
-		// delete unfinished entity
-		if (Entity.is(self.selectedEntity) && self.selectedEntity.isValid === false && !isInSelf) {
-			self.selectedEntity.remove();
+		if (selected === self.selectedEntity) return;
+
+		// before setting the new selected entity, we cleanup the previous one,
+		// which is potentially in an invalid state (likely because it was being created)
+
+		const replacedBySibling = Vertex.is(selected) && Vertex.is(self.selectedEntity) && selected.parentBlock === self.selectedEntity.parentBlock;
+		const replacedByParent = Vertex.is(self.selectedEntity) && self.selectedEntity.parentBlock === selected;
+
+		if (Vertex.is(self.selectedEntity) && !replacedBySibling && !replacedByParent) {
+			self.selectedEntity.parentBlock.cleanInvalid();
 		}
+
+		// do not delete if we replace a block by one of its vertices
+		const replacedByChild = Vertex.is(selected) && Block.is(self.selectedEntity) && selected.parentBlock === self.selectedEntity;
+		if (self.selectedEntity !== undefined && 'cleanInvalid' in self.selectedEntity && !replacedByChild) {
+			self.selectedEntity.cleanInvalid();
+		}
+
+		// now we can cary on normally
 
 		if (selected === undefined && self.mode === EditorMode.addVertex) {
 			self.setMode(EditorMode.select);

@@ -47,12 +47,17 @@ const Text = types.model({
 
 		self.params.copy[lang] = undefined;
 	},
-})).views((self) => ({
+})).views(() => ({
 	get displayName(): string {
 		return 'Text';
 	},
-	get isValid(): boolean {
-		return Object.values(self.params.copy).some((copy) => copy !== '' && copy !== undefined);
+})).actions((self) => ({
+	cleanInvalid(): void {
+		const isValid = Object.values(self.params.copy).some((copy) => copy !== '' && copy !== undefined);
+
+		if (!isValid) {
+			self.remove();
+		}
 	},
 }));
 export default Text;

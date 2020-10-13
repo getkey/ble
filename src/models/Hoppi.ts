@@ -120,9 +120,6 @@ const Hoppi = types.model({
 	get displayName(): string {
 		return 'Hoppi';
 	},
-	get isValid(): boolean {
-		return true;
-	},
 }));
 export default Hoppi;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

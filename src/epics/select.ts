@@ -1,5 +1,5 @@
-import { fromEvent } from 'rxjs';
-import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan } from 'rxjs/operators';
+import { fromEvent, empty, of } from 'rxjs';
+import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 import { resolveIdentifier } from 'mobx-state-tree';
 
@@ -60,24 +60,35 @@ export const pointMove: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
-		switchMap(({ entityId, vertexId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
+		mergeMap(({ entityId, vertexId }) => {
+			const storePolygon = resolveIdentifier(BlockM, store.level.entities, entityId);
+			if (storePolygon === undefined) return empty();
+
+			const storePoint = resolveIdentifier(VertexM, storePolygon.params.vertices, vertexId);
+			if (storePoint === undefined) return empty();
+
+			return of({
+				storePoint,
+				storePolygon,
+			});
+		}),
+		switchMap(({ storePoint, storePolygon }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {
 				const pos = {
 					x: ev.clientX,
 					y: ev.clientY,
 				};
-				const storePolygon = resolveIdentifier(BlockM, store.level.entities, entityId);
-				if (storePolygon === undefined) return;
-
-				const storePoint = resolveIdentifier(VertexM, storePolygon.params.vertices, vertexId);
-				if (storePoint === undefined) return;
 
 				const posInWorld = store.editor.screenToWorld(pos);
 				const snappedPos = snapToGrid(posInWorld, store.editor.gridCellSize);
 
 				storePoint.set(snappedPos.x, snappedPos.y);
 			}),
-			takeUntil(fromEvent(document, 'pointerup')),
+			takeUntil(fromEvent(document, 'pointerup').pipe(
+				tap(() => {
+					storePolygon.cleanInvalidVertices();
+				}),
+			)),
 		)),
 		ignoreElements(),
 	);

@@ -1,8 +1,9 @@
-import { types, Instance, destroy, getParent, SnapshotOut } from 'mobx-state-tree';
+import { types, Instance, destroy, getParent, SnapshotOut, getRoot, isAlive } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 import { Point as PixiPoint } from 'pixi.js';
 import { polygonIsSimple } from 'bombhopperio-level-tools';
 
+import { IRootStore } from 'src/models/';
 import Vertex from 'src/models/Vertex';
 import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
@@ -27,9 +28,6 @@ const Block = types.model({
 	},
 	get displayName(): string {
 		return `${blockAliases[self.type]} polygon`;
-	},
-	get isValid(): boolean {
-		return self.params.vertices.length >= 3;
 	},
 	get isSimple(): boolean {
 		return polygonIsSimple(self.params.vertices);
@@ -85,6 +83,38 @@ const Block = types.model({
 			self.remove();
 		} else {
 			destroy(child);
+		}
+	},
+})).actions((self) => ({
+	cleanInvalidVertices(): void {
+		for (
+			let i = 0;
+			isAlive(self) && self.params.vertices.length > 1 && i < self.params.vertices.length;
+			i += 1
+		) {
+			const current = self.params.vertices[i];
+			const previous = self.params.vertices[i === 0 ? self.params.vertices.length - 1 : i - 1];
+
+			if (current.x === previous.x && current.y === previous.y) {
+				// to prevent the user losing their selection
+				// we remove the "sibling" vertex if this one is selected
+				const root: IRootStore = getRoot(self);
+				if (root.editor.selectedEntity === current) {
+					self.removeVertex(previous);
+				} else {
+					self.removeVertex(current);
+				}
+				i -= 1;
+			}
+		}
+	},
+})).actions((self) => ({
+	cleanInvalid(): void {
+		self.cleanInvalidVertices();
+
+		const isValid = self.params.vertices.length >= 3;
+		if (!isValid) {
+			self.remove();
 		}
 	},
 }));

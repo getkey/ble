@@ -32,9 +32,6 @@ const Door = types.model({
 	get displayName(): string {
 		return 'Door';
 	},
-	get isValid(): boolean {
-		return true;
-	},
 }));
 export default Door;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

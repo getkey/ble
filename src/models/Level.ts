@@ -43,8 +43,8 @@ const Level = types.model({
 	},
 	cleanInvalidEntities(): void {
 		self.entities.forEach((entity) => {
-			if (!entity.isValid) {
-				entity.remove();
+			if ('cleanInvalid' in entity) {
+				entity.cleanInvalid();
 			}
 		});
 	},

@@ -2110,6 +2110,16 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+ajv@^6.12.6:
+  version "6.12.6"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.6.tgz#baf5a62e802b07d977034586f8c3baf5adf26df4"
+  integrity sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    fast-json-stable-stringify "^2.0.0"
+    json-schema-traverse "^0.4.1"
+    uri-js "^4.2.2"
+
 ansi-colors@^3.0.0:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
@@ -2532,12 +2542,12 @@ body-parser@1.19.0:
     raw-body "2.4.0"
     type-is "~1.6.17"
 
-bombhopperio-level-tools@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.3.3.tgz#a8e749ae34cb4a0680385c9d4f78c4a23187522b"
-  integrity sha512-7id+OtS+niu+UAbL+DiJfWnMX1T74GpePwrUacYraBoO1ksgPjAq6goMNl8n//jJY5htX2N7JPaa6C/zgt1PYg==
+bombhopperio-level-tools@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.3.4.tgz#bfed53f1b810d0b53fb48d7bec33ca7c876296d0"
+  integrity sha512-wikPYRpDwkWNnod/MfELhZVSU0VaWh1kwwYnH1EuAh5k/aZBlh4PKrPOCfmRdLSuwHCH11BhPxJEmswo+w7jjg==
   dependencies:
-    ajv "^6.12.3"
+    ajv "^6.12.6"
 
 bonjour@^3.5.0:
   version "3.5.0"

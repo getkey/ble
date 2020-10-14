@@ -3,8 +3,8 @@ import { map, tap, ignoreElements } from 'rxjs/operators';
 
 import { Epic, ofType } from 'epix';
 
-export const wheelZoom: Epic = () => {
-	return fromEvent<WheelEvent>(document, 'wheel').pipe(
+export const wheelZoom: Epic = (action$, { app }) => {
+	return fromEvent<WheelEvent>(app.view, 'wheel').pipe(
 		// read https://github.com/facebook/react/pull/505#issuecomment-31300604 before touching this line
 		map((ev: WheelEvent) => 1 + -0.1*Math.sign(ev.deltaY)),
 		map((factor) => ({

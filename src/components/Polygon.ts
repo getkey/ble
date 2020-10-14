@@ -22,23 +22,25 @@ export const behavior = {
 		const { fill: oldFill, points: oldPoints, isSelected: oldIsSelected, showInvalidTexture: oldShowInvalidTexture, ...remainingOldProps } = oldProps;
 		const { fill, points, isSelected, showInvalidTexture, ...remainingNewProps } = newProps;
 
-		instance.clear();
+		if (fill !== oldFill || points !== oldPoints || isSelected !== oldIsSelected || showInvalidTexture !== oldShowInvalidTexture) {
+			instance.clear();
 
-		if (isSelected) {
-			instance.lineStyle(2, selectColor);
-		}
+			if (isSelected) {
+				instance.lineStyle(2, selectColor);
+			}
 
-		instance.beginFill(fill);
-		instance.drawPolygon(points);
-		instance.endFill();
-
-		if (showInvalidTexture) {
-			instance.beginTextureFill({
-				texture: invalidPolygonTexture,
-				color: 0xff0000,
-			});
+			instance.beginFill(fill);
 			instance.drawPolygon(points);
 			instance.endFill();
+
+			if (showInvalidTexture) {
+				instance.beginTextureFill({
+					texture: invalidPolygonTexture,
+					color: 0xff0000,
+				});
+				instance.drawPolygon(points);
+				instance.endFill();
+			}
 		}
 
 		// @ts-ignore

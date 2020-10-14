@@ -18,33 +18,35 @@ export const behavior = {
 		const { isSelected: oldIsSelected, ...remainingOldProps } = oldProps;
 		const { isSelected, ...remainingNewProps } = newProps;
 
-		instance.clear();
+		if (isSelected !== oldIsSelected) {
+			instance.clear();
 
-		instance.lineStyle(
-			lineWidth,
-			isSelected ? selectColor : getLineColor(doorColor),
-			1,
-			0,
-		);
-		instance.beginFill(getStrokeColor(doorColor));
+			instance.lineStyle(
+				lineWidth,
+				isSelected ? selectColor : getLineColor(doorColor),
+				1,
+				0,
+			);
+			instance.beginFill(getStrokeColor(doorColor));
 
-		// frame of the door
-		instance.drawRect(-doorWidth/2, -doorHeight/2, doorWidth, doorHeight);
+			// frame of the door
+			instance.drawRect(-doorWidth/2, -doorHeight/2, doorWidth, doorHeight);
 
-		// inside of the door
-		instance.lineStyle(lineWidth, doorColor, 1, 1);
-		instance.drawPolygon([
-			doorWidth/2, -doorHeight/2,
-			doorWidth/2 - 30, 15 -doorHeight/2,
-			doorWidth/2 - 30, doorHeight/2 - 15,
-			doorWidth/2, doorHeight/2,
-			doorWidth/2, -doorHeight/2,
-		]);
-		instance.endFill();
+			// inside of the door
+			instance.lineStyle(lineWidth, doorColor, 1, 1);
+			instance.drawPolygon([
+				doorWidth/2, -doorHeight/2,
+				doorWidth/2 - 30, 15 -doorHeight/2,
+				doorWidth/2 - 30, doorHeight/2 - 15,
+				doorWidth/2, doorHeight/2,
+				doorWidth/2, -doorHeight/2,
+			]);
+			instance.endFill();
 
-		// knob
-		instance.moveTo(77 - doorWidth/2, 90 - doorHeight/2);
-		instance.lineTo(77 - doorWidth/2, 100 - doorHeight/2);
+			// knob
+			instance.moveTo(77 - doorWidth/2, 90 - doorHeight/2);
+			instance.lineTo(77 - doorWidth/2, 100 - doorHeight/2);
+		}
 
 		// @ts-ignore
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);

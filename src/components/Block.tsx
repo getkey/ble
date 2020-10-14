@@ -1,10 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { Container } from 'react-pixi-fiber';
 import { Point as PixiPoint, InteractionEvent } from 'pixi.js';
+import { observer } from 'mobx-react-lite';
 
 import Polygon from 'src/components/Polygon';
 import Point from 'src/components/Point';
 import grabbable from 'src/utils/grabbable';
+import { useStore } from 'src/hooks/useStore';
 
 const GrabbablePolygon = grabbable(Polygon);
 const GrabbablePoint = grabbable(Point);
@@ -23,6 +25,7 @@ type Props = {
 };
 
 const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected, isSimple }) => {
+	const { editor } = useStore();
 	const actualPoints = points.map(({ point }) => point);
 
 	return (
@@ -38,10 +41,12 @@ const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, o
 			{points.map(({ point: point_, isSelected: isSelected_, id }) => (
 				<GrabbablePoint
 					fill={0x0000ff}
-					x={point_.x}
-					y={point_.y}
+					stroke={0xffffff}
+					position={point_}
 					key={id}
-					radius={5}
+					radius={7}
+					strokeWidth={1}
+					scale={1 / editor.scale}
 					interactive
 					pointerdown={(ev): void => onVertexPointerDown(ev, id)}
 					isSelected={isSelected_}
@@ -51,4 +56,4 @@ const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, o
 	);
 };
 
-export default Block;
+export default observer(Block);

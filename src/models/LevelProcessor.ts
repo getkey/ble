@@ -12,15 +12,13 @@ const LevelProcessor = types.snapshotProcessor(Level, {
 			...sn,
 			formatVersion: 0,
 			entities: Object.values(sn.entities).map(({ id, ...stuff }) => {
-				// @ts-ignore
-				if (stuff.params !== undefined && stuff.params.vertices !== undefined) {
+				if ('params' in stuff && 'vertices' in stuff.params) {
 					// this should be done as a processor in models/Point.ts but it breaks
 					// cue hack
 					return {
 						...stuff,
 						params: {
 							...stuff.params,
-							// @ts-ignore
 							vertices: stuff.params.vertices.map(({ id: id_, ...stuff_}) => ({
 								...stuff_,
 							})),

@@ -25,3 +25,15 @@ export function pointSegmentDistanceSquared(seg1: IPoint, seg2: IPoint, point: I
 	// distance (squared) between projection and a
 	return Vector.magnitudeSquared(Vector.sub(projection, a));
 }
+
+export function polygonArea(vertices: Array<IPoint>) {
+	// TODO: add tests
+	let area = 0;
+	let j = vertices.length - 1;
+	for (let i = 0; i < vertices.length; ++i) {
+		//console.log(vertices[i]);
+		area += (vertices[i].x + vertices[j].x) * (vertices[j].y - vertices[i].y);
+		j = i;
+	}
+	return Math.abs(area / 2);
+}

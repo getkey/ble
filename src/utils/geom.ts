@@ -27,12 +27,10 @@ export function pointSegmentDistanceSquared(seg1: IPoint, seg2: IPoint, point: I
 }
 
 export function polygonArea(vertices: Array<IPoint>): number {
-	// TODO: add tests
 	let area = 0;
-	let j = vertices.length - 1;
-	for (let i = 0; i < vertices.length; ++i) {
+	for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i++) {
 		area += (vertices[i].x + vertices[j].x) * (vertices[j].y - vertices[i].y);
-		j = i;
 	}
+	// area can be negative if the vertices are not ordered counter-clockwise
 	return Math.abs(area / 2);
 }

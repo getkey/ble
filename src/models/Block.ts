@@ -9,7 +9,7 @@ import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
-import { pointSegmentDistanceSquared } from 'src/utils/geom';
+import { pointSegmentDistanceSquared, polygonArea } from 'src/utils/geom';
 
 
 const Block = types.model({
@@ -112,8 +112,9 @@ const Block = types.model({
 	cleanInvalid(): void {
 		self.cleanInvalidVertices();
 
-		const isValid = self.params.vertices.length >= 3;
+		const isValid = self.params.vertices.length >= 3 && polygonArea(self.params.vertices) > 0;
 		if (!isValid) {
+			// polygon has too few vertices or no area, delete the block
 			self.remove();
 		}
 	},

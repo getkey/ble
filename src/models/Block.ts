@@ -1,7 +1,7 @@
 import { types, Instance, destroy, getParent, SnapshotOut, getRoot, isAlive } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 import { Point as PixiPoint } from 'pixi.js';
-import { polygonIsSimple } from 'bombhopperio-level-tools';
+import { polygonIsSimple, polygonArea } from 'bombhopperio-level-tools';
 
 import { IRootStore } from 'src/models/';
 import Vertex from 'src/models/Vertex';
@@ -9,7 +9,7 @@ import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
-import { pointSegmentDistanceSquared, polygonArea } from 'src/utils/geom';
+import { pointSegmentDistanceSquared } from 'src/utils/geom';
 
 
 const Block = types.model({

@@ -21,7 +21,7 @@ const Container = styled.div`
 		padding: 8px;
 	}
 `;
-const Title = styled.h2`
+export const Title = styled.h2`
 	background-color: ${chroma(selectColor).css()};
 	margin: 0;
 	/* hide part of title if too big */
@@ -30,16 +30,25 @@ const Title = styled.h2`
 	text-overflow: ellipsis;
 	max-width: 25ch;
 `;
-const Content = styled.div`
+export const Content = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
 
 type Props = {
-	title: string;
+	title?: string;
 };
 
 const Box: FunctionComponent<Props> = ({ children, title }) => {
+
+	if (title === undefined) {
+		return (
+			<Container>
+				{children}
+			</Container>
+		);
+	}
+
 	return (
 		<Container>
 			<Title>{title}</Title>

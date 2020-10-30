@@ -10,6 +10,11 @@ const AngleInput = styled(NumberInput)`
 	width: 6ex;
 `;
 
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
 const AngleParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
 
@@ -32,7 +37,7 @@ const AngleParam: FunctionComponent = () => {
 	const angleDegrees = Math.floor(selectedEntity.params.angle * RAD_TO_DEG);
 
 	return (
-		<div>
+		<Container>
 			<label>
 				angle:
 				<AngleInput
@@ -51,7 +56,7 @@ const AngleParam: FunctionComponent = () => {
 				value={angleDegrees}
 				onChange={onChangeAngleSlider}
 			/>
-		</div>
+		</Container>
 	);
 };
 

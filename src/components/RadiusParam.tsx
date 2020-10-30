@@ -1,9 +1,19 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
+import styled from '@emotion/styled';
 
 import { useStore } from 'src/hooks/useStore';
 import NumberInput from 'src/components/NumberInput';
 import InfiniteRange from 'src/components/InfiniteRange';
+
+const RadiusInput = styled(NumberInput)`
+	width: 8ex;
+`;
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
 
 const RadiusParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
@@ -20,10 +30,10 @@ const RadiusParam: FunctionComponent = () => {
 	};
 
 	return (
-		<div>
+		<Container>
 			<label>
 				radius:
-				<NumberInput
+				<RadiusInput
 					min={1}
 					step={1}
 					value={selectedEntity.params.radius}
@@ -36,7 +46,7 @@ const RadiusParam: FunctionComponent = () => {
 				step={1}
 				onChange={onChangeRadius}
 			/>
-		</div>
+		</Container>
 	);
 };
 

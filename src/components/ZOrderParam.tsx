@@ -11,9 +11,13 @@ const OrderInput = styled(NumberInput)`
 	width: 6ex;
 `;
 
-
 const Tip = styled.p`
 	margin-top: 0.1em;
+`;
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
 `;
 
 const ZOrderParam: FunctionComponent = () => {
@@ -36,7 +40,7 @@ const ZOrderParam: FunctionComponent = () => {
 	const posDisplay = position + 1;
 	return (
 		<Fragment>
-			<div>
+			<Container>
 				<label>z-order: <OrderInput
 					value={posDisplay}
 					min={1}
@@ -52,7 +56,7 @@ const ZOrderParam: FunctionComponent = () => {
 					value={posDisplay}
 					onChange={onChangeSlider}
 				/>
-			</div>
+			</Container>
 			{Hoppi.is(selectedEntity) && (
 				<Tip>Tip: the lowest hoppi holds the camera</Tip>
 			)}

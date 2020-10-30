@@ -1,11 +1,16 @@
 import React, { FunctionComponent, ChangeEvent } from 'react';
 import { observer } from 'mobx-react-lite';
+import styled from '@emotion/styled';
 
 import { useStore } from 'src/hooks/useStore';
 import Hoppi, { FiniteParams } from 'src/models/Hoppi';
 
 const pattern = '^(?:b|B|g|G|e|E)*$';
 const patternRegex = new RegExp(pattern);
+
+const Input = styled.input`
+	width: 10ex;
+`;
 
 const FiniteMagazineParam: FunctionComponent = () => {
 	const { editor: { selectedEntity } } = useStore();
@@ -27,7 +32,7 @@ const FiniteMagazineParam: FunctionComponent = () => {
 	};
 
 	return (
-		<input type="text" pattern={pattern} value={selectedEntity.params.stringFormat} onChange={onChangeMagazine}/>
+		<Input type="text" pattern={pattern} value={selectedEntity.params.stringFormat} onChange={onChangeMagazine}/>
 	);
 };
 

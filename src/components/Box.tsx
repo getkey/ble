@@ -9,6 +9,7 @@ const Container = styled.div`
 	top: 0;
 	right: 0;
 	background-color: white;
+	max-width: 30ex;
 
 	@media (orientation: portrait) {
 		top: initial;

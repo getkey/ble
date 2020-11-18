@@ -9,9 +9,6 @@ import { AddType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
 import Block from 'src/models/Block';
 
-import addBlock from 'static/icons/add_block.svg';
-import addVertex from 'static/icons/add_vertex.svg';
-
 const Editor = types.model({
 	position: Point,
 	scale: 1,
@@ -107,10 +104,9 @@ const Editor = types.model({
 
 		switch(self.mode) {
 			case EditorMode.addBlock:
-				return `url(${addBlock}), default`;
-				break;
 			case EditorMode.addVertex:
-				return `url(${addVertex}), default`;
+				return 'crosshair';
+				break;
 		}
 
 		return 'auto';

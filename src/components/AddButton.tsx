@@ -1,11 +1,11 @@
 import React, { FunctionComponent, Fragment, useState, useEffect, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDrawPolygon, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import Icon from 'src/components/Icon';
 import { useStore } from 'src/hooks/useStore';
 import { AddType, blockAddTypes, ballAddTypes, miscAddTypes } from 'src/types/entity';
-import addBlock from 'static/icons/add_block.svg'; // not to be confused with adblock :P
 import { addTypeAliases } from 'src/aliases';
 
 type Props = {
@@ -63,7 +63,10 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 
 	return (
 		<Fragment>
-			<Icon src={addBlock} onClick={toggleDropdown}/>
+			<span className="fa-layers fa-fw" onClick={toggleDropdown}>
+				<FontAwesomeIcon icon={faDrawPolygon} transform="shrink-5 up-2.5 left-2.5"/>
+				<FontAwesomeIcon icon={faPlus} transform="shrink-10 right-5 down-5"/>
+			</span>
 			{showDropdown && (
 				<ButtonContainer>
 					{[miscAddTypes, blockAddTypes, ballAddTypes].map((addTypes, i) => (

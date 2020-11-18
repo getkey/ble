@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import Box from 'src/components/Box';
@@ -35,7 +37,11 @@ const ParamsBox: FunctionComponent = () => {
 			<TextParam/>
 			<StaticParam/>
 			<ZOrderParam/>
-			<DangerButton onClick={onDelete}>Delete entity</DangerButton>
+			<DangerButton onClick={onDelete}>
+				<FontAwesomeIcon icon={faTrashAlt}/>
+				&#32;
+				Delete entity
+			</DangerButton>
 		</Box>
 	);
 };

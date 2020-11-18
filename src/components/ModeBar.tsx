@@ -1,14 +1,15 @@
 import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle, faPlus, faMousePointer } from '@fortawesome/free-solid-svg-icons';
+import chroma from 'chroma-js';
 
 import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
 import AddButton from 'src/components/AddButton';
-import Icon from 'src/components/Icon';
-import cursor from 'static/icons/cursor.svg';
-import addVertex from 'static/icons/add_vertex.svg';
 import { buttonCss, primaryButtonCss } from 'src/utils/buttons';
+import { darkSlateGray } from 'src/config';
 
 const RadioGroup = styled.div`
 	display: inline-flex;
@@ -16,6 +17,7 @@ const RadioGroup = styled.div`
 	border: none;
 	margin: 0;
 	padding: 0;
+	align-items: center;
 `;
 
 const Label = styled.label`
@@ -23,6 +25,12 @@ const Label = styled.label`
 	cursor: pointer;
 	display: flex;
 	align-items: center;
+	color: ${chroma(darkSlateGray).hex()};
+
+	color: black;
+	svg, .fa-layers {
+		font-size: 1.5em;
+	}
 `;
 
 const RadioButton = styled.input`
@@ -33,10 +41,13 @@ const RadioButton = styled.input`
 `;
 
 const SelectButton: FunctionComponent = () => (
-	<Icon src={cursor}/>
+	<FontAwesomeIcon icon={faMousePointer} fixedWidth />
 );
 const AddVertexButton: FunctionComponent = () => (
-	<Icon src={addVertex}/>
+	<span className="fa-layers fa-fw">
+		<FontAwesomeIcon icon={faCircle} transform="shrink-5 up-2.5 left-2.5"/>
+		<FontAwesomeIcon icon={faPlus} transform="shrink-10 right-5 down-5"/>
+	</span>
 );
 
 const icons = {

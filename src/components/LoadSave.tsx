@@ -4,6 +4,8 @@ import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
 import { validate } from 'bombhopperio-level-tools';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSave, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import { toFilename } from 'src/utils/io';
@@ -88,8 +90,15 @@ ${err.message || JSON.stringify(err)}`);
 
 	return (
 		<Container>
-			<FilePicker>Load level<input accept="application/json" type="file" onChange={onLoad}/></FilePicker>
-			<Button onClick={onSave}>Save level</Button>
+			<FilePicker>
+				<FontAwesomeIcon icon={faFolderOpen}/>
+				&#32;
+				Load level<input accept="application/json" type="file" onChange={onLoad}/></FilePicker>
+			<Button onClick={onSave}>
+				<FontAwesomeIcon icon={faSave}/>
+				&#32;
+				Save level
+			</Button>
 		</Container>
 	);
 };

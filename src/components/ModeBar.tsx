@@ -2,7 +2,7 @@ import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faPlus, faMousePointer } from '@fortawesome/free-solid-svg-icons';
+import { faDrawPolygon, faMousePointer } from '@fortawesome/free-solid-svg-icons';
 import chroma from 'chroma-js';
 
 import { useStore } from 'src/hooks/useStore';
@@ -28,7 +28,7 @@ const Label = styled.label`
 	color: ${chroma(darkSlateGray).hex()};
 
 	color: black;
-	svg, .fa-layers {
+	svg {
 		font-size: 1.5em;
 	}
 `;
@@ -44,10 +44,7 @@ const SelectButton: FunctionComponent = () => (
 	<FontAwesomeIcon icon={faMousePointer} fixedWidth />
 );
 const AddVertexButton: FunctionComponent = () => (
-	<span className="fa-layers fa-fw">
-		<FontAwesomeIcon icon={faCircle} transform="shrink-5 up-2.5 left-2.5"/>
-		<FontAwesomeIcon icon={faPlus} transform="shrink-10 right-5 down-5"/>
-	</span>
+	<FontAwesomeIcon icon={faDrawPolygon}/>
 );
 
 const icons = {

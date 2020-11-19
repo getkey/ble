@@ -2,7 +2,7 @@ import React, { FunctionComponent, Fragment, useState, useEffect, ChangeEvent } 
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDrawPolygon, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faShapes } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import { AddType, blockAddTypes, ballAddTypes, miscAddTypes } from 'src/types/entity';
@@ -63,10 +63,7 @@ const AddButton: FunctionComponent<Props> = ({ selected }) => {
 
 	return (
 		<Fragment>
-			<span className="fa-layers fa-fw" onClick={toggleDropdown}>
-				<FontAwesomeIcon icon={faDrawPolygon} transform="shrink-5 up-2.5 left-2.5"/>
-				<FontAwesomeIcon icon={faPlus} transform="shrink-10 right-5 down-5"/>
-			</span>
+			<FontAwesomeIcon icon={faShapes} onClick={toggleDropdown}/>
 			{showDropdown && (
 				<ButtonContainer>
 					{[miscAddTypes, blockAddTypes, ballAddTypes].map((addTypes, i) => (

@@ -48,6 +48,9 @@ const Level = types.model({
 			}
 		});
 	},
+	clearEntities(): void {
+		self.entities.forEach((entity) => entity.remove());
+	},
 }));
 
 export default Level;

@@ -7,6 +7,7 @@ import ModeBar from 'src/components/ModeBar';
 import ParamsBox from 'src/components/ParamsBox';
 import ZoomButtons from 'src/components/ZoomButtons';
 import NumberInput from 'src/components/NumberInput';
+import ClearButton from 'src/components/ClearButton';
 
 const TopLeftDiv = styled.div`
 	position: absolute;
@@ -14,15 +15,11 @@ const TopLeftDiv = styled.div`
 	left: 0;
 	background-color: white;
 	display: flex;
+	align-items: center;
 `;
 
 const GridSizeInput = styled(NumberInput)`
 	width: 6ex;
-`;
-
-const GridSizeLabel = styled.label`
-	display: inline-flex;
-	flex-direction: column;
 `;
 
 const DomApp: FunctionComponent = () => {
@@ -36,7 +33,8 @@ const DomApp: FunctionComponent = () => {
 		<Fragment>
 			<TopLeftDiv>
 				<ModeBar/>
-				<GridSizeLabel><span>Grid</span><span>size:</span><GridSizeInput min={0} value={editor.gridCellSize} onChange={onCellSizeChange}/></GridSizeLabel>
+				<label>Grid size: <GridSizeInput min={0} value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
+				<ClearButton/>
 			</TopLeftDiv>
 			<ParamsBox/>
 			<ZoomButtons/>

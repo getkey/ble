@@ -11,13 +11,15 @@ let initialLevel = sampleLevel;
 try {
 	const storageLevel = getStorage(levelStorageKey);
 
-	try {
-		validate(storageLevel);
-		initialLevel = storageLevel;
-	} catch (err) {
-		if (window.confirm('Your level appears to be corrupted.\nThe default level will erase it.\nDo you want to download it before it\'s overwritten?')) {
-			const blob = new Blob([JSON.stringify(storageLevel)], { type: 'application/json; charset=utf-8' });
-			saveAs(blob, 'invalid-level.json');
+	if (storageLevel !== null) {
+		try {
+			validate(storageLevel);
+			initialLevel = storageLevel;
+		} catch (err) {
+			if (window.confirm('Your level appears to be corrupted.\nThe default level will erase it.\nDo you want to download it before it\'s overwritten?')) {
+				const blob = new Blob([JSON.stringify(storageLevel)], { type: 'application/json; charset=utf-8' });
+				saveAs(blob, 'invalid-level.json');
+			}
 		}
 	}
 } catch (err) {

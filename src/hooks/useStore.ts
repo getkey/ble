@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { IRootStore } from 'src/models/';
+import { IRootStore } from 'src/models/RootStore';
 
 const storeContext = createContext<IRootStore | null>(null);
 storeContext.displayName = 'storeContext';

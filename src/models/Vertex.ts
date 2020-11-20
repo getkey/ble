@@ -2,7 +2,7 @@ import { getParent, Instance, types, SnapshotOut, getRoot } from 'mobx-state-tre
 import { nanoid } from 'nanoid';
 
 import { IBlock } from 'src/models/Block';
-import { IRootStore } from 'src/models/';
+import { IRootStore } from 'src/models/RootStore';
 import Point from 'src/models/Point';
 
 const Vertex = types.compose(

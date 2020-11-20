@@ -10,3 +10,5 @@ export const fontSize = 16;
 
 export const doorWidth = 100;
 export const doorHeight = 160;
+
+export const levelStorageKey = 'level';

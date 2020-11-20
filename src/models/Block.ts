@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { Point as PixiPoint } from 'pixi.js';
 import { polygonIsSimple, polygonArea } from 'bombhopperio-level-tools';
 
-import { IRootStore } from 'src/models/';
+import { IRootStore } from 'src/models/RootStore';
 import Vertex from 'src/models/Vertex';
 import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';

@@ -1,97 +1,35 @@
-import { types, Instance } from 'mobx-state-tree';
+import { onSnapshot } from 'mobx-state-tree';
+import { validate } from 'bombhopperio-level-tools';
+import { saveAs } from 'file-saver';
 
-import Editor from 'src/models/Editor';
-import LevelProcessor from 'src/models/LevelProcessor';
-import { AddType, AmmoType, blockAddTypes, ballAddTypes } from 'src/types/entity';
-import { addTypeToBlock } from 'src/aliases';
-import Block from 'src/models/Block';
-import Ball from 'src/models/Ball';
-import Door from 'src/models/Door';
-import Hoppi from 'src/models/Hoppi';
-import Text from 'src/models/Text';
-import IPoint from 'src/types/point';
+import RootStore from 'src/models/RootStore';
 import sampleLevel from 'src/sampleLevel.json';
-import { IEntity } from 'src/models/Entity';
+import { setStorage, getStorage } from 'src/utils/storage';
+import { levelStorageKey } from 'src/config';
 
-const RootStore = types.model({
-	editor: types.optional(Editor, {
-		position: {
-			x: 400,
-			y: 600,
-		},
-	}),
-	level: types.optional(LevelProcessor, sampleLevel),
-}).actions((self) => ({
-	addEntity(entity: IEntity): void {
-		self.level.entities.push(entity);
-		self.editor.setSelectedEntity(entity);
-	},
-})).actions((self) => ({
-	createEntity(pos: IPoint): void {
-		if (self.editor.addType === AddType.endpoint) {
-			self.addEntity(
-				Door.create({
-					type: AddType.endpoint,
-					params: {
-						x: pos.x,
-						y: pos.y,
-					},
-				})
-			);
-		} else if (self.editor.addType === AddType.player) {
-			self.addEntity(
-				Hoppi.create({
-					type: AddType.player,
-					params: {
-						x: pos.x,
-						y: pos.y,
-						magazine: [
-							AmmoType.bullet,
-							AmmoType.bullet,
-						],
-					},
-				})
-			);
-		} else if (self.editor.addType === AddType.text) {
-			self.addEntity(
-				Text.create({
-					type: AddType.text,
-					params: {
-						x: pos.x,
-						y: pos.y,
-					},
-				})
-			);
-		} else if (blockAddTypes.includes(self.editor.addType)) {
-			self.addEntity(
-				Block.create({
-					type: addTypeToBlock[self.editor.addType],
-					params: {
-						vertices: [
-							pos,
-						],
-						isStatic: true,
-					},
-				})
-			);
-		} else if (ballAddTypes.includes(self.editor.addType)) {
-			self.addEntity(
-				Ball.create({
-					type: addTypeToBlock[self.editor.addType],
-					params: {
-						x: pos.x,
-						y: pos.y,
-						isStatic: true,
-					},
-				})
-			);
-		} else {
-			throw new Error('Invalid entity type');
+let initialLevel = sampleLevel;
+try {
+	const storageLevel = getStorage(levelStorageKey);
+
+	try {
+		validate(storageLevel);
+		initialLevel = storageLevel;
+	} catch (err) {
+		if (window.confirm('Your level appears to be corrupted.\nThe default level will erase it.\nDo you want to download it before it\'s overwritten?')) {
+			const blob = new Blob([JSON.stringify(storageLevel)], { type: 'application/json; charset=utf-8' });
+			saveAs(blob, 'invalid-level.json');
 		}
-	},
-}));
-export const store = RootStore.create();
+	}
+} catch (err) {
+	alert(`Invalid level ${err}`);
+}
+
+export const store = RootStore.create({
+	level: initialLevel,
+});
 // @ts-ignore
 window.store = store;
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IRootStore extends Instance<typeof RootStore> {}
+
+onSnapshot(store.level, (patch) => {
+	setStorage(levelStorageKey, patch);
+});

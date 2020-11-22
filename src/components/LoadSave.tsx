@@ -5,12 +5,13 @@ import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
 import { validate } from 'bombhopperio-level-tools';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faFolderOpen, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import { toFilename } from 'src/utils/io';
 import { levelPreProcessor } from 'src/utils/snapshot';
 import { buttonCss } from 'src/utils/buttons';
+import { inIframe } from 'src/utils/iframe';
 
 const Container = styled.div`
 	display: flex;
@@ -54,7 +55,7 @@ const DomApp: FunctionComponent = () => {
 		} catch (err) {
 			// eslint-disable-next-line no-console
 			console.error(err);
-			alert(`Error: your level contains invalid elements. Don't close this tab and come to https://discord.gg/KEb4wSN for help!
+			alert(`Error: your level contains invalid elements. Come to https://discord.gg/KEb4wSN for help!
 
 ${err.message || JSON.stringify(err)}`);
 		}
@@ -88,6 +89,32 @@ ${err.message || JSON.stringify(err)}`);
 		reader.readAsText(ev.target.files[0]);
 	}
 
+	function onTest(): void {
+		// don't want invalid entities to end up in the snapshot
+		level.cleanInvalidEntities();
+
+		const snapshot = getSnapshot(level);
+
+		try {
+			validate(snapshot);
+		} catch (err) {
+			// eslint-disable-next-line no-console
+			console.error(err);
+			alert(`Error: your level contains invalid elements. Come to https://discord.gg/KEb4wSN for help!
+
+${err.message || JSON.stringify(err)}`);
+			return;
+		}
+
+		const message = {
+			type: 'loadLevel',
+			level: snapshot,
+		};
+
+		window.parent.postMessage(message, 'http://127.0.0.1:10001');
+		window.parent.postMessage(message, 'https://bombhopper.io');
+	}
+
 	return (
 		<Container>
 			<FilePicker>
@@ -99,6 +126,13 @@ ${err.message || JSON.stringify(err)}`);
 				&#32;
 				Save level
 			</Button>
+			{inIframe && (
+				<Button onClick={onTest}>
+					<FontAwesomeIcon icon={faPlay}/>
+					&#32;
+					Test level
+				</Button>
+			)}
 		</Container>
 	);
 };

@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { types, OnReferenceInvalidatedEvent } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
@@ -19,7 +19,13 @@ const Editor = types.model({
 	panning: false,
 	gridCellSize: 60,
 	selectedEntity: types.union(
-		types.safeReference(Entity),
+		types.safeReference(Entity, {
+			// TODO: remove @ts-ignore when https://github.com/mobxjs/mobx-state-tree/pull/1610 is merged
+			// @ts-ignore
+			onInvalidated({ parent }: OnReferenceInvalidatedEvent<IEntity>) {
+				parent.setMode(EditorMode.select);
+			},
+		}),
 		types.safeReference(Vertex),
 	),
 	clipboard: types.maybe(Entity),

@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import chroma from 'chroma-js';
 
 import { darkSlateGray, primaryColor, selectColor } from 'src/config';

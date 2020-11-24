@@ -1,5 +1,7 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -8,7 +10,7 @@ module.exports = {
 	devtool: isProd ? 'source-map' : 'eval-source-map',
 	entry: './src/index.tsx',
 	output: {
-		filename: 'main.js',
+		filename: 'js/[hash].js',
 		path: path.resolve(__dirname, 'dist'),
 	},
 	module: {
@@ -64,9 +66,12 @@ module.exports = {
 		},
 		extensions: ['.tsx', '.ts', '.js'],
 	},
-	plugins: [new HtmlWebpackPlugin({
-		template: 'src/index.ejs',
-	})],
+	plugins: [
+		new CleanWebpackPlugin(),
+		new HtmlWebpackPlugin({
+			template: 'src/index.ejs',
+		}),
+	],
 	devServer: {
 		contentBase: path.join(__dirname, 'dist/'),
 		compress: true,

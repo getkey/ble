@@ -10,8 +10,31 @@ module.exports = {
 	devtool: isProd ? 'source-map' : 'eval-source-map',
 	entry: './src/index.tsx',
 	output: {
-		filename: 'js/[hash].js',
+		filename: 'js/[name].[hash].js',
 		path: path.resolve(__dirname, 'dist'),
+	},
+	optimization: {
+		// needed to avoid the hash changing when it should not
+		// https://developers.google.com/web/fundamentals/performance/webpack/use-long-term-caching#webpack_runtime_code
+		runtimeChunk: 'multiple',
+		splitChunks: {
+			// all so not only dynamic imports are considered
+			chunks: 'all',
+			maxInitialRequests: Infinity,
+			minSize: 0,
+			cacheGroups: {
+				npm: {
+					test: /[\\/]node_modules[\\/]/,
+					name(module) {
+						// split at the package or scope level
+						const directories = module.context.split(path.sep);
+						const name = directories[directories.lastIndexOf('node_modules') + 1];
+
+						return `npm.${name}`;
+					},
+				},
+			},
+		},
 	},
 	module: {
 		rules: [

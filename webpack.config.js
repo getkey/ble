@@ -20,16 +20,20 @@ module.exports = {
 						loader: 'file-loader',
 						options: {
 							outputPath: 'assets',
-							name: (resourcePath) => {
-								// this is referenced in the fnt file so it can't move
-								if (resourcePath === path.join(__dirname, 'static/font/ps2p_0.png')) {
-									return '[name].[ext]';
-								}
-
-								return '[contenthash].[ext]';
-							},
 						},
 					},
+				],
+			},
+			{
+				test: /\.(?:fnt)$/,
+				use: [
+					{
+						loader: 'extract-loader',
+						options: {
+							publicPath: '../',
+						},
+					},
+					{ loader: 'ref-loader' },
 				],
 			},
 			{

@@ -10,6 +10,7 @@ import LoadSave from 'src/components/LoadSave';
 const StarInput = styled(NumberInput)`
 	width: 7ex;
 	appearance: textfield; /* removes the arrows */
+	text-align: center;
 `;
 
 const StarBox = styled.div`

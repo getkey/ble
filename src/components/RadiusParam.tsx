@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-regular-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import NumberInput from 'src/components/NumberInput';
@@ -32,7 +34,10 @@ const RadiusParam: FunctionComponent = () => {
 	return (
 		<Container>
 			<label>
+				<FontAwesomeIcon icon={faCircle}/>
+				&#32;
 				radius:
+				&#32;
 				<RadiusInput
 					min={1}
 					step={1}

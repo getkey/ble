@@ -2,6 +2,8 @@ import React, { FunctionComponent, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { DEG_TO_RAD, RAD_TO_DEG } from 'pixi.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import NumberInput from 'src/components/NumberInput';
@@ -39,7 +41,10 @@ const AngleParam: FunctionComponent = () => {
 	return (
 		<Container>
 			<label>
+				<FontAwesomeIcon icon={faRulerCombined}/>
+				&#32;
 				angle:
+				&#32;
 				<AngleInput
 					min={-180}
 					max={180}

@@ -1,6 +1,8 @@
 import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import Vertex from 'src/models/Vertex';
@@ -41,13 +43,19 @@ const ZOrderParam: FunctionComponent = () => {
 	return (
 		<Fragment>
 			<Container>
-				<label>z-order: <OrderInput
-					value={posDisplay}
-					min={1}
-					max={level.entities.length}
-					step={1}
-					onChange={onChange}
-				/></label>
+				<label>
+					<FontAwesomeIcon icon={faLayerGroup}/>
+					&#32;
+					z-order:
+					&#32;
+					<OrderInput
+						value={posDisplay}
+						min={1}
+						max={level.entities.length}
+						step={1}
+						onChange={onChange}
+					/>
+				</label>
 				<input
 					type="range"
 					min="1"

@@ -2,6 +2,8 @@ import React, { FunctionComponent, ChangeEvent, Fragment, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import languages from 'iso-639-1';
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faLanguage } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import Text from 'src/models/Text';
@@ -58,7 +60,18 @@ const ParamsBox: FunctionComponent = () => {
 					.filter(([, copy]) => copy !== undefined)
 					.map(([code, copy]) => (
 						<LanguageRow key={code}>
-							<LangLabel htmlFor={`text-param-${code}`}>{languages.getNativeName(code)}:</LangLabel>
+							<div>
+								<LangLabel htmlFor={`text-param-${code}`}>{languages.getNativeName(code)}:</LangLabel>
+								{code !== 'en' && (
+									<DangerButton
+										onClick={(): void => onRemoveLanguage(code)}
+										confirmationMessage="Are you sure you want to remove this language?"
+										title="Remove language"
+									>
+										<FontAwesomeIcon icon={faTrashAlt}/>
+									</DangerButton>
+								)}
+							</div>
 							<textarea
 								id={`text-param-${code}`}
 								rows={3}
@@ -68,9 +81,6 @@ const ParamsBox: FunctionComponent = () => {
 								onChange={(ev): void => onChangeText(ev, code)}
 								minLength={1}
 							/>
-							{code !== 'en' && (
-								<DangerButton onClick={(): void => onRemoveLanguage(code)}>Remove</DangerButton>
-							)}
 						</LanguageRow>
 					))}
 			</LanguageList>
@@ -80,7 +90,11 @@ const ParamsBox: FunctionComponent = () => {
 						<option key={code} value={code}>{languages.getNativeName(code)}</option>
 					))}
 				</select>
-				<button onClick={onAddLanguage}>Add language</button>
+				<button onClick={onAddLanguage}>
+					<FontAwesomeIcon icon={faLanguage}/>
+					&#32;
+					Add language
+				</button>
 			</div>
 		</Fragment>
 	);

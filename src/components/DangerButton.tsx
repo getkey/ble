@@ -17,8 +17,9 @@ const Button = styled.button`
 `;
 
 type Props = {
-	onClick?: (ev: MouseEvent) => unknown,
-	confirmationMessage?: string,
+	onClick?: (ev: MouseEvent) => unknown;
+	confirmationMessage?: string;
+	title?: string;
 };
 
 const DangerButton: FunctionComponent<Props> = ({ onClick, confirmationMessage = 'Are you sure?', ...props }) => {

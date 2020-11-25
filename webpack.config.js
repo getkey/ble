@@ -10,7 +10,7 @@ module.exports = {
 	devtool: isProd ? 'source-map' : 'eval-source-map',
 	entry: './src/index.tsx',
 	output: {
-		filename: 'js/[name].[hash].js',
+		filename: 'js/[name].[contenthash].js',
 		path: path.resolve(__dirname, 'dist'),
 	},
 	optimization: {

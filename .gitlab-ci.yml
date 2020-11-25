@@ -29,15 +29,12 @@ build_js:
     paths:
       - dist/
 
-pages:
+s3_prod:
   stage: deploy
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   script:
-    - cp -r dist public
-    - find public -type f -iregex '.*\.\(html\|js\|css\|svg\|webmanifest\|fnt\|txt\)$' -execdir gzip -f --keep {} \;
-  artifacts:
-    paths:
-      - public
+    - aws s3 sync dist/ s3://editor.bombhopper.io/ --exclude '*' --include '*.html' --include 'sw.js' --cache-control max-age=0,must-revalidate,public
+    - aws s3 sync dist/ s3://editor.bombhopper.io/ --exclude '*.html' --exclude 'sw.js' --cache-control max-age=2419200
   only:
     - master
   cache: {} # disable the cache for this job
-  image: debian:latest # leaner than the node image

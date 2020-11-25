@@ -12,12 +12,13 @@ stages:
   - build
   - deploy
 
-validate_lint:
+validate:
   stage: build
   before_script:
     - yarn install
   script:
     - yarn lint
+    - yarn test
 
 build_js:
   stage: build

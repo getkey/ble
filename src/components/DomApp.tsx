@@ -8,6 +8,7 @@ import ParamsBox from 'src/components/ParamsBox';
 import ZoomButtons from 'src/components/ZoomButtons';
 import NumberInput from 'src/components/NumberInput';
 import ClearButton from 'src/components/ClearButton';
+import HomeButton from 'src/components/HomeButton';
 
 const TopLeftDiv = styled.div`
 	position: absolute;
@@ -35,6 +36,7 @@ const DomApp: FunctionComponent = () => {
 				<ModeBar/>
 				<label>Grid size: <GridSizeInput min={0} value={editor.gridCellSize} onChange={onCellSizeChange}/></label>
 				<ClearButton/>
+				<HomeButton/>
 			</TopLeftDiv>
 			<ParamsBox/>
 			<ZoomButtons/>

@@ -1,17 +1,17 @@
-import React, { FunctionComponent, ChangeEvent } from 'react';
+import React, { FunctionComponent, ChangeEvent, Fragment } from 'react';
 import { getSnapshot, applySnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
 import { validate } from 'bombhopperio-level-tools';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faFolderOpen, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faFolderOpen, faPlay, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import { toFilename } from 'src/utils/io';
 import { levelPreProcessor } from 'src/utils/snapshot';
 import { buttonCss } from 'src/utils/buttons';
-import { inIframe } from 'src/utils/iframe';
+import { inIframe, postMessage } from 'src/utils/iframe';
 
 const Container = styled.div`
 	display: flex;
@@ -89,7 +89,7 @@ ${err.message || JSON.stringify(err)}`);
 		reader.readAsText(ev.target.files[0]);
 	}
 
-	function onTest(): void {
+	function sendLevelToGame(messageType: 'loadLevel' | 'uploadLevel'): void {
 		// don't want invalid entities to end up in the snapshot
 		level.cleanInvalidEntities();
 
@@ -106,13 +106,22 @@ ${err.message || JSON.stringify(err)}`);
 			return;
 		}
 
-		const message = {
-			type: 'loadLevel',
+		postMessage({
+			type: messageType,
 			level: snapshot,
-		};
+		});
+	}
 
-		window.parent.postMessage(message, 'http://127.0.0.1:10001');
-		window.parent.postMessage(message, 'https://bombhopper.io');
+	function onTest(): void {
+		sendLevelToGame('loadLevel');
+	}
+
+	function onUpload(): void {
+		if(!window.confirm('Are you sure you want to upload this level?')) {
+			return;
+		}
+
+		sendLevelToGame('uploadLevel');
 	}
 
 	return (
@@ -127,11 +136,18 @@ ${err.message || JSON.stringify(err)}`);
 				Save level
 			</Button>
 			{inIframe && (
-				<Button onClick={onTest}>
-					<FontAwesomeIcon icon={faPlay}/>
-					&#32;
-					Test level
-				</Button>
+				<Fragment>
+					<Button onClick={onTest}>
+						<FontAwesomeIcon icon={faPlay}/>
+						&#32;
+						Test level
+					</Button>
+					<Button onClick={onUpload}>
+						<FontAwesomeIcon icon={faUpload}/>
+						&#32;
+						Upload level
+					</Button>
+				</Fragment>
 			)}
 		</Container>
 	);

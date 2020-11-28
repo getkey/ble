@@ -6,6 +6,7 @@ type EditorMessage = {
 };
 
 export function postMessage(message: EditorMessage): void {
-	window.parent.postMessage(message, 'http://127.0.0.1:10001');
 	window.parent.postMessage(message, 'https://bombhopper.io');
+	window.parent.postMessage(message, 'https://staging.bombhopper.io');
+	window.parent.postMessage(message, 'http://127.0.0.1:10001');
 }

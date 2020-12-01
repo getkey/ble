@@ -1,4 +1,4 @@
-import { pointSegmentDistanceSquared } from './geom';
+import { pointSegmentDistanceSquared, pointsAligned } from './geom';
 
 test('pointSegmentDistanceSquared', () => {
 	expect(pointSegmentDistanceSquared(
@@ -12,4 +12,12 @@ test('pointSegmentDistanceSquared', () => {
 		{ x: 0, y: 0},
 		{ x: 1, y: 1},
 	)).toBe(1);
+});
+
+test('pointsAligned', () => {
+	expect(pointsAligned(
+		{ x: 0, y: 0},
+		{ x: 0, y: 0},
+		{ x: 1, y: 1},
+	)).toBe(true);
 });

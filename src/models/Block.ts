@@ -108,18 +108,18 @@ const Block = types.model({
 		}
 	},
 	cleanAlignedVertices(): void {
-		for (
+		for(
 			let i = 0;
 			isAlive(self) && self.params.vertices.length > 2 && i < self.params.vertices.length;
-			i += 1
 		) {
-			const next = self.params.vertices[i === self.params.vertices.length - 1 ? 0 : i + 1];
 			const current = self.params.vertices[i];
-			const previous = self.params.vertices[i === 0 ? self.params.vertices.length - 1 : i - 1];
+			const next = self.params.vertices[(i + 1) % self.params.vertices.length];
+			const later = self.params.vertices[(i + 2) % self.params.vertices.length];
 
-			if (pointsAligned(previous, current, next)) {
-				self.removeVertex(current);
-				i -= 1;
+			if (pointsAligned(current, next, later)) {
+				self.removeVertex(next);
+			} else {
+				i += 1;
 			}
 		}
 	},

@@ -3,6 +3,9 @@ const basename = 'ble.';
 // in case localStorage is blocked
 // https://www.chromium.org/for-testers/bug-reporting-guidelines/uncaught-securityerror-failed-to-read-the-localstorage-property-from-window-access-is-denied-for-this-document
 // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem#Exceptions
+
+// sure ESLint, I don't refer to the FakeStorage directly, but I like to keep its name as a 'tag' on my class if I ever need to inspect it in the debugger
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const fakeStorage = new (class FakeStorage{
 	private storage: {
 		[key: string]: string;

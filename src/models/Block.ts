@@ -89,21 +89,21 @@ const Block = types.model({
 		for (
 			let i = 0;
 			isAlive(self) && self.params.vertices.length > 1 && i < self.params.vertices.length;
-			i += 1
 		) {
 			const current = self.params.vertices[i];
-			const previous = self.params.vertices[i === 0 ? self.params.vertices.length - 1 : i - 1];
+			const next = self.params.vertices[(i + 1) % self.params.vertices.length];
 
-			if (current.x === previous.x && current.y === previous.y) {
+			if (current.x === next.x && current.y === next.y) {
 				// to prevent the user losing their selection
 				// we remove the "sibling" vertex if this one is selected
 				const root: IRootStore = getRoot(self);
 				if (root.editor.selectedEntity === current) {
-					self.removeVertex(previous);
+					self.removeVertex(next);
 				} else {
 					self.removeVertex(current);
 				}
-				i -= 1;
+			} else {
+				i += 1;
 			}
 		}
 	},

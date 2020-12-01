@@ -86,7 +86,7 @@ export const pointMove: Epic = (action$, { store }) => {
 			}),
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
-					storePolygon.cleanInvalidVertices();
+					storePolygon.cleanSuperposedVertices();
 				}),
 			)),
 		)),

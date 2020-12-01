@@ -25,3 +25,8 @@ export function pointSegmentDistanceSquared(seg1: IPoint, seg2: IPoint, point: I
 	// distance (squared) between projection and a
 	return Vector.magnitudeSquared(Vector.sub(projection, a));
 }
+
+// https://stackoverflow.com/a/6865965/3489880
+export function pointsAligned(point1: IPoint, point2: IPoint, point3: IPoint): boolean {
+	return (point3.y - point1.y)  * (point2.x - point1.x) === (point2.y - point1.y) * (point3.x - point1.x);
+}

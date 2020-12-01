@@ -9,8 +9,7 @@ import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 import IPoint from 'src/types/point';
-import { pointSegmentDistanceSquared } from 'src/utils/geom';
-
+import { pointSegmentDistanceSquared, pointsAligned } from 'src/utils/geom';
 
 const Block = types.model({
 	id: types.optional(types.identifier, nanoid),
@@ -86,7 +85,7 @@ const Block = types.model({
 		}
 	},
 })).actions((self) => ({
-	cleanInvalidVertices(): void {
+	cleanSuperposedVertices(): void {
 		for (
 			let i = 0;
 			isAlive(self) && self.params.vertices.length > 1 && i < self.params.vertices.length;
@@ -108,9 +107,26 @@ const Block = types.model({
 			}
 		}
 	},
+	cleanAlignedVertices(): void {
+		for (
+			let i = 0;
+			isAlive(self) && self.params.vertices.length > 2 && i < self.params.vertices.length;
+			i += 1
+		) {
+			const next = self.params.vertices[i === self.params.vertices.length - 1 ? 0 : i + 1];
+			const current = self.params.vertices[i];
+			const previous = self.params.vertices[i === 0 ? self.params.vertices.length - 1 : i - 1];
+
+			if (pointsAligned(previous, current, next)) {
+				self.removeVertex(current);
+				i -= 1;
+			}
+		}
+	},
 })).actions((self) => ({
 	cleanInvalid(): void {
-		self.cleanInvalidVertices();
+		self.cleanSuperposedVertices();
+		self.cleanAlignedVertices();
 
 		const isValid = self.params.vertices.length >= 3 && polygonArea(self.params.vertices) > 0;
 		if (!isValid) {

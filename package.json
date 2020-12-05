@@ -16,6 +16,8 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.12",
+    "@sentry/react": "^5.28.0",
+    "@sentry/tracing": "^5.28.0",
     "@types/file-saver": "^2.0.1",
     "@types/matter-js": "^0.14.7",
     "bombhopperio-level-tools": "^0.5.0",

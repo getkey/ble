@@ -1,6 +1,8 @@
 import React from 'react';
 import { settings } from 'pixi.js';
 import { render } from 'react-dom';
+import { init as sentryInit, ErrorBoundary} from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 
 import Root from 'src/components/Root';
 
@@ -11,6 +13,23 @@ if (/Firefox/i.test(window.navigator.userAgent) && /Linux/i.test(window.navigato
 	settings.SPRITE_MAX_TEXTURES = Math.min(settings.SPRITE_MAX_TEXTURES, 16);
 }
 
-render(<Root/>,
-	document.getElementById('app-container'),
-);
+if (process.env.SENTRY_DSN) {
+	sentryInit({
+		dsn: process.env.SENTRY_DSN,
+		integrations: [
+			new Integrations.BrowserTracing(),
+		],
+		tracesSampleRate: 0.5,
+	});
+
+	render(
+		<ErrorBoundary showDialog>
+			<Root/>
+		</ErrorBoundary>,
+		document.getElementById('app-container'),
+	);
+} else {
+	render(<Root/>,
+		document.getElementById('app-container'),
+	);
+}

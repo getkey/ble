@@ -3,9 +3,8 @@
 ## What is this?
 
 Blé is a level editor for the game [BombHopper.io](https://bombhopper.io).
-Currently the editor is in a fledgling state, but it is growing fast!
 
-The editor is live at [editor.bombhopper.io](https://editor.bombhopper.io).
+The editor can be accessed in the game but there is also a standalone version live at [editor.bombhopper.io](https://editor.bombhopper.io).
 
 ## How can I help?
 
@@ -21,6 +20,5 @@ yarn dev
 ```
 
 And point your browser to [localhost:8080](http://localhost:8080)!
-Fun awaits you on your contribution journey!
 
 ![screenshot of Blé](https://github.com/getkey/ble/raw/master/.github/screenshot.png)

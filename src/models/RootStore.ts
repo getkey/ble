@@ -13,12 +13,7 @@ import IPoint from 'src/types/point';
 import { IEntity } from 'src/models/Entity';
 
 const RootStore = types.model({
-	editor: types.optional(Editor, {
-		position: {
-			x: 400,
-			y: 600,
-		},
-	}),
+	editor: Editor,
 	level: LevelProcessor,
 }).actions((self) => ({
 	addEntity(entity: IEntity): void {

@@ -5,7 +5,7 @@ import { saveAs } from 'file-saver';
 import RootStore from 'src/models/RootStore';
 import sampleLevel from 'src/sampleLevel.json';
 import { setStorage, getStorage } from 'src/utils/storage';
-import { levelStorageKey } from 'src/config';
+import { levelStorageKey, gridCellSizeStorageKey } from 'src/config';
 
 let initialLevel = sampleLevel;
 try {
@@ -28,10 +28,17 @@ try {
 
 export const store = RootStore.create({
 	level: initialLevel,
+	editor: {
+		gridCellSize: getStorage(gridCellSizeStorageKey) as number | null || undefined,
+	},
 });
 // @ts-ignore
 window.store = store;
 
 onSnapshot(store.level, (patch) => {
 	setStorage(levelStorageKey, patch);
+});
+
+onSnapshot(store.editor, (patch) => {
+	setStorage(gridCellSizeStorageKey, patch.gridCellSize);
 });

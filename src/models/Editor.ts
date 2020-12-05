@@ -10,7 +10,10 @@ import Entity, { IEntity } from 'src/models/Entity';
 import Block from 'src/models/Block';
 
 const Editor = types.model({
-	position: Point,
+	position: types.optional(Point, {
+		x: 400,
+		y: 600,
+	}),
 	scale: 1,
 	mode: types.optional(
 		types.enumeration(Object.values(EditorMode)),

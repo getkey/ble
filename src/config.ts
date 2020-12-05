@@ -12,3 +12,4 @@ export const doorWidth = 100;
 export const doorHeight = 160;
 
 export const levelStorageKey = 'level';
+export const gridCellSizeStorageKey = 'gridCellSize';

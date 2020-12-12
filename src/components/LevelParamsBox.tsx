@@ -28,7 +28,7 @@ const StarColumn = styled.label`
 		font-size: 4ex;
 	}
 	&::after {
-		content: 'ms';
+		content: 'secs';
 	}
 	&:first-child::after {
 		content: none;
@@ -44,10 +44,10 @@ const ParamsBox: FunctionComponent = () => {
 	const { level } = useStore();
 
 	function on2StarsChange(value: number): void {
-		level.set2StarsTime(value);
+		level.set2StarsTime(value * 1000);
 	}
 	function on3StarsChange(value: number): void {
-		level.set3StarsTime(value);
+		level.set3StarsTime(value * 1000);
 	}
 	function onNameChange(ev: ChangeEvent<HTMLInputElement>): void {
 		level.setName(ev.target.value);
@@ -71,12 +71,12 @@ const ParamsBox: FunctionComponent = () => {
 					<StarColumn
 						title={`Finish in ${level.timings[0]}ms or less to get 2 stars`}
 					>
-						<StarInput min={0} value={level.timings[0]} onChange={on2StarsChange}/>
+						<StarInput min={0} value={level.timings[0] / 1000} onChange={on2StarsChange}/>
 					</StarColumn>
 					<StarColumn
 						title={`Finish in ${level.timings[1]}ms or less to get 3 stars`}
 					>
-						<StarInput min={0} value={level.timings[1]} onChange={on3StarsChange}/>
+						<StarInput min={0} value={level.timings[1] / 1000} onChange={on3StarsChange}/>
 					</StarColumn>
 				</StarBox>
 				<LoadSave/>

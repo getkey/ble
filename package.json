@@ -20,7 +20,7 @@
     "@sentry/tracing": "^5.29.0",
     "@types/file-saver": "^2.0.1",
     "@types/matter-js": "^0.14.8",
-    "bombhopperio-level-tools": "^0.6.0",
+    "bombhopperio-level-tools": "^0.6.2",
     "chroma-js": "^2.1.0",
     "core-js": "^3.8.1",
     "epix": "^0.0.3",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@types/chroma-js": "^2.1.2",
     "@types/jest": "^26.0.19",

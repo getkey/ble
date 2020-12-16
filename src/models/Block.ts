@@ -1,7 +1,7 @@
 import { types, Instance, destroy, getParent, SnapshotOut, getRoot, isAlive } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 import { Point as PixiPoint } from 'pixi.js';
-import { polygonIsSimple, polygonArea } from 'bombhopperio-level-tools';
+import { polygonIsSimple, polygonArea, canBeDecomposed } from 'bombhopperio-level-tools';
 
 import { IRootStore } from 'src/models/RootStore';
 import Vertex from 'src/models/Vertex';
@@ -28,8 +28,8 @@ const Block = types.model({
 	get displayName(): string {
 		return `${blockAliases[self.type]} polygon`;
 	},
-	get isSimple(): boolean {
-		return polygonIsSimple(self.params.vertices);
+	get isValid(): boolean {
+		return polygonIsSimple(self.params.vertices) && canBeDecomposed(self.params.vertices);
 	},
 	get segments(): Array<[IPoint, IPoint]> {
 		const vertices = [

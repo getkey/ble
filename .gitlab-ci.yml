@@ -38,4 +38,7 @@ s3_prod:
     - aws s3 sync dist/ s3://editor.bombhopper.io/ --exclude '*.html' --exclude 'sw.js' --cache-control max-age=2419200
   only:
     - master
+  environment:
+    name: production
+    url: https://editor.bombhopper.io
   cache: {} # disable the cache for this job

@@ -89,7 +89,14 @@ ${err.message || JSON.stringify(err)}`);
 		reader.readAsText(ev.target.files[0]);
 	}
 
-	function sendLevelToGame(messageType: 'loadLevel' | 'uploadLevel'): void {
+	type SendParams = {
+		type: 'loadLevel'
+	} | {
+		type: 'uploadLevel';
+		publish: boolean;
+	}
+
+	function sendLevelToGame(params: SendParams): void {
 		// don't want invalid entities to end up in the snapshot
 		level.cleanInvalidEntities();
 
@@ -107,21 +114,30 @@ ${err.message || JSON.stringify(err)}`);
 		}
 
 		postMessage({
-			type: messageType,
+			...params,
 			level: snapshot,
 		});
 	}
 
 	function onTest(): void {
-		sendLevelToGame('loadLevel');
+		sendLevelToGame({
+			type: 'loadLevel',
+		});
 	}
 
 	function onUpload(): void {
-		if(!window.confirm('Are you sure you want to upload this level?')) {
-			return;
-		}
+		sendLevelToGame({
+			type: 'uploadLevel',
+			publish: true,
+		});
+	}
 
-		sendLevelToGame('uploadLevel');
+
+	function onUploadDraft(): void {
+		sendLevelToGame({
+			type: 'uploadLevel',
+			publish: false,
+		});
 	}
 
 	return (
@@ -146,6 +162,11 @@ ${err.message || JSON.stringify(err)}`);
 						<FontAwesomeIcon icon={faUpload}/>
 						&#32;
 						Upload level
+					</Button>
+					<Button onClick={onUploadDraft}>
+						<FontAwesomeIcon icon={faUpload}/>
+						&#32;
+						Upload draft level
 					</Button>
 				</Fragment>
 			)}

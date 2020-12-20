@@ -59,7 +59,7 @@ const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, o
 						position={point_}
 						color={0xffffff}
 						anchor={{ x: 0.5, y: 0.5 }}
-						scale={0.5}
+						scale={0.5 / editor.scale}
 						interactive={false}
 						hitArea={emptyArea}
 					/>

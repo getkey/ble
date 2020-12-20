@@ -164,9 +164,9 @@ ${err.message || JSON.stringify(err)}`);
 						Upload level
 					</Button>
 					<Button onClick={onUploadDraft}>
-						<FontAwesomeIcon icon={faUpload}/>
+						🎄
 						&#32;
-						Upload draft level
+						Upload christmas competition level
 					</Button>
 				</Fragment>
 			)}

@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
 import { validate } from 'bombhopperio-level-tools';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faFolderOpen, faPlay, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faFolderOpen, faPlay, faUpload, faPen, faSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import { toFilename } from 'src/utils/io';
@@ -164,9 +164,14 @@ ${err.message || JSON.stringify(err)}`);
 						Upload level
 					</Button>
 					<Button onClick={onUploadDraft}>
-						🎄
+						<span className="fa-layers fa-fw">
+							<FontAwesomeIcon icon={faUpload}/>
+							<FontAwesomeIcon icon={faSquare} transform="up-4" style={{ color: 'white' }}/>
+							<FontAwesomeIcon icon={faSquare} transform="shrink-11 down-2" style={{ color: 'white' }}/>
+							<FontAwesomeIcon icon={faPen} transform="shrink-6 up-3"/>
+						</span>
 						&#32;
-						Upload christmas competition level
+						Upload draft
 					</Button>
 				</Fragment>
 			)}

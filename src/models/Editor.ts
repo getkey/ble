@@ -23,6 +23,8 @@ const Editor = types.model({
 	gridCellSize: 60,
 	selectedEntity: types.union(
 		types.safeReference(Entity, {
+			// TODO: remove @ts-ignore when https://github.com/mobxjs/mobx-state-tree/pull/1610 is merged
+			// @ts-ignore
 			onInvalidated({ parent }: OnReferenceInvalidatedEvent<IEntity>) {
 				parent.setMode(EditorMode.select);
 			},

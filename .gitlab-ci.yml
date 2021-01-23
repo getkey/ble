@@ -34,8 +34,9 @@ s3_prod:
   stage: deploy
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   script:
-    - aws s3 sync dist/ s3://editor.bombhopper.io/ --exclude '*' --include '*.html' --include 'sw.js' --cache-control max-age=0,must-revalidate,public
     - aws s3 sync dist/ s3://editor.bombhopper.io/ --exclude '*.html' --exclude 'sw.js' --cache-control max-age=2419200
+    # the html is uploaded last to avoid race conditions where scripts are missing
+    - aws s3 sync dist/ s3://editor.bombhopper.io/ --exclude '*' --include '*.html' --include 'sw.js' --cache-control max-age=0,must-revalidate,public
   only:
     - master
   environment:

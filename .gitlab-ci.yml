@@ -1,5 +1,5 @@
 default:
-  image: node:latest
+  image: node:lts-alpine
   cache:
     paths:
     - node_modules/

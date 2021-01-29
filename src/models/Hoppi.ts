@@ -124,3 +124,7 @@ const Hoppi = types.model({
 export default Hoppi;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IHoppi extends Instance<typeof Hoppi> {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IInfiniteParams extends Instance<typeof InfiniteParams> {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IFiniteParams extends Instance<typeof FiniteParams> {}

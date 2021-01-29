@@ -5,7 +5,6 @@ import { DEG_TO_RAD, RAD_TO_DEG } from 'pixi.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 
-import { useStore } from 'src/hooks/useStore';
 import NumberInput from 'src/components/NumberInput';
 
 const AngleInput = styled(NumberInput)`
@@ -17,26 +16,28 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-const AngleParam: FunctionComponent = () => {
-	const { editor: { selectedEntity } } = useStore();
+interface AngleEntity {
+	params: {
+		angle: number;
+	}
+	setAngle: (angle: number) => void;
+}
 
-	if (
-		selectedEntity === undefined ||
-		!('params' in selectedEntity) ||
-		!('setAngle' in selectedEntity) ||
-		!('angle' in selectedEntity.params)
-	) return null;
+type Props = {
+	angleEntity: AngleEntity,
+};
 
+const AngleParam: FunctionComponent<Props> = ({ angleEntity }) => {
 	const onChangeAngleSlider = (ev: ChangeEvent<HTMLInputElement>): void => {
-		selectedEntity.setAngle(ev.target.valueAsNumber * DEG_TO_RAD);
+		angleEntity.setAngle(ev.target.valueAsNumber * DEG_TO_RAD);
 	};
 
 	const onChangeAngleInput = (angle: number): void => {
-		selectedEntity.setAngle(angle * DEG_TO_RAD);
+		angleEntity.setAngle(angle * DEG_TO_RAD);
 	};
 
 	// remove floating point inaccuracies by flooring
-	const angleDegrees = Math.floor(selectedEntity.params.angle * RAD_TO_DEG);
+	const angleDegrees = Math.floor(angleEntity.params.angle * RAD_TO_DEG);
 
 	return (
 		<Container>

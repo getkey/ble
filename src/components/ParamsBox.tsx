@@ -13,6 +13,9 @@ import RadiusParam from 'src/components/RadiusParam';
 import ZOrderParam from 'src/components/ZOrderParam';
 import DangerButton from 'src/components/DangerButton';
 import LevelParamsBox from 'src/components/LevelParamsBox';
+import Hoppi from 'src/models/Hoppi';
+import Text from 'src/models/Text';
+import Entity from 'src/models/Entity';
 
 const ParamsBox: FunctionComponent = () => {
 	const { editor: { selection } } = useStore();
@@ -37,12 +40,24 @@ const ParamsBox: FunctionComponent = () => {
 
 	return (
 		<Box title={selectedEntity.displayName}>
-			<HoppiParam/>
-			<AngleParam/>
-			<RadiusParam/>
-			<TextParam/>
-			<StaticParam/>
-			<ZOrderParam/>
+			{Hoppi.is(selectedEntity) && (
+				<HoppiParam hoppi={selectedEntity}/>
+			)}
+			{('params' in selectedEntity) && ('setAngle' in selectedEntity) && ('angle' in selectedEntity.params) && (
+				<AngleParam angleEntity={selectedEntity}/>
+			)}
+			{('params' in selectedEntity) && ('setRadius' in selectedEntity) && ('radius' in selectedEntity.params) && (
+				<RadiusParam radiusEntity={selectedEntity}/>
+			)}
+			{Text.is(selectedEntity) && (
+				<TextParam text={selectedEntity}/>
+			)}
+			{('params' in selectedEntity) && ('setIsStatic' in selectedEntity) && ('isStatic' in selectedEntity.params) && (
+				<StaticParam staticEntity={selectedEntity}/>
+			)}
+			{Entity.is(selectedEntity) && (
+				<ZOrderParam entity={selectedEntity}/>
+			)}
 			<DangerButton onClick={onDelete}>
 				<FontAwesomeIcon icon={faTrashAlt}/>
 				&#32;

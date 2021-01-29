@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
-import Vertex from 'src/models/Vertex';
+import { IEntity } from 'src/models/Entity';
 import Hoppi from 'src/models/Hoppi';
 import NumberInput from 'src/components/NumberInput';
 
@@ -22,19 +22,20 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-const ZOrderParam: FunctionComponent = () => {
-	const { editor, level } = useStore();
-	const { selectedEntity } = editor;
+type Props = {
+	entity: IEntity,
+};
 
-	if (selectedEntity === undefined || Vertex.is(selectedEntity)) return null;
+const ZOrderParam: FunctionComponent<Props> = ({ entity }) => {
+	const { level } = useStore();
 
-	const position = level.getEntityPosition(selectedEntity);
+	const position = level.getEntityPosition(entity);
 
 	const onChange = (newPosition: number): void => {
-		level.move(selectedEntity, newPosition - 1);
+		level.move(entity, newPosition - 1);
 	};
 	const onChangeSlider = (ev: ChangeEvent<HTMLInputElement>): void => {
-		level.move(selectedEntity, ev.target.valueAsNumber - 1);
+		level.move(entity, ev.target.valueAsNumber - 1);
 	};
 
 	const posDisplay = position + 1;
@@ -63,7 +64,7 @@ const ZOrderParam: FunctionComponent = () => {
 					onChange={onChangeSlider}
 				/>
 			</Container>
-			{Hoppi.is(selectedEntity) && (
+			{Hoppi.is(entity) && (
 				<Tip>Tip: the lowest hoppi holds the camera</Tip>
 			)}
 		</Fragment>

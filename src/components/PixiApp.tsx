@@ -26,7 +26,7 @@ const entityColors = {
 };
 
 const PixiApp: FunctionComponent = () => {
-	const { level: { entities }, editor: { selectedEntity, selection } } = useStore();
+	const { level: { entities }, editor: { selection } } = useStore();
 	const dispatch = useDispatch();
 
 	return (
@@ -55,7 +55,7 @@ const PixiApp: FunctionComponent = () => {
 
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
-						isSelected: vertex === selectedEntity,
+						isSelected: selection.get(vertex.id) !== undefined,
 						id: vertex.id,
 					}));
 

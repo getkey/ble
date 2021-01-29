@@ -2,8 +2,7 @@ import React, { FunctionComponent, ChangeEvent } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 
-import { useStore } from 'src/hooks/useStore';
-import Hoppi, { FiniteParams } from 'src/models/Hoppi';
+import { IFiniteParams } from 'src/models/Hoppi';
 
 const pattern = '^(?:b|B|g|G|e|E)*$';
 const patternRegex = new RegExp(pattern);
@@ -12,27 +11,22 @@ const Input = styled.input`
 	width: 10ex;
 `;
 
-const FiniteMagazineParam: FunctionComponent = () => {
-	const { editor: { selectedEntity } } = useStore();
+type Props = {
+	magazineParams: IFiniteParams;
+}
 
-	if (
-		!Hoppi.is(selectedEntity) ||
-		!FiniteParams.is(selectedEntity.params)
-	) return null;
-
+const FiniteMagazineParam: FunctionComponent<Props> = ({ magazineParams }) => {
 	const onChangeMagazine = (ev: ChangeEvent<HTMLInputElement>): void => {
-		// TODO: figure out why this line below is necessary
-		if (!FiniteParams.is(selectedEntity.params)) throw new Error('Params aren\'t finite');
 		if (!patternRegex.test(ev.target.value)) {
 			alert('The content of the magazine must be a string of \'g\' for Grenades, \'b\' for Bombs and \'e\' for Empty.');
 			return;
 		}
 
-		selectedEntity.params.setFromStringFormat(ev.target.value);
+		magazineParams.setFromStringFormat(ev.target.value);
 	};
 
 	return (
-		<Input type="text" pattern={pattern} value={selectedEntity.params.stringFormat} onChange={onChangeMagazine}/>
+		<Input type="text" pattern={pattern} value={magazineParams.stringFormat} onChange={onChangeMagazine}/>
 	);
 };
 

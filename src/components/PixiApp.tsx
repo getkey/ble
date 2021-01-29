@@ -26,13 +26,13 @@ const entityColors = {
 };
 
 const PixiApp: FunctionComponent = () => {
-	const { level: { entities }, editor: { selectedEntity } } = useStore();
+	const { level: { entities }, editor: { selectedEntity, selection } } = useStore();
 	const dispatch = useDispatch();
 
 	return (
 		<Level>
 			{entities.map((entity) => {
-				const isSelected = entity === selectedEntity;
+				const isSelected = selection.get(entity.id) !== undefined;
 
 				if (DoorM.is(entity)) {
 					const { id, params: { x, y, angle } } = entity;

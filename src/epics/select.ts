@@ -100,12 +100,17 @@ export const selectEntity: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
-		tap(({ entityId }) => {
+		tap(({ entityId, ev }) => {
 			// @ts-ignore
 			const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 			if (entity === undefined) return;
 
 			store.editor.setSelectedEntity(entity);
+			if (ev.data.originalEvent.ctrlKey) {
+				store.editor.addToSelection(entity);
+			} else {
+				store.editor.setSelection([entity]);
+			}
 		}),
 		ignoreElements(),
 	);
@@ -117,13 +122,18 @@ export const selectVertex: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
-		tap(({ entityId, vertexId }) => {
+		tap(({ entityId, vertexId, ev }) => {
 			const block = resolveIdentifier(BlockM, store.level.entities, entityId);
 			if (block === undefined) return;
 
 			const point = resolveIdentifier(VertexM, block.params.vertices, vertexId);
 
 			store.editor.setSelectedEntity(point);
+			if (ev.data.originalEvent.ctrlKey) {
+				store.editor.addToSelection(point);
+			} else {
+				store.editor.setSelection([point]);
+			}
 		}),
 		ignoreElements(),
 	);
@@ -137,6 +147,7 @@ export const unselect: Epic = (action$, { store }) => {
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(() => {
 			store.editor.setSelectedEntity(undefined);
+			store.editor.clearSelection();
 		}),
 		ignoreElements(),
 	);

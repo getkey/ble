@@ -15,17 +15,23 @@ import DangerButton from 'src/components/DangerButton';
 import LevelParamsBox from 'src/components/LevelParamsBox';
 
 const ParamsBox: FunctionComponent = () => {
-	const { editor: { selectedEntity } } = useStore();
+	const { editor: { selection } } = useStore();
 
-	if (selectedEntity === undefined){
+	if (selection.size === 0){
 		return (
 			<LevelParamsBox/>
 		);
 	}
 
-	function onDelete(): void {
-		if (selectedEntity === undefined) return;
+	if (selection.size > 1) {
+		return (
+			<Box title={`${selection.size} entities selected`}/>
+		);
+	}
 
+	const selectedEntity = Array.from(selection.values())[0];
+
+	function onDelete(): void {
 		selectedEntity.remove();
 	}
 

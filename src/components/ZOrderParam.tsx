@@ -32,11 +32,9 @@ const ZOrderParam: FunctionComponent = () => {
 
 	const onChange = (newPosition: number): void => {
 		level.move(selectedEntity, newPosition - 1);
-		editor.setSelectedEntity(selectedEntity);
 	};
 	const onChangeSlider = (ev: ChangeEvent<HTMLInputElement>): void => {
 		level.move(selectedEntity, ev.target.valueAsNumber - 1);
-		editor.setSelectedEntity(selectedEntity);
 	};
 
 	const posDisplay = position + 1;

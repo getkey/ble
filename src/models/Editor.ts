@@ -31,6 +31,21 @@ const Editor = types.model({
 		}),
 		types.safeReference(Vertex),
 	),
+	selection: types.map(
+		types.union(
+			types.safeReference(Entity, {
+				// TODO: remove @ts-ignore when https://github.com/mobxjs/mobx-state-tree/pull/1610 is merged
+				// @ts-ignore
+				onInvalidated({ parent }: OnReferenceInvalidatedEvent<IEntity>) {
+					parent.setMode(EditorMode.select);
+				},
+				acceptsUndefined: false,
+			}),
+			types.safeReference(Vertex, {
+				acceptsUndefined: false,
+			}),
+		),
+	),
 	clipboard: types.maybe(Entity),
 	addType: types.optional(
 		types.enumeration(Object.values(AddType)),
@@ -73,6 +88,12 @@ const Editor = types.model({
 	setClipboard(copied: IEntity): void {
 		self.clipboard = copied;
 	},
+	addToSelection(selected: IEntity | IVertex): void {
+		self.selection.put(selected);
+	},
+	clearSelection(): void {
+		self.selection.clear();
+	},
 })).actions((self) => ({
 	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
 		if (selected === self.selectedEntity) return;
@@ -100,6 +121,10 @@ const Editor = types.model({
 		}
 
 		self.selectedEntity = selected;
+	},
+	setSelection(selected: Array<IEntity | IVertex>): void {
+		self.clearSelection();
+		selected.forEach((thing) => self.addToSelection(thing));
 	},
 })).views((self) => ({
 	get cameraPos(): GenericPoint {

@@ -23,6 +23,9 @@ const Vertex = types.compose(
 		if (root.editor.selectedEntity === self) {
 			root.editor.setSelectedEntity(self.parentBlock);
 		}
+		if (root.editor.selection.get(self.id) === self) {
+			root.editor.addToSelection(self.parentBlock);
+		}
 
 		self.parentBlock.removeVertex(self);
 	},

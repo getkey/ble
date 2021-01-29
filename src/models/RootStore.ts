@@ -19,6 +19,7 @@ const RootStore = types.model({
 	addEntity(entity: IEntity): void {
 		self.level.entities.push(entity);
 		self.editor.setSelectedEntity(entity);
+		self.editor.setSelection([entity]);
 	},
 })).actions((self) => ({
 	createEntity(pos: IPoint): void {

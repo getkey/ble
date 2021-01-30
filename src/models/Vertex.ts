@@ -19,10 +19,7 @@ const Vertex = types.compose(
 		const root: IRootStore = getRoot(self);
 
 		// order matters here!
-		// we set the new selectedEntity first because if self is the last point, parent will get removed too
-		if (root.editor.selectedEntity === self) {
-			root.editor.setSelectedEntity(self.parentBlock);
-		}
+		// we add the parent in the selection first because if self is the last point, parent will get removed too
 		if (root.editor.selection.get(self.id) === self) {
 			root.editor.addToSelection(self.parentBlock);
 		}

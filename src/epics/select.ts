@@ -105,9 +105,12 @@ export const selectEntity: Epic = (action$, { store }) => {
 			const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 			if (entity === undefined) return;
 
-			store.editor.setSelectedEntity(entity);
 			if (ev.data.originalEvent.ctrlKey) {
-				store.editor.addToSelection(entity);
+				if (store.editor.selection.has(entity.id)) {
+					store.editor.removeFromSelection(entity);
+				} else {
+					store.editor.addToSelection(entity);
+				}
 			} else {
 				store.editor.setSelection([entity]);
 			}
@@ -128,7 +131,6 @@ export const selectVertex: Epic = (action$, { store }) => {
 
 			const point = resolveIdentifier(VertexM, block.params.vertices, vertexId);
 
-			store.editor.setSelectedEntity(point);
 			if (ev.data.originalEvent.ctrlKey) {
 				store.editor.addToSelection(point);
 			} else {
@@ -146,7 +148,6 @@ export const unselect: Epic = (action$, { store }) => {
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(() => {
-			store.editor.setSelectedEntity(undefined);
 			store.editor.clearSelection();
 		}),
 		ignoreElements(),

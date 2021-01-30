@@ -58,12 +58,9 @@ export const createEntity: Epic = (action$, { store }) => {
 export const addVertex: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('addVertex'),
+		filter(() => store.editor.selection.size === 1),
 		tap(({ pos }) => {
-			const { selectedEntity } = store.editor;
-
-			if (selectedEntity === undefined) {
-				throw new Error('Trying to add a vertex but no entity is selected');
-			}
+			const selectedEntity = Array.from(store.editor.selection.values())[0];
 
 			if (BlockM.is(selectedEntity)) {
 				(selectedEntity as IBlock).addVertex(pos);
@@ -73,8 +70,6 @@ export const addVertex: Epic = (action$, { store }) => {
 				(selectedEntity as IVertex).parentBlock.addVertex(pos);
 				return;
 			}
-
-			throw new Error('Not a block');
 		}),
 		ignoreElements(),
 	);

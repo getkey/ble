@@ -133,22 +133,19 @@ const Editor = types.model({
 		self.setClipboard(copies);
 	},
 	paste(): void {
-		const tmpClipboard = new Map(self.clipboard);
+		const tmpClipboard = Array.from(self.clipboard.values());
 		tmpClipboard.forEach((entity) => {
 			detach(entity);
+			entity.move(self.gridCellSize, self.gridCellSize);
 		});
 		const root: IRootStore = getRoot(self);
 
 		self.clearClipboard();
 		self.clearSelection();
 
-		tmpClipboard.forEach((entity) => {
-			entity.move(self.gridCellSize, self.gridCellSize);
-			root.addEntity(entity);
-			self.addToSelection(entity);
-		});
+		root.addEntities(tmpClipboard);
 
-		const newClipboard = Array.from(tmpClipboard.values()).map((entity) => cloneEntity(entity));
+		const newClipboard = tmpClipboard.map((entity) => cloneEntity(entity));
 		self.setClipboard(newClipboard);
 	},
 })).actions((self) => ({

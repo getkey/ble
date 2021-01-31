@@ -83,6 +83,7 @@ const Editor = types.model({
 			entity.params.vertices.forEach((vertex) => {
 				self.vertexSelection.delete(vertex.id);
 			});
+			entity.cleanInvalid();
 		}
 
 		self.selection.delete(entity.id);
@@ -99,6 +100,10 @@ const Editor = types.model({
 })).actions((self) => ({
 	clearSelection(): void {
 		self.clearVertexSelection();
+		self.selection.forEach((entity) => {
+			if (!Block.is(entity)) return;
+			entity.cleanInvalid();
+		});
 		self.selection.clear();
 	},
 })).actions((self) => ({

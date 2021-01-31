@@ -2,11 +2,11 @@ import { types, getRoot, detach } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
-import Vertex, { IVertex } from 'src/models/Vertex';
 import GenericPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
 import { AddType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
+import Vertex, { IVertex } from 'src/models/Vertex';
 import Block from 'src/models/Block';
 import { IRootStore } from 'src/models/RootStore';
 import { cloneEntity } from 'src/utils/clone';
@@ -24,15 +24,14 @@ const Editor = types.model({
 	panning: false,
 	gridCellSize: 60,
 	selection: types.map(
-		types.union(
-			types.safeReference(Entity, {
-				acceptsUndefined: false,
-				// TODO: onInvalidated remove it if it's invalid
-			}),
-			types.safeReference(Vertex, {
-				acceptsUndefined: false,
-			}),
-		),
+		types.safeReference(Entity, {
+			acceptsUndefined: false,
+		})
+	),
+	vertexSelection: types.map(
+		types.safeReference(Vertex, {
+			acceptsUndefined: false,
+		}),
 	),
 	clipboard: types.map(Entity),
 	addType: types.optional(
@@ -76,22 +75,33 @@ const Editor = types.model({
 	clearClipboard(): void {
 		self.clipboard.clear();
 	},
-	addToSelection(selected: IEntity | IVertex): void {
+	addToSelection(selected: IEntity): void {
 		self.selection.put(selected);
 	},
-	removeFromSelection(selected: IEntity | IVertex): void {
+	removeFromSelection(selected: IEntity): void {
+		if (Block.is(selected)) {
+			selected.params.vertices.forEach((vertex) => {
+				self.vertexSelection.delete(vertex.id);
+			});
+		}
+
 		self.selection.delete(selected.id);
 		// TODO cleanup if entity is invalid
 	},
-	clearSelection(): void {
-		self.selection.clear();
-		// TODO cleanup if entity is invalid
+	clearVertexSelection(): void {
+		self.vertexSelection.clear();
 	},
 	removeSelected(): void {
 		self.selection.forEach((thing) => thing.remove());
 	},
 })).actions((self) => ({
-	setSelection(selected: Array<IEntity | IVertex>): void {
+	clearSelection(): void {
+		self.clearVertexSelection();
+		self.selection.clear();
+		// TODO cleanup if entity is invalid
+	},
+})).actions((self) => ({
+	setSelection(selected: Array<IEntity>): void {
 		self.clearSelection();
 		selected.forEach((thing) => self.addToSelection(thing));
 	},
@@ -99,12 +109,21 @@ const Editor = types.model({
 		self.clearClipboard();
 		copied.forEach((thing) => self.clipboard.put(thing));
 	},
+	addVertexToSelection(vertex: IVertex): void {
+		self.addToSelection(vertex.parentBlock);
+		self.vertexSelection.put(vertex);
+	},
 })).actions((self) => ({
+	setVertexSelection(vertices: Array<IVertex>): void {
+		self.vertexSelection.clear();
+		vertices.forEach((vertex) => {
+			self.addVertexToSelection(vertex);
+		});
+	},
 	copy(): void {
 		// store a copy, not a reference so the original entity can be moved, etc
 		const copies = Array.from(self.selection.values())
-			.filter((thing) => Entity.is(thing))
-			.map((entity) => cloneEntity(entity as IEntity));
+			.map((entity) => cloneEntity(entity));
 		self.setClipboard(copies);
 	},
 	paste(): void {

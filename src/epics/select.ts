@@ -132,9 +132,9 @@ export const selectVertex: Epic = (action$, { store }) => {
 			const point = resolveIdentifier(VertexM, block.params.vertices, vertexId);
 
 			if (ev.data.originalEvent.ctrlKey) {
-				store.editor.addToSelection(point);
+				store.editor.addVertexToSelection(point);
 			} else {
-				store.editor.setSelection([point]);
+				store.editor.setVertexSelection([point]);
 			}
 		}),
 		ignoreElements(),

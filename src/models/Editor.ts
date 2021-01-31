@@ -22,15 +22,16 @@ const Editor = types.model({
 	panning: false,
 	gridCellSize: 60,
 	selectedEntity: types.union(
-		types.safeReference(Entity, {
-			// TODO: remove @ts-ignore when https://github.com/mobxjs/mobx-state-tree/pull/1610 is merged
-			// @ts-ignore
-			onInvalidated({ parent }: OnReferenceInvalidatedEvent<IEntity>) {
-				parent.setMode(EditorMode.select);
-			},
-		}),
+		types.safeReference(Entity),
 		types.safeReference(Vertex),
 	),
+	tempBlock: types.maybe(types.safeReference(Block, {
+		// TODO: remove @ts-ignore when https://github.com/mobxjs/mobx-state-tree/pull/1610 is merged
+		// @ts-ignore
+		onInvalidated({ parent }: OnReferenceInvalidatedEvent<IEntity>) {
+			parent.setMode(EditorMode.select);
+		},
+	})),
 	clipboard: types.maybe(Entity),
 	addType: types.optional(
 		types.enumeration(Object.values(AddType)),
@@ -73,24 +74,23 @@ const Editor = types.model({
 	setClipboard(copied: IEntity): void {
 		self.clipboard = copied;
 	},
+	promoteTempBlockOrDelete(): void {
+		if (self.tempBlock === undefined) return;
+
+		self.tempBlock.cleanInvalid();
+
+		self.tempBlock = undefined;
+	},
 })).actions((self) => ({
 	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
 		if (selected === self.selectedEntity) return;
 
-		// before setting the new selected entity, we cleanup the previous one,
-		// which is potentially in an invalid state (likely because it was being created)
-
-		const replacedBySibling = Vertex.is(selected) && Vertex.is(self.selectedEntity) && selected.parentBlock === self.selectedEntity.parentBlock;
-		const replacedByParent = Vertex.is(self.selectedEntity) && self.selectedEntity.parentBlock === selected;
-
-		if (Vertex.is(self.selectedEntity) && !replacedBySibling && !replacedByParent) {
-			self.selectedEntity.parentBlock.cleanInvalid();
-		}
-
-		// do not delete if we replace a block by one of its vertices
-		const replacedByChild = Vertex.is(selected) && Block.is(self.selectedEntity) && selected.parentBlock === self.selectedEntity;
-		if (self.selectedEntity !== undefined && 'cleanInvalid' in self.selectedEntity && !replacedByChild) {
-			self.selectedEntity.cleanInvalid();
+		// if the tempBlock is invalid, clean it up
+		if (
+			(Vertex.is(selected) && selected.parentBlock !== self.tempBlock)
+			|| (!Vertex.is(selected) && selected !== self.tempBlock)
+		) {
+			self.promoteTempBlockOrDelete();
 		}
 
 		// now we can cary on normally

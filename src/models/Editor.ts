@@ -78,15 +78,17 @@ const Editor = types.model({
 	addToSelection(selected: IEntity): void {
 		self.selection.put(selected);
 	},
-	removeFromSelection(selected: IEntity): void {
-		if (Block.is(selected)) {
-			selected.params.vertices.forEach((vertex) => {
+	removeFromSelection(entity: IEntity): void {
+		if (Block.is(entity)) {
+			entity.params.vertices.forEach((vertex) => {
 				self.vertexSelection.delete(vertex.id);
 			});
 		}
 
-		self.selection.delete(selected.id);
-		// TODO cleanup if entity is invalid
+		self.selection.delete(entity.id);
+	},
+	removeVertexFromSelection(vertex: IVertex): void {
+		self.vertexSelection.delete(vertex.id);
 	},
 	clearVertexSelection(): void {
 		self.vertexSelection.clear();
@@ -98,7 +100,6 @@ const Editor = types.model({
 	clearSelection(): void {
 		self.clearVertexSelection();
 		self.selection.clear();
-		// TODO cleanup if entity is invalid
 	},
 })).actions((self) => ({
 	setSelection(selected: Array<IEntity>): void {

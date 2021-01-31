@@ -57,17 +57,17 @@ const RootStore = types.model({
 				})
 			);
 		} else if (blockAddTypes.includes(self.editor.addType)) {
-			const block = Block.create({
-				type: addTypeToBlock[self.editor.addType],
-				params: {
-					vertices: [
-						pos,
-					],
-					isStatic: true,
-				},
-			});
-			self.addEntity(block);
-			self.editor.tempBlock = block;
+			self.addEntity(
+				Block.create({
+					type: addTypeToBlock[self.editor.addType],
+					params: {
+						vertices: [
+							pos,
+						],
+						isStatic: true,
+					},
+				})
+			);
 		} else if (ballAddTypes.includes(self.editor.addType)) {
 			self.addEntity(
 				Ball.create({

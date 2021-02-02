@@ -13,7 +13,6 @@ import RadiusParam from 'src/components/RadiusParam';
 import ZOrderParam from 'src/components/ZOrderParam';
 import BlockParam from 'src/components/BlockParam.tsx';
 import DangerButton from 'src/components/DangerButton';
-import LevelParamsBox from 'src/components/LevelParamsBox';
 import Hoppi from 'src/models/Hoppi';
 import Text from 'src/models/Text';
 import Entity from 'src/models/Entity';
@@ -22,11 +21,7 @@ import Block from 'src/models/Block';
 const ParamsBox: FunctionComponent = () => {
 	const { editor: { selection } } = useStore();
 
-	if (selection.size === 0){
-		return (
-			<LevelParamsBox/>
-		);
-	}
+	if (selection.size === 0) return null;
 
 	if (selection.size > 1) {
 		return (

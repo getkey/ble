@@ -3,9 +3,9 @@ import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 
 import { useStore } from 'src/hooks/useStore';
-import Box, { Title, Content } from 'src/components/Box';
 import NumberInput from 'src/components/NumberInput';
 import LoadSave from 'src/components/LoadSave';
+import HomeButton from 'src/components/HomeButton';
 
 const StarInput = styled(NumberInput)`
 	width: 7ex;
@@ -20,8 +20,8 @@ const StarBox = styled.div`
 const StarColumn = styled.label`
 	display: flex;
 	flex-direction: column;
-	width: 33.33%;
 	align-items: center;
+	width: 33.3333%;
 
 	&::before {
 		content: '★';
@@ -35,12 +35,23 @@ const StarColumn = styled.label`
 	}
 `;
 
+const Bar = styled.div`
+	width: 100%;
+	background-color: white;
+	display: flex;
+	justify-content: space-between;
+`;
+
+const Line = styled.div`
+	display: flex;
+`;
+
 const LevelNameInput = styled.input`
 	width: 15ex;
 	font-size: 0.8em;
 `;
 
-const ParamsBox: FunctionComponent = () => {
+const MenuBar: FunctionComponent = () => {
 	const { level } = useStore();
 
 	function on2StarsChange(value: number): void {
@@ -57,8 +68,8 @@ const ParamsBox: FunctionComponent = () => {
 	}
 
 	return (
-		<Box>
-			<Title>
+		<Bar>
+			<Line>
 				<LevelNameInput
 					type="text"
 					value={level.name}
@@ -67,8 +78,6 @@ const ParamsBox: FunctionComponent = () => {
 					placeholder="Level name"
 					required
 				/>
-			</Title>
-			<Content>
 				<StarBox>
 					<StarColumn
 						title="Finish the level to get 1 star"
@@ -96,10 +105,13 @@ const ParamsBox: FunctionComponent = () => {
 						/>
 					</StarColumn>
 				</StarBox>
+			</Line>
+			<Line>
 				<LoadSave/>
-			</Content>
-		</Box>
+				<HomeButton/>
+			</Line>
+		</Bar>
 	);
 };
 
-export default observer(ParamsBox);
+export default observer(MenuBar);

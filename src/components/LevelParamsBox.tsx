@@ -76,12 +76,24 @@ const ParamsBox: FunctionComponent = () => {
 					<StarColumn
 						title={`Finish in ${level.timings[0] / 1000}s or less to get 2 stars`}
 					>
-						<StarInput min={0} value={level.timings[0] / 1000} onChange={on2StarsChange} required/>
+						<StarInput
+							min={0}
+							step={0.001}
+							value={level.timings[0] / 1000}
+							onChange={on2StarsChange}
+							required
+						/>
 					</StarColumn>
 					<StarColumn
 						title={`Finish in ${level.timings[1] / 1000}s or less to get 3 stars`}
 					>
-						<StarInput min={0} value={level.timings[1] / 1000} onChange={on3StarsChange} required/>
+						<StarInput
+							min={0}
+							step={0.001}
+							value={level.timings[1] / 1000}
+							onChange={on3StarsChange}
+							required
+						/>
 					</StarColumn>
 				</StarBox>
 				<LoadSave/>

@@ -1,5 +1,7 @@
 import React, { FunctionComponent, ChangeEvent, FocusEvent, useEffect, useReducer } from 'react';
 
+import { isMultiple } from 'src/utils/math';
+
 type Props = {
 	value: number;
 	onChange?: (value: number) => void;
@@ -24,11 +26,11 @@ type Action = {
 }
 
 function isValid(val: number, { min, max, step }: { min?: number; max?: number; step?: number }) {
-	return !(
-		isNaN(val) ||
-		(min && val < min) ||
-		(max && val > max) ||
-		(step && val % step !== 0)
+	return (
+		!isNaN(val) &&
+		(!min || val >= min) &&
+		(!max || val <= max) &&
+		(!step || isMultiple(val, step))
 	);
 }
 

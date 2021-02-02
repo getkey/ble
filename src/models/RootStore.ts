@@ -16,24 +16,24 @@ const RootStore = types.model({
 	editor: Editor,
 	level: LevelProcessor,
 }).actions((self) => ({
-	addEntity(entity: IEntity): void {
-		self.level.entities.push(entity);
-		self.editor.setSelectedEntity(entity);
+	addEntities(entities: Array<IEntity>): void {
+		self.level.entities.push(...entities);
+		self.editor.setSelection(entities);
 	},
 })).actions((self) => ({
 	createEntity(pos: IPoint): void {
 		if (self.editor.addType === AddType.endpoint) {
-			self.addEntity(
+			self.addEntities([
 				Door.create({
 					type: AddType.endpoint,
 					params: {
 						x: pos.x,
 						y: pos.y,
 					},
-				})
-			);
+				}),
+			]);
 		} else if (self.editor.addType === AddType.player) {
-			self.addEntity(
+			self.addEntities([
 				Hoppi.create({
 					type: AddType.player,
 					params: {
@@ -44,20 +44,20 @@ const RootStore = types.model({
 							AmmoType.bullet,
 						],
 					},
-				})
-			);
+				}),
+			]);
 		} else if (self.editor.addType === AddType.text) {
-			self.addEntity(
+			self.addEntities([
 				Text.create({
 					type: AddType.text,
 					params: {
 						x: pos.x,
 						y: pos.y,
 					},
-				})
-			);
+				}),
+			]);
 		} else if (blockAddTypes.includes(self.editor.addType)) {
-			self.addEntity(
+			self.addEntities([
 				Block.create({
 					type: addTypeToBlock[self.editor.addType],
 					params: {
@@ -66,10 +66,10 @@ const RootStore = types.model({
 						],
 						isStatic: true,
 					},
-				})
-			);
+				}),
+			]);
 		} else if (ballAddTypes.includes(self.editor.addType)) {
-			self.addEntity(
+			self.addEntities([
 				Ball.create({
 					type: addTypeToBlock[self.editor.addType],
 					params: {
@@ -77,8 +77,8 @@ const RootStore = types.model({
 						y: pos.y,
 						isStatic: true,
 					},
-				})
-			);
+				}),
+			]);
 		} else {
 			throw new Error('Invalid entity type');
 		}

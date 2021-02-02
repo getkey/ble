@@ -1,13 +1,15 @@
-import { types, OnReferenceInvalidatedEvent } from 'mobx-state-tree';
+import { types, getRoot, detach } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
-import Vertex, { IVertex } from 'src/models/Vertex';
 import GenericPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
 import { AddType } from 'src/types/entity';
 import Entity, { IEntity } from 'src/models/Entity';
+import Vertex, { IVertex } from 'src/models/Vertex';
 import Block from 'src/models/Block';
+import { IRootStore } from 'src/models/RootStore';
+import { cloneEntity } from 'src/utils/clone';
 
 const Editor = types.model({
 	position: types.optional(Point, {
@@ -21,17 +23,17 @@ const Editor = types.model({
 	),
 	panning: false,
 	gridCellSize: 60,
-	selectedEntity: types.union(
+	selection: types.map(
 		types.safeReference(Entity, {
-			// TODO: remove @ts-ignore when https://github.com/mobxjs/mobx-state-tree/pull/1610 is merged
-			// @ts-ignore
-			onInvalidated({ parent }: OnReferenceInvalidatedEvent<IEntity>) {
-				parent.setMode(EditorMode.select);
-			},
-		}),
-		types.safeReference(Vertex),
+			acceptsUndefined: false,
+		})
 	),
-	clipboard: types.maybe(Entity),
+	vertexSelection: types.map(
+		types.safeReference(Vertex, {
+			acceptsUndefined: false,
+		}),
+	),
+	clipboard: types.map(Entity),
 	addType: types.optional(
 		types.enumeration(Object.values(AddType)),
 		AddType.normalBlock,
@@ -70,36 +72,86 @@ const Editor = types.model({
 	setFontLoaded(): void {
 		self.fontLoaded = true;
 	},
-	setClipboard(copied: IEntity): void {
-		self.clipboard = copied;
+	clearClipboard(): void {
+		self.clipboard.clear();
+	},
+	addToSelection(selected: IEntity): void {
+		self.selection.put(selected);
+	},
+	removeFromSelection(entity: IEntity): void {
+		if (Block.is(entity)) {
+			entity.params.vertices.forEach((vertex) => {
+				self.vertexSelection.delete(vertex.id);
+			});
+			entity.cleanInvalid();
+		}
+
+		self.selection.delete(entity.id);
+	},
+	removeVertexFromSelection(vertex: IVertex): void {
+		self.vertexSelection.delete(vertex.id);
+	},
+	clearVertexSelection(): void {
+		self.vertexSelection.clear();
+	},
+	removeSelected(): void {
+		self.selection.forEach((thing) => thing.remove());
 	},
 })).actions((self) => ({
-	setSelectedEntity(selected: IEntity | IVertex | undefined): void {
-		if (selected === self.selectedEntity) return;
+	clearSelection(): void {
+		self.clearVertexSelection();
+		self.selection.forEach((entity) => {
+			if (!Block.is(entity)) return;
+			entity.cleanInvalid();
+		});
+		self.selection.clear();
+	},
+})).actions((self) => ({
+	setSelection(selected: Array<IEntity>): void {
+		self.clearSelection();
+		selected.forEach((thing) => self.addToSelection(thing));
+	},
+	setClipboard(copied: Array<IEntity>): void {
+		self.clearClipboard();
+		copied.forEach((thing) => self.clipboard.put(thing));
+	},
+	addVertexToSelection(vertex: IVertex): void {
+		self.addToSelection(vertex.parentBlock);
+		self.vertexSelection.put(vertex);
+	},
+})).actions((self) => ({
+	setVertexSelection(vertices: Array<IVertex>): void {
+		self.vertexSelection.clear();
+		vertices.forEach((vertex) => {
+			self.addVertexToSelection(vertex);
+		});
+	},
+	copy(): void {
+		// store a copy, not a reference so the original entity can be moved, etc
+		const copies = Array.from(self.selection.values())
+			.map((entity) => cloneEntity(entity));
+		self.setClipboard(copies);
+	},
+	paste(): void {
+		const tmpClipboard = Array.from(self.clipboard.values());
+		tmpClipboard.forEach((entity) => {
+			detach(entity);
+			entity.move(self.gridCellSize, self.gridCellSize);
+		});
+		const root: IRootStore = getRoot(self);
 
-		// before setting the new selected entity, we cleanup the previous one,
-		// which is potentially in an invalid state (likely because it was being created)
+		self.clearClipboard();
+		self.clearSelection();
 
-		const replacedBySibling = Vertex.is(selected) && Vertex.is(self.selectedEntity) && selected.parentBlock === self.selectedEntity.parentBlock;
-		const replacedByParent = Vertex.is(self.selectedEntity) && self.selectedEntity.parentBlock === selected;
+		root.addEntities(tmpClipboard);
 
-		if (Vertex.is(self.selectedEntity) && !replacedBySibling && !replacedByParent) {
-			self.selectedEntity.parentBlock.cleanInvalid();
-		}
-
-		// do not delete if we replace a block by one of its vertices
-		const replacedByChild = Vertex.is(selected) && Block.is(self.selectedEntity) && selected.parentBlock === self.selectedEntity;
-		if (self.selectedEntity !== undefined && 'cleanInvalid' in self.selectedEntity && !replacedByChild) {
-			self.selectedEntity.cleanInvalid();
-		}
-
-		// now we can cary on normally
-
-		if (selected === undefined && self.mode === EditorMode.addVertex) {
-			self.setMode(EditorMode.select);
-		}
-
-		self.selectedEntity = selected;
+		const newClipboard = tmpClipboard.map((entity) => cloneEntity(entity));
+		self.setClipboard(newClipboard);
+	},
+})).actions((self) => ({
+	cut(): void {
+		self.copy();
+		self.removeSelected();
 	},
 })).views((self) => ({
 	get cameraPos(): GenericPoint {
@@ -121,7 +173,7 @@ const Editor = types.model({
 		return 'auto';
 	},
 	get availableModes(): Array<EditorMode> {
-		if (Block.is(self.selectedEntity)) {
+		if (self.selection.size === 1 && Block.is(Array.from(self.selection.values())[0])) {
 			return Object.values(EditorMode);
 		}
 

@@ -9,6 +9,10 @@ const PointM = types.model({
 		self.x = x;
 		self.y = y;
 	},
+	move(x: number, y: number): void {
+		self.x += x;
+		self.y += y;
+	},
 })).views((self) => ({
 	get asPixiPoint(): Point {
 		return new Point(self.x, self.y);

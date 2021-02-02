@@ -6,8 +6,8 @@ import { resolveIdentifier } from 'mobx-state-tree';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import BlockM from 'src/models/Block';
-import EntityM from 'src/models/Entity';
-import VertexM from 'src/models/Vertex';
+import EntityM, { IEntity } from 'src/models/Entity';
+import VertexM, { IVertex } from 'src/models/Vertex';
 
 export const entityMove: Epic = (action$, { store }) => {
 	return action$.pipe (
@@ -16,12 +16,11 @@ export const entityMove: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		// we copy the relevant data because react pools events
-		map(({ ev, entityId }) => ({
+		map(({ ev }) => ({
 			x: ev.data.global.x,
 			y: ev.data.global.y,
-			entityId,
 		})),
-		switchMap(({ x, y, entityId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
+		switchMap(({ x, y }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map(({ clientX, clientY }) => {
 				return {
 					x: clientX - x,
@@ -41,10 +40,9 @@ export const entityMove: Epic = (action$, { store }) => {
 					y: wantedPos.y - offset.y,
 				};
 
-				// @ts-ignore
-				const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
-				if (entity === undefined) return offset;
-				entity.move(displacement.x, displacement.y);
+				store.editor.selection.forEach((entity: IEntity) => {
+					entity.move(displacement.x, displacement.y);
+				});
 
 				return wantedPos;
 			}, { x: 0, y: 0 }),
@@ -82,7 +80,19 @@ export const pointMove: Epic = (action$, { store }) => {
 				const posInWorld = store.editor.screenToWorld(pos);
 				const snappedPos = snapToGrid(posInWorld, store.editor.gridCellSize);
 
+				const delta = {
+					x: snappedPos.x - storePoint.x,
+					y: snappedPos.y - storePoint.y,
+				};
+				// we move the point under the cursor, snapping it to the grid
 				storePoint.set(snappedPos.x, snappedPos.y);
+
+				// the other seleced vertices aren't snapped
+				store.editor.vertexSelection.forEach((vertex: IVertex) => {
+					if (vertex === storePoint) return;
+
+					vertex.move(delta.x, delta.y);
+				});
 			}),
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
@@ -100,12 +110,20 @@ export const selectEntity: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
-		tap(({ entityId }) => {
+		tap(({ entityId, ev }) => {
 			// @ts-ignore
 			const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 			if (entity === undefined) return;
 
-			store.editor.setSelectedEntity(entity);
+			if (ev.data.originalEvent.ctrlKey) {
+				if (store.editor.selection.has(entity.id)) {
+					store.editor.removeFromSelection(entity);
+				} else {
+					store.editor.addToSelection(entity);
+				}
+			} else if (!store.editor.selection.has(entity.id)) {
+				store.editor.setSelection([entity]);
+			}
 		}),
 		ignoreElements(),
 	);
@@ -117,13 +135,23 @@ export const selectVertex: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
-		tap(({ entityId, vertexId }) => {
+		tap(({ entityId, vertexId, ev }) => {
 			const block = resolveIdentifier(BlockM, store.level.entities, entityId);
 			if (block === undefined) return;
 
 			const point = resolveIdentifier(VertexM, block.params.vertices, vertexId);
 
-			store.editor.setSelectedEntity(point);
+			if (point === undefined) return;
+
+			if (ev.data.originalEvent.ctrlKey) {
+				if (store.editor.vertexSelection.has(point.id)) {
+					store.editor.removeVertexFromSelection(point);
+				} else {
+					store.editor.addVertexToSelection(point);
+				}
+			} else if (!store.editor.vertexSelection.has(point.id)) {
+				store.editor.setVertexSelection([point]);
+			}
 		}),
 		ignoreElements(),
 	);
@@ -136,7 +164,7 @@ export const unselect: Epic = (action$, { store }) => {
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(() => {
-			store.editor.setSelectedEntity(undefined);
+			store.editor.clearSelection();
 		}),
 		ignoreElements(),
 	);

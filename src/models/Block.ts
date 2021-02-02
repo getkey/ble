@@ -97,7 +97,7 @@ const Block = types.model({
 				// to prevent the user losing their selection
 				// we remove the "sibling" vertex if this one is selected
 				const root: IRootStore = getRoot(self);
-				if (root.editor.selectedEntity === current) {
+				if (root.editor.selection.get(current.id) !== undefined) {
 					self.removeVertex(next);
 				} else {
 					self.removeVertex(current);

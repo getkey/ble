@@ -1,4 +1,4 @@
-import { types, SnapshotIn, destroy, Instance, detach } from 'mobx-state-tree';
+import { types, SnapshotIn, destroy, Instance } from 'mobx-state-tree';
 
 import Entity, { IEntity } from 'src/models/Entity';
 
@@ -38,8 +38,9 @@ const Level = types.model({
 	},
 })).actions((self) => ({
 	move(entity: IEntity, position: number): void {
-		detach(entity);
-		self.entities.splice(position, 0, entity);
+		const entities = self.entities.filter((inListEntity) => inListEntity !== entity);
+		entities.splice(position, 0, entity);
+		self.entities.replace(entities);
 	},
 	cleanInvalidEntities(): void {
 		self.entities.forEach((entity) => {

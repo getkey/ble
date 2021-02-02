@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 
-import { useStore } from 'src/hooks/useStore';
 import NumberInput from 'src/components/NumberInput';
 import InfiniteRange from 'src/components/InfiniteRange';
 
@@ -17,18 +16,20 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-const RadiusParam: FunctionComponent = () => {
-	const { editor: { selectedEntity } } = useStore();
+interface RadiusEntity {
+	params: {
+		radius: number;
+	}
+	setRadius: (radius: number) => void;
+}
 
-	if (
-		selectedEntity === undefined ||
-		!('params' in selectedEntity) ||
-		!('setRadius' in selectedEntity) ||
-		!('radius' in selectedEntity.params)
-	) return null;
+type Props = {
+	radiusEntity: RadiusEntity,
+};
 
+const RadiusParam: FunctionComponent<Props> = ({ radiusEntity }) => {
 	const onChangeRadius = (radius: number): void => {
-		selectedEntity.setRadius(radius);
+		radiusEntity.setRadius(radius);
 	};
 
 	return (
@@ -41,12 +42,12 @@ const RadiusParam: FunctionComponent = () => {
 				<RadiusInput
 					min={1}
 					step={1}
-					value={selectedEntity.params.radius}
+					value={radiusEntity.params.radius}
 					onChange={onChangeRadius}
 				/>
 			</label>
 			<InfiniteRange
-				value={selectedEntity.params.radius}
+				value={radiusEntity.params.radius}
 				min={1}
 				step={1}
 				onChange={onChangeRadius}

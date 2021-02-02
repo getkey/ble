@@ -11,32 +11,58 @@ import StaticParam from 'src/components/StaticParam';
 import HoppiParam from 'src/components/HoppiParam';
 import RadiusParam from 'src/components/RadiusParam';
 import ZOrderParam from 'src/components/ZOrderParam';
+import BlockParam from 'src/components/BlockParam.tsx';
 import DangerButton from 'src/components/DangerButton';
 import LevelParamsBox from 'src/components/LevelParamsBox';
+import Hoppi from 'src/models/Hoppi';
+import Text from 'src/models/Text';
+import Entity from 'src/models/Entity';
+import Block from 'src/models/Block';
 
 const ParamsBox: FunctionComponent = () => {
-	const { editor: { selectedEntity } } = useStore();
+	const { editor: { selection } } = useStore();
 
-	if (selectedEntity === undefined){
+	if (selection.size === 0){
 		return (
 			<LevelParamsBox/>
 		);
 	}
 
-	function onDelete(): void {
-		if (selectedEntity === undefined) return;
+	if (selection.size > 1) {
+		return (
+			<Box title={`${selection.size} entities selected`}/>
+		);
+	}
 
+	const selectedEntity = Array.from(selection.values())[0];
+
+	function onDelete(): void {
 		selectedEntity.remove();
 	}
 
 	return (
 		<Box title={selectedEntity.displayName}>
-			<HoppiParam/>
-			<AngleParam/>
-			<RadiusParam/>
-			<TextParam/>
-			<StaticParam/>
-			<ZOrderParam/>
+			{Hoppi.is(selectedEntity) && (
+				<HoppiParam hoppi={selectedEntity}/>
+			)}
+			{('params' in selectedEntity) && ('setAngle' in selectedEntity) && ('angle' in selectedEntity.params) && (
+				<AngleParam angleEntity={selectedEntity}/>
+			)}
+			{('params' in selectedEntity) && ('setRadius' in selectedEntity) && ('radius' in selectedEntity.params) && (
+				<RadiusParam radiusEntity={selectedEntity}/>
+			)}
+			{Text.is(selectedEntity) && (
+				<TextParam text={selectedEntity}/>
+			)}
+			{('params' in selectedEntity) && ('setIsStatic' in selectedEntity) && ('isStatic' in selectedEntity.params) && (
+				<StaticParam staticEntity={selectedEntity}/>
+			)}
+			{Entity.is(selectedEntity) && (
+				<ZOrderParam entity={selectedEntity}/>
+			)}
+			{Block.is(selectedEntity) && (
+				<BlockParam blockEntity={selectedEntity}/>
+			)}
 			<DangerButton onClick={onDelete}>
 				<FontAwesomeIcon icon={faTrashAlt}/>
 				&#32;

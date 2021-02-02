@@ -5,8 +5,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faLanguage } from '@fortawesome/free-solid-svg-icons';
 
-import { useStore } from 'src/hooks/useStore';
-import Text from 'src/models/Text';
+import { IText } from 'src/models/Text';
 import DangerButton from 'src/components/DangerButton';
 
 const LanguageList = styled.div`
@@ -25,14 +24,15 @@ const LangLabel = styled.label`
 	text-align: right;
 `;
 
-const ParamsBox: FunctionComponent = () => {
-	const { editor: { selectedEntity } } = useStore();
+type Props = {
+	text: IText;
+}
+
+const ParamsBox: FunctionComponent<Props> = ({ text }) => {
 	const selectRef = useRef(null);
 
-	if (!Text.is(selectedEntity)) return null;
-
 	const onChangeText = (ev: ChangeEvent<HTMLTextAreaElement>, code: string): void => {
-		selectedEntity.setCopy(code, ev.target.value);
+		text.setCopy(code, ev.target.value);
 	};
 
 	const onAddLanguage = (): void => {
@@ -40,23 +40,23 @@ const ParamsBox: FunctionComponent = () => {
 
 		// why is typescript being dumb?
 		// @ts-ignore
-		selectedEntity.setCopy(selectRef.current.value, '');
+		text.setCopy(selectRef.current.value, '');
 	};
 
 	const onRemoveLanguage = (code: string): void => {
 		if (selectRef.current === null) return;
 
-		selectedEntity.removeLang(code);
+		text.removeLang(code);
 	};
 
-	const unusedLanguages = Object.entries(selectedEntity.params.copy)
+	const unusedLanguages = Object.entries(text.params.copy)
 		.filter(([, copy]) => copy === undefined)
 		.map(([code]) => code);
 
 	return (
 		<Fragment>
 			<LanguageList>
-				{Object.entries(selectedEntity.params.copy)
+				{Object.entries(text.params.copy)
 					.filter(([, copy]) => copy !== undefined)
 					.map(([code, copy]) => (
 						<LanguageRow key={code}>

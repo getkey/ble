@@ -26,13 +26,13 @@ const entityColors = {
 };
 
 const PixiApp: FunctionComponent = () => {
-	const { level: { entities }, editor: { selectedEntity } } = useStore();
+	const { level: { entities }, editor: { selection, vertexSelection } } = useStore();
 	const dispatch = useDispatch();
 
 	return (
 		<Level>
 			{entities.map((entity) => {
-				const isSelected = entity === selectedEntity;
+				const isSelected = selection.get(entity.id) !== undefined;
 
 				if (DoorM.is(entity)) {
 					const { id, params: { x, y, angle } } = entity;
@@ -55,7 +55,7 @@ const PixiApp: FunctionComponent = () => {
 
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
-						isSelected: vertex === selectedEntity,
+						isSelected: vertexSelection.get(vertex.id) !== undefined,
 						id: vertex.id,
 					}));
 

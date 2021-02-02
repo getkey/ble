@@ -1,8 +1,7 @@
-import { getParent, Instance, types, SnapshotOut, getRoot } from 'mobx-state-tree';
+import { getParent, Instance, types, SnapshotOut } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 
 import { IBlock } from 'src/models/Block';
-import { IRootStore } from 'src/models/RootStore';
 import Point from 'src/models/Point';
 
 const Vertex = types.compose(
@@ -16,14 +15,6 @@ const Vertex = types.compose(
 	},
 })).actions((self) => ({
 	remove(): void {
-		const root: IRootStore = getRoot(self);
-
-		// order matters here!
-		// we set the new selectedEntity first because if self is the last point, parent will get removed too
-		if (root.editor.selectedEntity === self) {
-			root.editor.setSelectedEntity(self.parentBlock);
-		}
-
 		self.parentBlock.removeVertex(self);
 	},
 }));

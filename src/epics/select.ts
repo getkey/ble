@@ -7,7 +7,7 @@ import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import BlockM from 'src/models/Block';
 import EntityM, { IEntity } from 'src/models/Entity';
-import VertexM from 'src/models/Vertex';
+import VertexM, { IVertex } from 'src/models/Vertex';
 
 export const entityMove: Epic = (action$, { store }) => {
 	return action$.pipe (
@@ -80,7 +80,19 @@ export const pointMove: Epic = (action$, { store }) => {
 				const posInWorld = store.editor.screenToWorld(pos);
 				const snappedPos = snapToGrid(posInWorld, store.editor.gridCellSize);
 
+				const delta = {
+					x: snappedPos.x - storePoint.x,
+					y: snappedPos.y - storePoint.y,
+				};
+				// we move the point under the cursor, snapping it to the grid
 				storePoint.set(snappedPos.x, snappedPos.y);
+
+				// the other seleced vertices aren't snapped
+				store.editor.vertexSelection.forEach((vertex: IVertex) => {
+					if (vertex === storePoint) return;
+
+					vertex.move(delta.x, delta.y);
+				});
 			}),
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
@@ -137,7 +149,7 @@ export const selectVertex: Epic = (action$, { store }) => {
 				} else {
 					store.editor.addVertexToSelection(point);
 				}
-			} else {
+			} else if (!store.editor.vertexSelection.has(point.id)) {
 				store.editor.setVertexSelection([point]);
 			}
 		}),

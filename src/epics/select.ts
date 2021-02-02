@@ -6,7 +6,7 @@ import { resolveIdentifier } from 'mobx-state-tree';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import BlockM from 'src/models/Block';
-import EntityM from 'src/models/Entity';
+import EntityM, { IEntity } from 'src/models/Entity';
 import VertexM from 'src/models/Vertex';
 
 export const entityMove: Epic = (action$, { store }) => {
@@ -16,12 +16,11 @@ export const entityMove: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		// we copy the relevant data because react pools events
-		map(({ ev, entityId }) => ({
+		map(({ ev }) => ({
 			x: ev.data.global.x,
 			y: ev.data.global.y,
-			entityId,
 		})),
-		switchMap(({ x, y, entityId }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
+		switchMap(({ x, y }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map(({ clientX, clientY }) => {
 				return {
 					x: clientX - x,
@@ -41,10 +40,9 @@ export const entityMove: Epic = (action$, { store }) => {
 					y: wantedPos.y - offset.y,
 				};
 
-				// @ts-ignore
-				const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
-				if (entity === undefined) return offset;
-				entity.move(displacement.x, displacement.y);
+				store.editor.selection.forEach((entity: IEntity) => {
+					entity.move(displacement.x, displacement.y);
+				});
 
 				return wantedPos;
 			}, { x: 0, y: 0 }),
@@ -111,7 +109,7 @@ export const selectEntity: Epic = (action$, { store }) => {
 				} else {
 					store.editor.addToSelection(entity);
 				}
-			} else {
+			} else if (!store.editor.selection.has(entity.id)) {
 				store.editor.setSelection([entity]);
 			}
 		}),

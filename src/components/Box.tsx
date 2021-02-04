@@ -5,18 +5,12 @@ import chroma from 'chroma-js';
 import { selectColor } from 'src/config.ts';
 
 const Container = styled.div`
-	position: absolute;
-	top: 0;
-	right: 0;
 	background-color: white;
 	max-width: min-content;
 
-	@media (orientation: portrait) {
-		top: initial;
-		right: initial;
-		bottom: 0;
-		left: 0;
-	}
+	position: absolute;
+	top: 100%;
+	right: 0;
 
 	& > * {
 		padding: 8px;

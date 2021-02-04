@@ -7,11 +7,8 @@ import ZoomButtons from 'src/components/ZoomButtons';
 import MenuBar from 'src/components/MenuBar';
 import ToolBar from 'src/components/ToolBar';
 
-const TopLeftDiv = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
+const TopStuff = styled.div`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -20,11 +17,11 @@ const TopLeftDiv = styled.div`
 const DomApp: FunctionComponent = () => {
 	return (
 		<Fragment>
-			<TopLeftDiv>
+			<TopStuff>
 				<MenuBar/>
 				<ToolBar/>
-			</TopLeftDiv>
-			<ParamsBox/>
+				<ParamsBox/>
+			</TopStuff>
 			<ZoomButtons/>
 		</Fragment>
 	);

@@ -13,10 +13,12 @@ const GridSizeInput = styled(NumberInput)`
 
 const Container = styled.div`
 	background-color: white;
-	margin: 0.75em 0.5em;
 	border-radius: 3px;
 	display: flex;
 	align-items: center;
+	position: absolute;
+	top: calc(100% + 0.75em);
+	left: 0.5em;
 `;
 
 const ToolBar: FunctionComponent = () => {

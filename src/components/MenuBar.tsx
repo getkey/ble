@@ -15,6 +15,7 @@ const StarInput = styled(NumberInput)`
 `;
 
 const Bar = styled.div`
+	background-color: white; /* important when the background is black when in an iframe */
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;

@@ -11,44 +11,38 @@ const StarInput = styled(NumberInput)`
 	width: 7ex;
 	appearance: textfield; /* removes the arrows */
 	text-align: center;
-`;
-
-const StarBox = styled.div`
-	display: flex;
-`;
-
-const StarColumn = styled.label`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 33.3333%;
-
-	&::before {
-		content: '★';
-		font-size: 4ex;
-	}
-	&::after {
-		content: 'secs';
-	}
-	&:first-child::after {
-		content: none;
-	}
+	display: table-cell;
 `;
 
 const Bar = styled.div`
 	width: 100%;
-	background-color: white;
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
+	padding: 0 0.3em;
+	box-sizing: border-box; /* to make the padding on the right work */
 `;
 
 const Line = styled.div`
 	display: flex;
+	align-items: center;
 `;
 
 const LevelNameInput = styled.input`
-	width: 15ex;
-	font-size: 0.8em;
+	max-width: 15ex;
+	font-size: 1.2em;
+`;
+
+const Table = styled.div`
+	display: table;
+	margin-left: 0.5em;
+`;
+const TableRow = styled.label`
+	display: table-row;
+`;
+
+const Text = styled.span`
+	display: table-cell;
 `;
 
 const MenuBar: FunctionComponent = () => {
@@ -78,13 +72,11 @@ const MenuBar: FunctionComponent = () => {
 					placeholder="Level name"
 					required
 				/>
-				<StarBox>
-					<StarColumn
-						title="Finish the level to get 1 star"
-					/>
-					<StarColumn
+				<Table>
+					<TableRow
 						title={`Finish in ${level.timings[0] / 1000}s or less to get 2 stars`}
 					>
+						<Text>★★</Text>
 						<StarInput
 							min={0}
 							step={0.001}
@@ -92,10 +84,12 @@ const MenuBar: FunctionComponent = () => {
 							onChange={on2StarsChange}
 							required
 						/>
-					</StarColumn>
-					<StarColumn
+						<Text>secs</Text>
+					</TableRow>
+					<TableRow
 						title={`Finish in ${level.timings[1] / 1000}s or less to get 3 stars`}
 					>
+						<Text>★★★</Text>
 						<StarInput
 							min={0}
 							step={0.001}
@@ -103,8 +97,9 @@ const MenuBar: FunctionComponent = () => {
 							onChange={on3StarsChange}
 							required
 						/>
-					</StarColumn>
-				</StarBox>
+						<Text>secs</Text>
+					</TableRow>
+				</Table>
 			</Line>
 			<Line>
 				<LoadSave/>

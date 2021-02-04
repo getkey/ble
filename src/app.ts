@@ -5,6 +5,9 @@ import 'static/font/ps2p_0.png';
 import { store } from 'src/models/';
 
 const pixiContainer = document.getElementById('pixi-container');
+if (pixiContainer === null) {
+	throw new Error('Pixi container was not found');
+}
 
 const app = new Application({
 	backgroundColor: 0x121f1f,

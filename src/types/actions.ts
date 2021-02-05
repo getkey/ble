@@ -22,4 +22,6 @@ export type Actions = {
 } | {
 	type: 'zoom';
 	factor: number;
+} | {
+	type: 'hydrate';
 };

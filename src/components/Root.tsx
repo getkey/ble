@@ -14,7 +14,7 @@ import epics from 'src/epics/';
 import { Actions } from 'src/types/actions';
 import app from 'src/app';
 
-const action$ = new Subject<Actions>();
+export const action$ = new Subject<Actions>();
 startEpics<Actions, { store: IRootStore; app: Application }>(epics, action$, { store, app });
 
 const Root: FunctionComponent = () => {

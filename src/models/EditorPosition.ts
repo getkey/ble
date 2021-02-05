@@ -16,8 +16,10 @@ const EditorPosition = types.model({
 		EditorMode.select,
 	),
 	panning: false,
-	screen: types.optional(
+	renderZone: types.optional(
 		types.model({
+			x: 0,
+			y: 0,
 			width: types.number,
 			height: types.number,
 		}),
@@ -36,15 +38,17 @@ const EditorPosition = types.model({
 	setPanning(panning: boolean): void {
 		self.panning = panning;
 	},
-	setScreenSize(width: number, height: number): void {
-		self.screen.width = width;
-		self.screen.height = height;
+	setScreenSize({ width, height, x, y }: { width: number; height: number; x: number; y: number; }): void {
+		self.renderZone.width = width;
+		self.renderZone.height = height;
+		self.renderZone.x = x;
+		self.renderZone.y = y;
 	},
 })).views((self) => ({
 	get cameraPos(): GenericPoint {
 		return {
-			x: Math.round(self.screen.width/2),
-			y: Math.round(self.screen.height/2),
+			x: Math.round(self.renderZone.width/2),
+			y: Math.round(self.renderZone.height/2),
 		};
 	},
 	get globalCursor(): string {

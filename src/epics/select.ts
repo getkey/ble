@@ -1,5 +1,5 @@
 import { fromEvent, empty, of } from 'rxjs';
-import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap } from 'rxjs/operators';
+import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 import { resolveIdentifier } from 'mobx-state-tree';
 
@@ -16,9 +16,10 @@ export const entityMove: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		// we copy the relevant data because react pools events
-		map(({ ev }) => ({
-			x: ev.data.global.x,
-			y: ev.data.global.y,
+		pluck('ev', 'data', 'originalEvent'),
+		map(({ clientX, clientY }) => ({
+			x: clientX,
+			y: clientY,
 		})),
 		switchMap(({ x, y }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map(({ clientX, clientY }) => {
@@ -73,8 +74,8 @@ export const pointMove: Epic = (action$, { store }) => {
 		switchMap(({ storePoint, storePolygon }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {
 				const pos = {
-					x: ev.clientX,
-					y: ev.clientY,
+					x: ev.clientX - store.editor.renderZone.x,
+					y: ev.clientY - store.editor.renderZone.y,
 				};
 
 				const posInWorld = store.editor.screenToWorld(pos);

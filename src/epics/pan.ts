@@ -9,7 +9,7 @@ export const globalPan: Epic = (action$, { store, app }) => {
 		action$.pipe(
 			ofType('backgroundPointerDown'),
 			filter(() => store.editor.mode === EditorMode.select),
-			pluck('ev', 'data', 'global'),
+			pluck('ev', 'data', 'originalEvent'),
 		),
 		fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
 			filter((ev) => ev.button === 1),
@@ -17,11 +17,12 @@ export const globalPan: Epic = (action$, { store, app }) => {
 				// on Windows middle-click is for multidirectional scroll
 				ev.preventDefault();
 			}),
-			map(({ clientX, clientY }) => ({
-				x: clientX,
-				y: clientY,
-			})),
 		),
+	).pipe(
+		map(({ clientX, clientY }) => ({
+			x: clientX,
+			y: clientY,
+		})),
 	);
 
 	return startPanning$.pipe(
@@ -56,12 +57,16 @@ export const globalPan: Epic = (action$, { store, app }) => {
 	);
 };
 
-export const resize: Epic = (action$, { store }) => {
-	// TODO: use app.renderer 'resize' event once it gets released
-	// https://github.com/pixijs/pixi.js/pull/6415
-	return fromEvent(window, 'resize').pipe(
+export const resize: Epic = (action$, { store, app }) => {
+	return merge(
+		action$.pipe(
+			ofType('hydrate'),
+		),
+		fromEvent(app.renderer, 'resize'),
+	).pipe(
 		tap(() => {
-			store.editor.setScreenSize(window.innerWidth, window.innerHeight);
+			const box = app.view.getBoundingClientRect();
+			store.editor.setScreenSize(box);
 		}),
 		ignoreElements(),
 	);

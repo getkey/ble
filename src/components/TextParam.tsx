@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faLanguage } from '@fortawesome/free-solid-svg-icons';
 
+import { useStore } from 'src/hooks/useStore';
 import { IText } from 'src/models/Text';
 import DangerButton from 'src/components/DangerButton';
 
@@ -30,10 +31,19 @@ type Props = {
 
 const ParamsBox: FunctionComponent<Props> = ({ text }) => {
 	const selectRef = useRef(null);
+	const { undoManager } = useStore();
 
 	const onChangeText = (ev: ChangeEvent<HTMLTextAreaElement>, code: string): void => {
 		text.setCopy(code, ev.target.value);
 	};
+
+	function onTextFocus(): void {
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		undoManager.startGroup(() => {});
+	}
+	function onTextBlur(): void {
+		undoManager.stopGroup();
+	}
 
 	const onAddLanguage = (): void => {
 		if (selectRef.current === null) return;
@@ -65,7 +75,6 @@ const ParamsBox: FunctionComponent<Props> = ({ text }) => {
 								{code !== 'en' && (
 									<DangerButton
 										onClick={(): void => onRemoveLanguage(code)}
-										confirmationMessage="Are you sure you want to remove this language?"
 										title="Remove language"
 									>
 										<FontAwesomeIcon icon={faTrashAlt}/>
@@ -79,6 +88,8 @@ const ParamsBox: FunctionComponent<Props> = ({ text }) => {
 								wrap="off"
 								value={copy}
 								onChange={(ev): void => onChangeText(ev, code)}
+								onFocus={onTextFocus}
+								onBlur={onTextBlur}
 								minLength={1}
 							/>
 						</LanguageRow>

@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
 import { validate } from 'bombhopperio-level-tools';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faFolderOpen, faPlay, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faFolderOpen, faPlay, faUpload, faUndo, faRedo } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import { toFilename } from 'src/utils/io';
@@ -42,7 +42,7 @@ const Button = styled.button`
 `;
 
 const DomApp: FunctionComponent = () => {
-	const { level } = useStore();
+	const { level, undoManager } = useStore();
 
 	function onSave(): void {
 		// don't want invalid entities to end up in the snapshot
@@ -128,28 +128,46 @@ ${err.message || JSON.stringify(err)}`);
 		});
 	}
 
+	function onUndo(): void {
+		undoManager.undo();
+	}
+
+	function onRedo(): void {
+		undoManager.redo();
+	}
+
 	return (
 		<Container>
+			<Button onClick={onUndo} disabled={!undoManager.canUndo}>
+				<FontAwesomeIcon icon={faUndo}/>
+				&#32;
+				Undo
+			</Button>
+			<Button onClick={onRedo} disabled={!undoManager.canRedo}>
+				<FontAwesomeIcon icon={faRedo}/>
+				&#32;
+				Redo
+			</Button>
 			<FilePicker>
 				<FontAwesomeIcon icon={faFolderOpen}/>
 				&#32;
-				Load level<input accept="application/json" type="file" onChange={onLoad}/></FilePicker>
+				Import<input accept="application/json" type="file" onChange={onLoad}/></FilePicker>
 			<Button onClick={onSave}>
 				<FontAwesomeIcon icon={faSave}/>
 				&#32;
-				Save level
+				Export
 			</Button>
 			{inIframe && (
 				<Fragment>
 					<Button onClick={onTest}>
 						<FontAwesomeIcon icon={faPlay}/>
 						&#32;
-						Test level
+						Test
 					</Button>
 					<Button onClick={onUpload}>
 						<FontAwesomeIcon icon={faUpload}/>
 						&#32;
-						Upload level
+						Upload
 					</Button>
 				</Fragment>
 			)}

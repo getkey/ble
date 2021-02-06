@@ -47,7 +47,7 @@ const Text = styled.span`
 `;
 
 const MenuBar: FunctionComponent = () => {
-	const { level } = useStore();
+	const { level, undoManager } = useStore();
 
 	function on2StarsChange(value: number): void {
 		level.set2StarsTime(value * 1000);
@@ -58,8 +58,22 @@ const MenuBar: FunctionComponent = () => {
 	function onNameChange(ev: ChangeEvent<HTMLInputElement>): void {
 		level.setName(ev.target.value);
 	}
+
+	function onNameFocus(): void {
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		undoManager.startGroup(() => {});
+	}
 	function onNameBlur(ev: FocusEvent<HTMLInputElement>): void {
+		undoManager.stopGroup();
 		ev.target.reportValidity();
+	}
+
+	function onStarFocus(): void {
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		undoManager.startGroup(() => {});
+	}
+	function onStarBlur(): void {
+		undoManager.stopGroup();
 	}
 
 	return (
@@ -69,6 +83,7 @@ const MenuBar: FunctionComponent = () => {
 					type="text"
 					value={level.name}
 					onChange={onNameChange}
+					onFocus={onNameFocus}
 					onBlur={onNameBlur}
 					placeholder="Level name"
 					required
@@ -83,6 +98,8 @@ const MenuBar: FunctionComponent = () => {
 							step={0.001}
 							value={level.timings[0] / 1000}
 							onChange={on2StarsChange}
+							onFocus={onStarFocus}
+							onBlur={onStarBlur}
 							required
 						/>
 						<Text>secs</Text>
@@ -96,6 +113,8 @@ const MenuBar: FunctionComponent = () => {
 							step={0.001}
 							value={level.timings[1] / 1000}
 							onChange={on3StarsChange}
+							onFocus={onStarFocus}
+							onBlur={onStarBlur}
 							required
 						/>
 						<Text>secs</Text>

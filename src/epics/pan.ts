@@ -28,6 +28,8 @@ export const globalPan: Epic = (action$, { store, app }) => {
 	return startPanning$.pipe(
 		tap(() => {
 			store.editor.setPanning(true);
+			// eslint-disable-next-line @typescript-eslint/no-empty-function
+			store.undoManager.startGroup(() => {});
 		}),
 		map(({ x, y }) => ({ // save starting values
 			start: {
@@ -49,6 +51,7 @@ export const globalPan: Epic = (action$, { store, app }) => {
 			}),
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
+					store.undoManager.stopGroup();
 					store.editor.setPanning(false);
 				})
 			)),

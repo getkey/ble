@@ -1,4 +1,5 @@
 import { types, Instance } from 'mobx-state-tree';
+import { UndoManager } from 'mst-middlewares';
 
 import Editor from 'src/models/Editor';
 import LevelProcessor from 'src/models/LevelProcessor';
@@ -15,6 +16,7 @@ import { IEntity } from 'src/models/Entity';
 const RootStore = types.model({
 	editor: Editor,
 	level: LevelProcessor,
+	undoManager: types.optional(UndoManager, {}),
 }).actions((self) => ({
 	addEntities(entities: Array<IEntity>): void {
 		self.level.entities.push(...entities);

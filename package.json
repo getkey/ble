@@ -30,6 +30,7 @@
     "mobx": "^6.1.4",
     "mobx-react-lite": "^3.2.0",
     "mobx-state-tree": "^5.0.1",
+    "mst-middlewares": "^5.0.1",
     "nanoid": "^3.1.20",
     "pixi.js": "^5.3.7",
     "react": "^17.0.1",

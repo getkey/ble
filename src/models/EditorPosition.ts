@@ -1,9 +1,10 @@
-import { types } from 'mobx-state-tree';
+import { types, getRoot } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 
 import Point from 'src/models/Point';
 import GenericPoint from 'src/types/point';
 import { EditorMode } from 'src/types/editor';
+import { IRootStore } from 'src/models/RootStore';
 
 const EditorPosition = types.model({
 	position: types.optional(Point, {
@@ -36,13 +37,19 @@ const EditorPosition = types.model({
 		self.mode = mode;
 	},
 	setPanning(panning: boolean): void {
-		self.panning = panning;
+		const root: IRootStore = getRoot(self);
+		root.undoManager.withoutUndo(() => {
+			self.panning = panning;
+		});
 	},
 	setScreenSize({ width, height, x, y }: { width: number; height: number; x: number; y: number; }): void {
-		self.renderZone.width = width;
-		self.renderZone.height = height;
-		self.renderZone.x = x;
-		self.renderZone.y = y;
+		const root: IRootStore = getRoot(self);
+		root.undoManager.withoutUndo(() => {
+			self.renderZone.width = width;
+			self.renderZone.height = height;
+			self.renderZone.x = x;
+			self.renderZone.y = y;
+		});
 	},
 })).views((self) => ({
 	get cameraPos(): GenericPoint {

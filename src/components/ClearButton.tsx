@@ -15,8 +15,6 @@ const ClearButton: FunctionComponent = () => {
 	const { level } = useStore();
 
 	function onClear(): void {
-		if (!window.confirm('Are you sure you want to clear this level?')) return;
-
 		level.clearEntities();
 	}
 

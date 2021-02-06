@@ -27,7 +27,7 @@ type Props = {
 };
 
 const ZOrderParam: FunctionComponent<Props> = ({ entity }) => {
-	const { level } = useStore();
+	const { level, undoManager } = useStore();
 
 	const position = level.getEntityPosition(entity);
 
@@ -37,6 +37,14 @@ const ZOrderParam: FunctionComponent<Props> = ({ entity }) => {
 	const onChangeSlider = (ev: ChangeEvent<HTMLInputElement>): void => {
 		level.move(entity, ev.target.valueAsNumber - 1);
 	};
+
+	function onFocus(): void {
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		undoManager.startGroup(() => {});
+	}
+	function onBlur(): void {
+		undoManager.stopGroup();
+	}
 
 	const posDisplay = position + 1;
 	return (
@@ -53,6 +61,8 @@ const ZOrderParam: FunctionComponent<Props> = ({ entity }) => {
 						max={level.entities.length}
 						step={1}
 						onChange={onChange}
+						onFocus={onFocus}
+						onBlur={onBlur}
 					/>
 				</label>
 				<input
@@ -62,6 +72,8 @@ const ZOrderParam: FunctionComponent<Props> = ({ entity }) => {
 					step="1"
 					value={posDisplay}
 					onChange={onChangeSlider}
+					onFocus={onFocus}
+					onBlur={onBlur}
 				/>
 			</Container>
 			{Hoppi.is(entity) && (

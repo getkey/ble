@@ -18,13 +18,12 @@ const Button = styled.button`
 
 type Props = {
 	onClick?: (ev: MouseEvent) => unknown;
-	confirmationMessage?: string;
 	title?: string;
 };
 
-const DangerButton: FunctionComponent<Props> = ({ onClick, confirmationMessage = 'Are you sure?', ...props }) => {
+const DangerButton: FunctionComponent<Props> = ({ onClick, ...props }) => {
 	function clickHandler(ev: MouseEvent): void {
-		if (onClick === undefined || !window.confirm(confirmationMessage)) return;
+		if (onClick === undefined) return;
 
 		onClick(ev);
 	}

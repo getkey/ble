@@ -21,6 +21,10 @@ export const entityMove: Epic = (action$, { store }) => {
 			x: clientX,
 			y: clientY,
 		})),
+		tap(() => {
+			// eslint-disable-next-line @typescript-eslint/no-empty-function
+			store.undoManager.startGroup(() => {});
+		}),
 		switchMap(({ x, y }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map(({ clientX, clientY }) => {
 				return {
@@ -47,7 +51,11 @@ export const entityMove: Epic = (action$, { store }) => {
 
 				return wantedPos;
 			}, { x: 0, y: 0 }),
-			takeUntil(fromEvent(document, 'pointerup')),
+			takeUntil(fromEvent(document, 'pointerup').pipe(
+				tap(() => {
+					store.undoManager.stopGroup();
+				}),
+			)),
 		)),
 		ignoreElements(),
 	);
@@ -70,6 +78,10 @@ export const pointMove: Epic = (action$, { store }) => {
 				storePoint,
 				storePolygon,
 			});
+		}),
+		tap(() => {
+			// eslint-disable-next-line @typescript-eslint/no-empty-function
+			store.undoManager.startGroup(() => {});
 		}),
 		switchMap(({ storePoint, storePolygon }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {
@@ -97,6 +109,7 @@ export const pointMove: Epic = (action$, { store }) => {
 			}),
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
+					store.undoManager.stopGroup();
 					storePolygon.cleanSuperposedVertices();
 				}),
 			)),

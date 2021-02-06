@@ -1,11 +1,15 @@
 import React, { FunctionComponent, ChangeEvent, FocusEvent } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
+import { faUndo, faRedo } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useStore } from 'src/hooks/useStore';
+import { useDispatch } from 'src/hooks/useDispatch';
 import NumberInput from 'src/components/NumberInput';
 import LoadSave from 'src/components/LoadSave';
 import HomeButton from 'src/components/HomeButton';
+import { buttonCss } from 'src/utils/buttons';
 
 const StarInput = styled(NumberInput)`
 	width: 7ex;
@@ -46,8 +50,13 @@ const Text = styled.span`
 	display: table-cell;
 `;
 
+const Button = styled.button`
+	${buttonCss};
+`;
+
 const MenuBar: FunctionComponent = () => {
 	const { level, undoManager } = useStore();
+	const dispatch = useDispatch();
 
 	function on2StarsChange(value: number): void {
 		level.set2StarsTime(value * 1000);
@@ -74,6 +83,18 @@ const MenuBar: FunctionComponent = () => {
 	}
 	function onStarBlur(): void {
 		undoManager.stopGroup();
+	}
+
+	function onUndo(): void {
+		dispatch({
+			type: 'undo',
+		});
+	}
+
+	function onRedo(): void {
+		dispatch({
+			type: 'redo',
+		});
 	}
 
 	return (
@@ -122,6 +143,16 @@ const MenuBar: FunctionComponent = () => {
 				</Table>
 			</Line>
 			<Line>
+				<Button onClick={onUndo} disabled={!undoManager.canUndo}>
+					<FontAwesomeIcon icon={faUndo}/>
+					&#32;
+					Undo
+				</Button>
+				<Button onClick={onRedo} disabled={!undoManager.canRedo}>
+					<FontAwesomeIcon icon={faRedo}/>
+					&#32;
+					Redo
+				</Button>
 				<LoadSave/>
 				<HomeButton/>
 			</Line>

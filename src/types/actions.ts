@@ -24,4 +24,8 @@ export type Actions = {
 	factor: number;
 } | {
 	type: 'hydrate';
+} | {
+	type: 'undo';
+} | {
+	type: 'redo';
 };

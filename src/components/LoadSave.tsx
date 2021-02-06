@@ -5,29 +5,13 @@ import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
 import { validate } from 'bombhopperio-level-tools';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faFolderOpen, faPlay, faUpload, faUndo, faRedo } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faFolderOpen, faPlay, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import { toFilename } from 'src/utils/io';
 import { levelPreProcessor } from 'src/utils/snapshot';
 import { buttonCss } from 'src/utils/buttons';
 import { inIframe, postMessage } from 'src/utils/iframe';
-
-const Container = styled.div`
-	display: flex;
-	margin: 4px 0;
-	font-size: 1rem;
-
-	& > * {
-		margin: 0 16px;
-	}
-	& > *:first-child {
-		margin-left: 0;
-	}
-	& > *:last-child {
-		margin-right: 0;
-	}
-`;
 
 const FilePicker = styled.label`
 	${buttonCss};
@@ -42,7 +26,7 @@ const Button = styled.button`
 `;
 
 const DomApp: FunctionComponent = () => {
-	const { level, undoManager } = useStore();
+	const { level } = useStore();
 
 	function onSave(): void {
 		// don't want invalid entities to end up in the snapshot
@@ -128,35 +112,8 @@ ${err.message || JSON.stringify(err)}`);
 		});
 	}
 
-	function onUndo(): void {
-		undoManager.undo();
-	}
-
-	function onRedo(): void {
-		undoManager.redo();
-	}
-
 	return (
-		<Container>
-			<Button onClick={onUndo} disabled={!undoManager.canUndo}>
-				<FontAwesomeIcon icon={faUndo}/>
-				&#32;
-				Undo
-			</Button>
-			<Button onClick={onRedo} disabled={!undoManager.canRedo}>
-				<FontAwesomeIcon icon={faRedo}/>
-				&#32;
-				Redo
-			</Button>
-			<FilePicker>
-				<FontAwesomeIcon icon={faFolderOpen}/>
-				&#32;
-				Import<input accept="application/json" type="file" onChange={onLoad}/></FilePicker>
-			<Button onClick={onSave}>
-				<FontAwesomeIcon icon={faSave}/>
-				&#32;
-				Export
-			</Button>
+		<Fragment>
 			{inIframe && (
 				<Fragment>
 					<Button onClick={onTest}>
@@ -171,7 +128,16 @@ ${err.message || JSON.stringify(err)}`);
 					</Button>
 				</Fragment>
 			)}
-		</Container>
+			<FilePicker>
+				<FontAwesomeIcon icon={faFolderOpen}/>
+				&#32;
+				Import<input accept="application/json" type="file" onChange={onLoad}/></FilePicker>
+			<Button onClick={onSave}>
+				<FontAwesomeIcon icon={faSave}/>
+				&#32;
+				Export
+			</Button>
+		</Fragment>
 	);
 };
 

@@ -69,8 +69,7 @@ const MenuBar: FunctionComponent = () => {
 	}
 
 	function onNameFocus(): void {
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		undoManager.startGroup(() => {});
+		undoManager.startGroup();
 	}
 	function onNameBlur(ev: FocusEvent<HTMLInputElement>): void {
 		undoManager.stopGroup();
@@ -78,8 +77,7 @@ const MenuBar: FunctionComponent = () => {
 	}
 
 	function onStarFocus(): void {
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		undoManager.startGroup(() => {});
+		undoManager.startGroup();
 	}
 	function onStarBlur(): void {
 		undoManager.stopGroup();

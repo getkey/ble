@@ -24,8 +24,7 @@ export const entityMove: Epic = (action$, { store }) => {
 			y: y + store.editor.renderZone.y,
 		})),
 		tap(() => {
-			// eslint-disable-next-line @typescript-eslint/no-empty-function
-			store.undoManager.startGroup(() => {});
+			store.undoManager.startGroup();
 		}),
 		switchMap(({ x, y }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map(({ clientX, clientY }) => {
@@ -82,8 +81,7 @@ export const pointMove: Epic = (action$, { store }) => {
 			});
 		}),
 		tap(() => {
-			// eslint-disable-next-line @typescript-eslint/no-empty-function
-			store.undoManager.startGroup(() => {});
+			store.undoManager.startGroup();
 		}),
 		switchMap(({ storePoint, storePolygon }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {

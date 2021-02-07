@@ -33,8 +33,7 @@ export const globalPan: Epic = (action$, { store, app }) => {
 	return startPanning$.pipe(
 		tap(() => {
 			store.editor.setPanning(true);
-			// eslint-disable-next-line @typescript-eslint/no-empty-function
-			store.undoManager.startGroup(() => {});
+			store.undoManager.startGroup();
 		}),
 		map(({ x, y }) => ({ // save starting values
 			start: {

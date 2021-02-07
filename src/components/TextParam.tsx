@@ -38,8 +38,7 @@ const ParamsBox: FunctionComponent<Props> = ({ text }) => {
 	};
 
 	function onTextFocus(): void {
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		undoManager.startGroup(() => {});
+		undoManager.startGroup();
 	}
 	function onTextBlur(): void {
 		undoManager.stopGroup();

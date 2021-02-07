@@ -39,8 +39,7 @@ const ZOrderParam: FunctionComponent<Props> = ({ entity }) => {
 	};
 
 	function onFocus(): void {
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		undoManager.startGroup(() => {});
+		undoManager.startGroup();
 	}
 	function onBlur(): void {
 		undoManager.stopGroup();

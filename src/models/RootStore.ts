@@ -1,5 +1,4 @@
 import { types, Instance } from 'mobx-state-tree';
-import { UndoManager } from 'mst-middlewares';
 
 import Editor from 'src/models/Editor';
 import LevelProcessor from 'src/models/LevelProcessor';
@@ -10,13 +9,14 @@ import Ball from 'src/models/Ball';
 import Door from 'src/models/Door';
 import Hoppi from 'src/models/Hoppi';
 import Text from 'src/models/Text';
+import SoftUndoManager from 'src/models/SoftUndoManager';
 import IPoint from 'src/types/point';
 import { IEntity } from 'src/models/Entity';
 
 const RootStore = types.model({
 	editor: Editor,
 	level: LevelProcessor,
-	undoManager: types.optional(UndoManager, {}),
+	undoManager: types.optional(SoftUndoManager, {}),
 }).actions((self) => ({
 	addEntities(entities: Array<IEntity>): void {
 		self.level.entities.push(...entities);

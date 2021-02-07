@@ -9,7 +9,13 @@ export const globalPan: Epic = (action$, { store, app }) => {
 		action$.pipe(
 			ofType('backgroundPointerDown'),
 			filter(() => store.editor.mode === EditorMode.select),
-			pluck('ev', 'data', 'originalEvent'),
+			// it's important to use global and not original event
+			// because TouchEvents don't have clientX
+			pluck('ev', 'data', 'global'),
+			map(({ x, y }) => ({
+				x: x + store.editor.renderZone.x,
+				y: y + store.editor.renderZone.y,
+			})),
 		),
 		fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
 			filter((ev) => ev.button === 1),
@@ -17,12 +23,11 @@ export const globalPan: Epic = (action$, { store, app }) => {
 				// on Windows middle-click is for multidirectional scroll
 				ev.preventDefault();
 			}),
+			map(({ clientX, clientY }) => ({
+				x: clientX,
+				y: clientY,
+			})),
 		),
-	).pipe(
-		map(({ clientX, clientY }) => ({
-			x: clientX,
-			y: clientY,
-		})),
 	);
 
 	return startPanning$.pipe(

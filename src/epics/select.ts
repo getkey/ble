@@ -15,11 +15,13 @@ export const entityMove: Epic = (action$, { store }) => {
 		filter(() => store.editor.mode === EditorMode.select),
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
+		// it's important to use global and not original event
+		// because TouchEvents don't have clientX
+		pluck('ev', 'data', 'global'),
 		// we copy the relevant data because react pools events
-		pluck('ev', 'data', 'originalEvent'),
-		map(({ clientX, clientY }) => ({
-			x: clientX,
-			y: clientY,
+		map(({ x, y }) => ({
+			x: x + store.editor.renderZone.x,
+			y: y + store.editor.renderZone.y,
 		})),
 		tap(() => {
 			// eslint-disable-next-line @typescript-eslint/no-empty-function

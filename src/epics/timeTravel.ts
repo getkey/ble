@@ -2,9 +2,11 @@ import { fromEvent } from 'rxjs';
 import { map, tap, ignoreElements, filter } from 'rxjs/operators';
 import { Epic, ofType } from 'epix';
 
+import { isShortcut } from 'src/utils/event';
+
 export const undoRedoShortcut: Epic = () => {
 	return fromEvent<KeyboardEvent>(document, 'keydown').pipe(
-		filter((ev) => ev.code === 'KeyZ' && ev.ctrlKey),
+		filter((ev) => ev.code === 'KeyZ' && isShortcut(ev)),
 		map(({ shiftKey }) => ({
 			type: shiftKey ? 'redo' : 'undo',
 		})),

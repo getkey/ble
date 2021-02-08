@@ -9,6 +9,8 @@ import BlockM from 'src/models/Block';
 import EntityM, { IEntity } from 'src/models/Entity';
 import VertexM, { IVertex } from 'src/models/Vertex';
 
+import { isShortcut } from 'src/utils/event';
+
 export const entityMove: Epic = (action$, { store }) => {
 	return action$.pipe (
 		ofType('entityPointerDown'),
@@ -129,7 +131,7 @@ export const selectEntity: Epic = (action$, { store }) => {
 			const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 			if (entity === undefined) return;
 
-			if (ev.data.originalEvent.ctrlKey) {
+			if (isShortcut(ev.data.originalEvent)) {
 				if (store.editor.selection.has(entity.id)) {
 					store.editor.removeFromSelection(entity);
 				} else {
@@ -157,7 +159,7 @@ export const selectVertex: Epic = (action$, { store }) => {
 
 			if (point === undefined) return;
 
-			if (ev.data.originalEvent.ctrlKey) {
+			if (isShortcut(ev.data.originalEvent)) {
 				if (store.editor.vertexSelection.has(point.id)) {
 					store.editor.removeVertexFromSelection(point);
 				} else {

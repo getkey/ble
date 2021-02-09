@@ -1,0 +1,3 @@
+echo hi
+sleep 300
+npm run lint

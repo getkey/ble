@@ -4,9 +4,6 @@ import styled from '@emotion/styled';
 
 import { IFiniteParams } from 'src/models/Hoppi';
 
-const pattern = '^(?:b|B|g|G|e|E)*$';
-const patternRegex = new RegExp(pattern);
-
 const Input = styled.input`
 	width: 10ex;
 `;
@@ -17,16 +14,22 @@ type Props = {
 
 const FiniteMagazineParam: FunctionComponent<Props> = ({ magazineParams }) => {
 	const onChangeMagazine = (ev: ChangeEvent<HTMLInputElement>): void => {
-		if (!patternRegex.test(ev.target.value)) {
-			alert('The content of the magazine must be a string of \'g\' for Grenades, \'b\' for Bombs and \'e\' for Empty.');
-			return;
-		}
+		// we must cancel the potential previous invalid state
+		// https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity
+		ev.target.setCustomValidity('');
 
-		magazineParams.setFromStringFormat(ev.target.value);
+		const valid = ev.target.checkValidity();
+
+		if (valid) {
+			magazineParams.setFromStringFormat(ev.target.value);
+		} else {
+			ev.target.setCustomValidity('Must be a string of \'g\' for Grenades, \'b\' for Bombs and \'e\' for Empty slots.');
+			ev.target.reportValidity();
+		}
 	};
 
 	return (
-		<Input type="text" pattern={pattern} value={magazineParams.stringFormat} onChange={onChangeMagazine}/>
+		<Input type="text" pattern="^[bBgGeE]*$" value={magazineParams.stringFormat} onChange={onChangeMagazine}/>
 	);
 };
 

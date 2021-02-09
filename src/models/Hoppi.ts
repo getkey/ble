@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 
 import { AmmoType } from 'src/types/entity';
 import { ILevel } from 'src/models/Level';
+import { reverse } from 'src/utils/string';
 
 const ParamsBase = types.model({
 	x: types.number,
@@ -29,7 +30,7 @@ export const FiniteParams = types.compose(ParamsBase,
 	}),
 ).views((self) => ({
 	get stringFormat(): string {
-		return self.magazine.map((ammo) => {
+		const mag = self.magazine.map((ammo) => {
 			switch (ammo) {
 				case AmmoType.grenade:
 					return 'g';
@@ -39,10 +40,12 @@ export const FiniteParams = types.compose(ParamsBase,
 					return 'e';
 			}
 		}).join('');
+
+		return reverse(mag);
 	},
 })).actions((self) => ({
 	setFromStringFormat(str: string): void {
-		const newMag = str.split('').map((char) => {
+		const newMag = reverse(str).split('').map((char) => {
 			switch (char) {
 				case 'g':
 				case 'G':

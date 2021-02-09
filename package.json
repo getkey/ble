@@ -75,6 +75,7 @@
     "dev": "webpack serve",
     "lint": "eslint --ext=tsx,ts src",
     "test": "jest",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "postinstall": "husky install"
   }
 }

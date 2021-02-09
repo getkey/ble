@@ -23,7 +23,7 @@ const BlockParam: FunctionComponent<Props> = ({ blockEntity }) => {
 					<DangerButton key={vertex.id} onClick={() => vertex.remove()}>
 						<FontAwesomeIcon icon={faTrashAlt}/>
 						&#32;
-						Delete vertex #{i + 1}
+						Delete vertex #{i + 1} ({vertex.x},&nbsp;{vertex.y})
 					</DangerButton>
 				))}
 		</div>

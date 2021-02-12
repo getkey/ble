@@ -6,6 +6,7 @@ import Block from 'src/models/Block';
 import { IRootStore } from 'src/models/RootStore';
 import { cloneEntity } from 'src/utils/clone';
 import { EditorMode } from 'src/types/editor';
+import VerticesParams from 'src/models/VerticesParams';
 
 const EditorSelection = types.model({
 	gridCellSize: 60,
@@ -31,11 +32,11 @@ const EditorSelection = types.model({
 		self.selection.put(selected);
 	},
 	removeFromSelection(entity: IEntity): void {
-		if (Block.is(entity)) {
+		if (VerticesParams.is(entity.params)) {
 			entity.params.vertices.forEach((vertex) => {
 				self.vertexSelection.delete(vertex.id);
 			});
-			entity.cleanInvalid();
+			entity.params.cleanInvalid();
 		}
 
 		self.selection.delete(entity.id);
@@ -53,8 +54,8 @@ const EditorSelection = types.model({
 	clearSelection(): void {
 		self.clearVertexSelection();
 		self.selection.forEach((entity) => {
-			if (!Block.is(entity)) return;
-			entity.cleanInvalid();
+			if (!VerticesParams.is(entity.params)) return;
+			entity.params.cleanInvalid();
 		});
 		self.selection.clear();
 	},
@@ -87,7 +88,7 @@ const EditorSelection = types.model({
 		const tmpClipboard = Array.from(self.clipboard.values());
 		tmpClipboard.forEach((entity) => {
 			detach(entity);
-			entity.move(self.gridCellSize, self.gridCellSize);
+			entity.params.move(self.gridCellSize, self.gridCellSize);
 		});
 		const root: IRootStore = getRoot(self);
 

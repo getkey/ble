@@ -5,10 +5,8 @@ import { resolveIdentifier } from 'mobx-state-tree';
 
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
-import BlockM from 'src/models/Block';
 import EntityM, { IEntity } from 'src/models/Entity';
 import VertexM, { IVertex } from 'src/models/Vertex';
-
 import { isShortcut } from 'src/utils/event';
 
 export const entityMove: Epic = (action$, { store }) => {
@@ -49,7 +47,7 @@ export const entityMove: Epic = (action$, { store }) => {
 				};
 
 				store.editor.selection.forEach((entity: IEntity) => {
-					entity.move(displacement.x, displacement.y);
+					entity.params.move(displacement.x, displacement.y);
 				});
 
 				return wantedPos;
@@ -70,22 +68,18 @@ export const pointMove: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
-		mergeMap(({ entityId, vertexId }) => {
-			const storePolygon = resolveIdentifier(BlockM, store.level.entities, entityId);
-			if (storePolygon === undefined) return empty();
-
-			const storePoint = resolveIdentifier(VertexM, storePolygon.params.vertices, vertexId);
+		mergeMap(({ vertexId }) => {
+			const storePoint = resolveIdentifier(VertexM, store.level.entities, vertexId);
 			if (storePoint === undefined) return empty();
 
 			return of({
 				storePoint,
-				storePolygon,
 			});
 		}),
 		tap(() => {
 			store.undoManager.startGroup();
 		}),
-		switchMap(({ storePoint, storePolygon }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
+		switchMap(({ storePoint }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			tap((ev) => {
 				const pos = {
 					x: ev.clientX - store.editor.renderZone.x,
@@ -112,7 +106,7 @@ export const pointMove: Epic = (action$, { store }) => {
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
 					store.undoManager.stopGroup();
-					storePolygon.cleanSuperposedVertices();
+					storePoint.parentBlock.params.cleanSuperposedVertices();
 				}),
 			)),
 		)),
@@ -151,11 +145,8 @@ export const selectVertex: Epic = (action$, { store }) => {
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
-		tap(({ entityId, vertexId, ev }) => {
-			const block = resolveIdentifier(BlockM, store.level.entities, entityId);
-			if (block === undefined) return;
-
-			const point = resolveIdentifier(VertexM, block.params.vertices, vertexId);
+		tap(({ vertexId, ev }) => {
+			const point = resolveIdentifier(VertexM, store.level.entities, vertexId);
 
 			if (point === undefined) return;
 

@@ -10,7 +10,12 @@ const ParamsBase = types.model({
 	y: types.number,
 	angle: 0,
 	isStatic: false,
-});
+}).actions((self) => ({
+	move(deltaX: number, deltaY: number): void {
+		self.x += deltaX;
+		self.y += deltaY;
+	},
+}));
 
 export const InfiniteParams = types.compose(ParamsBase,
 	types.model({
@@ -79,10 +84,6 @@ const Hoppi = types.model({
 		InfiniteParams,
 	),
 }).actions((self) => ({
-	move(deltaX: number, deltaY: number): void {
-		self.params.x += deltaX;
-		self.params.y += deltaY;
-	},
 	setIsStatic(isStatic: boolean): void {
 		self.params.isStatic = isStatic;
 	},

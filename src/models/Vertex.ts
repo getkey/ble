@@ -1,8 +1,8 @@
 import { getParent, Instance, types, SnapshotOut } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 
-import { IBlock } from 'src/models/Block';
 import Point from 'src/models/Point';
+import { VerticesParamsEntity } from 'src/models/VerticesParams';
 
 const Vertex = types.compose(
 	Point,
@@ -10,12 +10,12 @@ const Vertex = types.compose(
 		id: types.optional(types.identifier, nanoid),
 	}),
 ).views((self) => ({
-	get parentBlock(): IBlock {
-		return getParent(self, 3);
+	get parentBlock(): VerticesParamsEntity {
+		return getParent(self, 3) as VerticesParamsEntity;
 	},
 })).actions((self) => ({
 	remove(): void {
-		self.parentBlock.removeVertex(self);
+		self.parentBlock.params.removeVertex(self);
 	},
 }));
 

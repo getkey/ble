@@ -3,21 +3,24 @@ import { nanoid } from 'nanoid';
 
 import { ILevel } from 'src/models/Level';
 
+const DoorParams = types.model({
+	x: types.number,
+	y: types.number,
+	isStatic: true,
+	rightFacing: true,
+	angle: 0,
+}).actions((self) => ({
+	move(deltaX: number, deltaY: number): void {
+		self.x += deltaX;
+		self.y += deltaY;
+	},
+}));
+
 const Door = types.model({
 	id: types.optional(types.identifier, nanoid),
 	type: types.literal('endpoint'),
-	params: types.model({
-		x: types.number,
-		y: types.number,
-		isStatic: true,
-		rightFacing: true,
-		angle: 0,
-	}),
+	params: DoorParams,
 }).actions((self) => ({
-	move(deltaX: number, deltaY: number): void {
-		self.params.x += deltaX;
-		self.params.y += deltaY;
-	},
 	setIsStatic(isStatic: boolean): void {
 		self.params.isStatic = isStatic;
 	},

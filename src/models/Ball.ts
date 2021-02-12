@@ -5,26 +5,29 @@ import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 
+const BallParams = types.model({
+	x: types.number,
+	y: types.number,
+	radius: types.optional(
+		types.refinement(
+			types.number,
+			(value) => value >= 0,
+		),
+		15,
+	),
+	isStatic: false,
+}).views((self) => ({
+	move(deltaX: number, deltaY: number): void {
+		self.x += deltaX;
+		self.y += deltaY;
+	},
+}));
+
 const Ball = types.model({
 	id: types.optional(types.identifier, nanoid),
 	type: types.enumeration(Object.values(BlockType)),
-	params: types.model({
-		x: types.number,
-		y: types.number,
-		radius: types.optional(
-			types.refinement(
-				types.number,
-				(value) => value >= 0,
-			),
-			15,
-		),
-		isStatic: false,
-	}),
+	params: BallParams,
 }).actions((self) => ({
-	move(deltaX: number, deltaY: number): void {
-		self.params.x += deltaX;
-		self.params.y += deltaY;
-	},
 	setIsStatic(isStatic: boolean): void {
 		self.params.isStatic = isStatic;
 	},

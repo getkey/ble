@@ -6,8 +6,9 @@ import { EditorMode } from 'src/types/editor';
 import { blockAddTypes } from 'src/types/entity';
 import IPoint from 'src/types/point';
 import { snapToGrid } from 'src/utils/geom';
-import BlockM, { IBlock } from 'src/models/Block';
+import { IEntity } from 'src/models/Entity';
 import VertexM, { IVertex } from 'src/models/Vertex';
+import VerticesParams from 'src/models/VerticesParams';
 
 export const addVertexOrEntity: Epic = (action$, { store }) => {
 	return action$.pipe(
@@ -60,14 +61,15 @@ export const addVertex: Epic = (action$, { store }) => {
 		ofType('addVertex'),
 		filter(() => store.editor.selection.size === 1),
 		tap(({ pos }) => {
-			const selectedEntity = Array.from(store.editor.selection.values())[0];
+			// c'mon Typescript, why do I need this cast -_-
+			const selectedEntity = (Array.from(store.editor.selection.values())[0] as IEntity);
 
-			if (BlockM.is(selectedEntity)) {
-				(selectedEntity as IBlock).addVertex(pos);
+			if (VerticesParams.is(selectedEntity.params)) {
+				selectedEntity.params.addVertex(pos);
 				return;
 			}
 			if (VertexM.is(selectedEntity)) {
-				(selectedEntity as IVertex).parentBlock.addVertex(pos);
+				(selectedEntity as IVertex).parentBlock.params.addVertex(pos);
 				return;
 			}
 		}),

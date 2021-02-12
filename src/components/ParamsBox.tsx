@@ -11,12 +11,12 @@ import StaticParam from 'src/components/StaticParam';
 import HoppiParam from 'src/components/HoppiParam';
 import RadiusParam from 'src/components/RadiusParam';
 import ZOrderParam from 'src/components/ZOrderParam';
-import BlockParam from 'src/components/BlockParam.tsx';
 import DangerButton from 'src/components/DangerButton';
+import VerticesParam from 'src/components/VerticesParam';
 import Hoppi from 'src/models/Hoppi';
 import Text from 'src/models/Text';
 import Entity from 'src/models/Entity';
-import Block from 'src/models/Block';
+import VerticesParamsM from 'src/models/VerticesParams';
 
 const ParamsBox: FunctionComponent = () => {
 	const { editor: { selection } } = useStore();
@@ -55,8 +55,8 @@ const ParamsBox: FunctionComponent = () => {
 			{Entity.is(selectedEntity) && (
 				<ZOrderParam entity={selectedEntity}/>
 			)}
-			{Block.is(selectedEntity) && (
-				<BlockParam blockEntity={selectedEntity}/>
+			{('params' in selectedEntity) && VerticesParamsM.is(selectedEntity.params) && (
+				<VerticesParam verticesParams={selectedEntity.params}/>
 			)}
 			<DangerButton onClick={onDelete}>
 				<FontAwesomeIcon icon={faTrashAlt}/>

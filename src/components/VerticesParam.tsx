@@ -4,19 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
-import { IBlock } from 'src/models/Block';
+import { IVerticesParams } from 'src/models/VerticesParams';
 import DangerButton from 'src/components/DangerButton';
 
 type Props = {
-	blockEntity: IBlock,
+	verticesParams: IVerticesParams,
 };
 
-const BlockParam: FunctionComponent<Props> = ({ blockEntity }) => {
+const VerticesParams: FunctionComponent<Props> = ({ verticesParams }) => {
 	const { editor: { vertexSelection } } = useStore();
 
 	return (
 		<div>
-			{blockEntity.params.vertices
+			{verticesParams.vertices
 				.map((vertex, i) => ({ vertex, i }))
 				.filter(({ vertex }) => vertexSelection.has(vertex.id))
 				.map(({ vertex, i }) => (
@@ -30,4 +30,4 @@ const BlockParam: FunctionComponent<Props> = ({ blockEntity }) => {
 	);
 };
 
-export default observer(BlockParam);
+export default observer(VerticesParams);

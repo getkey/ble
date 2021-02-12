@@ -9,29 +9,32 @@ const l18nObj = languages.getAllCodes().reduce((acc, code) => {
 	return acc;
 }, {} as { [index: string]: IMaybe<ISimpleType<string>> });
 
+const TextParams = types.model({
+	x: types.number,
+	y: types.number,
+	copy: types.optional(types.model(l18nObj), {
+		en: 'Some text\nand a new line',
+	}),
+	anchor: types.optional(types.model({
+		x: types.number,
+		y: types.number,
+	}), {
+		x: 0.5,
+		y: 0.5,
+	}),
+	angle: 0,
+}).actions((self) => ({
+	move(deltaX: number, deltaY: number): void {
+		self.x += deltaX;
+		self.y += deltaY;
+	},
+}));
+
 const Text = types.model({
 	id: types.optional(types.identifier, nanoid),
 	type: types.literal('text'),
-	params: types.model({
-		x: types.number,
-		y: types.number,
-		copy: types.optional(types.model(l18nObj), {
-			en: 'Some text\nand a new line',
-		}),
-		anchor: types.optional(types.model({
-			x: types.number,
-			y: types.number,
-		}), {
-			x: 0.5,
-			y: 0.5,
-		}),
-		angle: 0,
-	}),
+	params: TextParams,
 }).actions((self) => ({
-	move(deltaX: number, deltaY: number): void {
-		self.params.x += deltaX;
-		self.params.y += deltaY;
-	},
 	remove(): void {
 		const parent = (getParent(self, 2) as ILevel);
 		parent.removeEntity(self as IText);

@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import Point from 'src/models/Point';
 import { VerticesParamsEntity } from 'src/models/VerticesParams';
 
-export const BaseVertex = types.compose(
+export const Vertex = types.compose(
 	Point,
 	types.model({
 		id: types.optional(types.identifier, nanoid),
@@ -18,16 +18,6 @@ export const BaseVertex = types.compose(
 		self.parentBlock.params.removeVertex(self);
 	},
 }));
-const Vertex = types.snapshotProcessor(
-	BaseVertex,
-	{
-		postProcessor({ id, ...stuff }) {
-			return {
-				...stuff,
-			};
-		},
-	}
-);
 
 export default Vertex;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

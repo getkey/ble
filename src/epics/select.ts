@@ -6,7 +6,7 @@ import { resolveIdentifier } from 'mobx-state-tree';
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
 import EntityM, { IEntity } from 'src/models/Entity';
-import { IVertex, BaseVertex } from 'src/models/Vertex';
+import VertexM, { IVertex } from 'src/models/Vertex';
 import { isShortcut } from 'src/utils/event';
 
 export const entityMove: Epic = (action$, { store }) => {
@@ -69,8 +69,7 @@ export const pointMove: Epic = (action$, { store }) => {
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		mergeMap(({ vertexId }) => {
-			// we have to use BaseVertex instead of Vertex because resolveIdentifier doesn't support searching for snapshotProcessors
-			const storePoint = resolveIdentifier(BaseVertex, store.level.entities, vertexId);
+			const storePoint = resolveIdentifier(VertexM, store.level.entities, vertexId);
 			if (storePoint === undefined) return empty();
 
 			return of({
@@ -147,8 +146,7 @@ export const selectVertex: Epic = (action$, { store }) => {
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ vertexId, ev }) => {
-			// we have to use BaseVertex instead of Vertex because resolveIdentifier doesn't support searching for snapshotProcessors
-			const point = resolveIdentifier(BaseVertex, store.level.entities, vertexId);
+			const point = resolveIdentifier(VertexM, store.level.entities, vertexId);
 
 			if (point === undefined) return;
 

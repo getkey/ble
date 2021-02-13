@@ -7,16 +7,7 @@ import Hoppi, { IHoppi } from 'src/models/Hoppi';
 import Text, { IText } from 'src/models/Text';
 import Paint, { IPaint } from 'src/models/Paint';
 
-const Entity = types.snapshotProcessor(
-	types.union(Block, Ball, Door, Hoppi, Text, Paint),
-	{
-		postProcessor({ id, ...stuff }) {
-			return {
-				...stuff,
-			};
-		},
-	},
-);
+const Entity = types.union(Block, Ball, Door, Hoppi, Text, Paint);
 export default Entity;
 export type IEntity = IBlock | IDoor | IHoppi | IText | IBall | IPaint;
 export type SnapshotOutEntity = SnapshotOut<typeof Entity>;

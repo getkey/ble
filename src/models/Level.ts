@@ -1,4 +1,4 @@
-import { types, SnapshotIn, destroy, Instance } from 'mobx-state-tree';
+import { types, SnapshotIn, SnapshotOut, destroy, Instance } from 'mobx-state-tree';
 
 import Entity, { IEntity } from 'src/models/Entity';
 import { levelPreProcessor, levelPostProcessor } from 'src/utils/snapshot';
@@ -65,3 +65,5 @@ export default Level;
 export interface ILevel extends Instance<typeof Level> {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SnapshotInBaseLevel extends SnapshotIn<typeof BaseLevel> {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SnapshotOutBaseLevel extends SnapshotOut<typeof BaseLevel> {}

@@ -48,9 +48,19 @@ type Hoppi = {
 	};
 };
 
+type Paint = {
+	type: 'paint';
+	params: {
+		fillColor: number;
+		vertices: Array<IPoint>;
+	};
+};
+
+export type SerializedEntity = BlockEntity | Door | Hoppi | Text | Paint;
+
 export type SerializedLevel = {
 	formatVersion: number;
 	name: string;
 	timings: [number, number];
-	entities: Array<BlockEntity | Door | Hoppi | Text>;
+	entities: Array<SerializedEntity>;
 };

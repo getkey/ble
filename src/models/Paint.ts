@@ -4,13 +4,19 @@ import { nanoid } from 'nanoid';
 import VerticesParams from 'src/models/VerticesParams';
 import { ILevel } from 'src/models/Level';
 
+const ColorParams = types.model({
+	fillColor: 0xffffff,
+}).actions((self) => ({
+	setFillColor(fillColor: number) {
+		self.fillColor = fillColor;
+	},
+}));
+
 const Paint = types.model({
 	id: types.optional(types.identifier, nanoid),
 	type: types.literal('paint'),
 	params: types.compose(
-		types.model({
-			fillColor: 0xffffff,
-		}),
+		ColorParams,
 		VerticesParams,
 	),
 }).views(() => ({

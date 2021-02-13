@@ -10,6 +10,7 @@ import AngleParam from 'src/components/AngleParam';
 import StaticParam from 'src/components/StaticParam';
 import HoppiParam from 'src/components/HoppiParam';
 import RadiusParam from 'src/components/RadiusParam';
+import FillColorParam from 'src/components/FillColorParam';
 import ZOrderParam from 'src/components/ZOrderParam';
 import DangerButton from 'src/components/DangerButton';
 import VerticesParam from 'src/components/VerticesParam';
@@ -45,6 +46,9 @@ const ParamsBox: FunctionComponent = () => {
 			)}
 			{('params' in selectedEntity) && ('setRadius' in selectedEntity) && ('radius' in selectedEntity.params) && (
 				<RadiusParam radiusEntity={selectedEntity}/>
+			)}
+			{('params' in selectedEntity) && ('setFillColor' in selectedEntity.params) && ('fillColor' in selectedEntity.params) && (
+				<FillColorParam params={selectedEntity.params}/>
 			)}
 			{Text.is(selectedEntity) && (
 				<TextParam text={selectedEntity}/>

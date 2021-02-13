@@ -6,6 +6,7 @@ import { faCircle } from '@fortawesome/free-regular-svg-icons';
 
 import NumberInput from 'src/components/NumberInput';
 import InfiniteRange from 'src/components/InfiniteRange';
+import { IRadiusParams } from 'src/models/RadiusParams';
 
 const RadiusInput = styled(NumberInput)`
 	width: 8ex;
@@ -16,20 +17,13 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-interface RadiusEntity {
-	params: {
-		radius: number;
-	}
-	setRadius: (radius: number) => void;
-}
-
 type Props = {
-	radiusEntity: RadiusEntity,
+	params: IRadiusParams,
 };
 
-const RadiusParam: FunctionComponent<Props> = ({ radiusEntity }) => {
+const RadiusParam: FunctionComponent<Props> = ({ params }) => {
 	const onChangeRadius = (radius: number): void => {
-		radiusEntity.setRadius(radius);
+		params.setRadius(radius);
 	};
 
 	return (
@@ -42,12 +36,12 @@ const RadiusParam: FunctionComponent<Props> = ({ radiusEntity }) => {
 				<RadiusInput
 					min={1}
 					step={1}
-					value={radiusEntity.params.radius}
+					value={params.radius}
 					onChange={onChangeRadius}
 				/>
 			</label>
 			<InfiniteRange
-				value={radiusEntity.params.radius}
+				value={params.radius}
 				min={1}
 				step={1}
 				onChange={onChangeRadius}

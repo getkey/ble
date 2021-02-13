@@ -44,8 +44,8 @@ const ParamsBox: FunctionComponent = () => {
 			{('params' in selectedEntity) && ('setAngle' in selectedEntity.params) && ('angle' in selectedEntity.params) && (
 				<AngleParam params={selectedEntity.params}/>
 			)}
-			{('params' in selectedEntity) && ('setRadius' in selectedEntity) && ('radius' in selectedEntity.params) && (
-				<RadiusParam radiusEntity={selectedEntity}/>
+			{('params' in selectedEntity) && ('setRadius' in selectedEntity.params) && ('radius' in selectedEntity.params) && (
+				<RadiusParam params={selectedEntity.params}/>
 			)}
 			{('params' in selectedEntity) && ('setFillColor' in selectedEntity.params) && ('fillColor' in selectedEntity.params) && (
 				<FillColorParam params={selectedEntity.params}/>

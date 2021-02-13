@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faLanguage } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
-import { IText } from 'src/models/Text';
 import DangerButton from 'src/components/DangerButton';
+import { ITextParams } from 'src/models/TextParams';
 
 const LanguageList = styled.div`
 	display: table;
@@ -26,15 +26,15 @@ const LangLabel = styled.label`
 `;
 
 type Props = {
-	text: IText;
+	params: ITextParams;
 }
 
-const ParamsBox: FunctionComponent<Props> = ({ text }) => {
+const ParamsBox: FunctionComponent<Props> = ({ params }) => {
 	const selectRef = useRef(null);
 	const { undoManager } = useStore();
 
 	const onChangeText = (ev: ChangeEvent<HTMLTextAreaElement>, code: string): void => {
-		text.setCopy(code, ev.target.value);
+		params.setCopy(code, ev.target.value);
 	};
 
 	function onTextFocus(): void {
@@ -49,23 +49,23 @@ const ParamsBox: FunctionComponent<Props> = ({ text }) => {
 
 		// why is typescript being dumb?
 		// @ts-ignore
-		text.setCopy(selectRef.current.value, '');
+		params.setCopy(selectRef.current.value, '');
 	};
 
 	const onRemoveLanguage = (code: string): void => {
 		if (selectRef.current === null) return;
 
-		text.removeLang(code);
+		params.removeLang(code);
 	};
 
-	const unusedLanguages = Object.entries(text.params.copy)
+	const unusedLanguages = Object.entries(params.copy)
 		.filter(([, copy]) => copy === undefined)
 		.map(([code]) => code);
 
 	return (
 		<Fragment>
 			<LanguageList>
-				{Object.entries(text.params.copy)
+				{Object.entries(params.copy)
 					.filter(([, copy]) => copy !== undefined)
 					.map(([code, copy]) => (
 						<LanguageRow key={code}>

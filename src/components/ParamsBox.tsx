@@ -51,7 +51,7 @@ const ParamsBox: FunctionComponent = () => {
 				<FillColorParam params={selectedEntity.params}/>
 			)}
 			{Text.is(selectedEntity) && (
-				<TextParam text={selectedEntity}/>
+				<TextParam params={selectedEntity.params}/>
 			)}
 			{('params' in selectedEntity) && ('setIsStatic' in selectedEntity.params) && ('isStatic' in selectedEntity.params) && (
 				<StaticParam params={selectedEntity.params}/>
@@ -60,7 +60,7 @@ const ParamsBox: FunctionComponent = () => {
 				<ZOrderParam entity={selectedEntity}/>
 			)}
 			{('params' in selectedEntity) && VerticesParamsM.is(selectedEntity.params) && (
-				<VerticesParam verticesParams={selectedEntity.params}/>
+				<VerticesParam params={selectedEntity.params}/>
 			)}
 			<DangerButton onClick={onDelete}>
 				<FontAwesomeIcon icon={faTrashAlt}/>

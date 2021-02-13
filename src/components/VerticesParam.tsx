@@ -8,15 +8,15 @@ import { IVerticesParams } from 'src/models/VerticesParams';
 import DangerButton from 'src/components/DangerButton';
 
 type Props = {
-	verticesParams: IVerticesParams,
+	params: IVerticesParams,
 };
 
-const VerticesParams: FunctionComponent<Props> = ({ verticesParams }) => {
+const VerticesParams: FunctionComponent<Props> = ({ params }) => {
 	const { editor: { vertexSelection } } = useStore();
 
 	return (
 		<div>
-			{verticesParams.vertices
+			{params.vertices
 				.map((vertex, i) => ({ vertex, i }))
 				.filter(({ vertex }) => vertexSelection.has(vertex.id))
 				.map(({ vertex, i }) => (

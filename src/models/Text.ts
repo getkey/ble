@@ -4,6 +4,7 @@ import languages from 'iso-639-1';
 
 import { ILevel } from 'src/models/Level';
 import AngleParams from 'src/models/AngleParams';
+import PositionParams from 'src/models/PositionParams';
 
 const l18nObj = languages.getAllCodes().reduce((acc, code) => {
 	acc[code] = code === 'en' ? types.string : types.maybe(types.string);
@@ -12,9 +13,8 @@ const l18nObj = languages.getAllCodes().reduce((acc, code) => {
 
 const TextParams = types.compose(
 	AngleParams,
+	PositionParams,
 	types.model({
-		x: types.number,
-		y: types.number,
 		copy: types.optional(types.model(l18nObj), {
 			en: 'Some text\nand a new line',
 		}),
@@ -25,12 +25,7 @@ const TextParams = types.compose(
 			x: 0.5,
 			y: 0.5,
 		}),
-	}).actions((self) => ({
-		move(deltaX: number, deltaY: number): void {
-			self.x += deltaX;
-			self.y += deltaY;
-		},
-	})),
+	}),
 );
 
 const Text = types.model({

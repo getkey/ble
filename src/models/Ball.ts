@@ -5,11 +5,12 @@ import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
 import StaticParams from 'src/models/StaticParams';
+import PositionParams from 'src/models/PositionParams';
 
 const BallParams = types.compose(
+	StaticParams,
+	PositionParams,
 	types.model({
-		x: types.number,
-		y: types.number,
 		radius: types.optional(
 			types.refinement(
 				types.number,
@@ -17,13 +18,7 @@ const BallParams = types.compose(
 			),
 			15,
 		),
-	}).views((self) => ({
-		move(deltaX: number, deltaY: number): void {
-			self.x += deltaX;
-			self.y += deltaY;
-		},
-	})),
-	StaticParams,
+	}),
 );
 
 const Ball = types.model({

@@ -6,20 +6,15 @@ import { ILevel } from 'src/models/Level';
 import { reverse } from 'src/utils/string';
 import StaticParams from 'src/models/StaticParams';
 import AngleParams from 'src/models/AngleParams';
+import PositionParams from 'src/models/PositionParams';
 
 const ParamsBase = types.compose(
 	StaticParams,
 	AngleParams,
+	PositionParams,
 	types.model({
-		x: types.number,
-		y: types.number,
 		isStatic: false, // bypasses StaticParams's default
-	}).actions((self) => ({
-		move(deltaX: number, deltaY: number): void {
-			self.x += deltaX;
-			self.y += deltaY;
-		},
-	})),
+	}),
 );
 
 export const InfiniteParams = types.compose(ParamsBase,

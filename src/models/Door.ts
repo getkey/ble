@@ -4,20 +4,15 @@ import { nanoid } from 'nanoid';
 import { ILevel } from 'src/models/Level';
 import StaticParams from 'src/models/StaticParams';
 import AngleParams from 'src/models/AngleParams';
+import PositionParams from 'src/models/PositionParams';
 
 const DoorParams = types.compose(
 	StaticParams,
 	AngleParams,
+	PositionParams,
 	types.model({
-		x: types.number,
-		y: types.number,
 		rightFacing: true,
-	}).actions((self) => ({
-		move(deltaX: number, deltaY: number): void {
-			self.x += deltaX;
-			self.y += deltaY;
-		},
-	})),
+	}),
 );
 
 const Door = types.model({

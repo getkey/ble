@@ -14,6 +14,7 @@ export const addTypeAliases = {
 	[AddType.endpoint]: 'Door',
 	[AddType.player]: 'Hoppi',
 	[AddType.text]: 'Text',
+	[AddType.paint]: 'Paint',
 };
 
 export const addTypeToBlock = {

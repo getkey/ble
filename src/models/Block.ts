@@ -27,8 +27,6 @@ const Block = types.model({
 		const parent = (getParent(self, 2) as ILevel);
 		parent.removeEntity(self as IBlock);
 	},
-// see https://mobx-state-tree.js.org/tips/typescript#typing-self-in-actions-and-views
-// for why this is a separate action block
 }));
 export default Block;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

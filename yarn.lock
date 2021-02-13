@@ -2434,20 +2434,20 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.0.0.tgz#59804586d998d19efe446fbbf821d147d300d8e2"
-  integrity sha512-hT38y4TE4E8WkqIZMFhGnd9F4Afn75YtFPJlMv8/j4RY2Vz48dYxn6AiD6CeE6JMo96F3Ldgb+j8qmgvcYT9Qg==
+ajv@^7.0.2:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.0.4.tgz#827e5f5ae32f5e5c1637db61f253a112229b5e2f"
+  integrity sha512-xzzzaqgEQfmuhbhAoqjJ8T/1okb6gAzXn/eQRNpAN1AEUoHJTNF9xCDRTtf/s3SKldtZfa+RJeTs+BQq+eZ/sw==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-ajv@^7.0.2:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.0.4.tgz#827e5f5ae32f5e5c1637db61f253a112229b5e2f"
-  integrity sha512-xzzzaqgEQfmuhbhAoqjJ8T/1okb6gAzXn/eQRNpAN1AEUoHJTNF9xCDRTtf/s3SKldtZfa+RJeTs+BQq+eZ/sw==
+ajv@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.1.0.tgz#f982ea7933dc7f1012eae9eec5a86687d805421b"
+  integrity sha512-svS9uILze/cXbH0z2myCK2Brqprx/+JJYK5pHicT/GQiBfzzhUVAIT6MwqJg8y4xV/zoGsUeuPuwtoiKSGE15g==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -3379,12 +3379,12 @@ body-parser@1.19.0:
     raw-body "2.4.0"
     type-is "~1.6.17"
 
-bombhopperio-level-tools@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.6.3.tgz#a885020b2683120eb90921d2ba0d3a6e2cd84268"
-  integrity sha512-P4nd0suHj8tSY4iGVoOdr0xzhLravXhubkzB6qmn+oAlqAjvCbMwbPUOWn+cLdR26t4tPF8WQJ7+ajTSoOL3wQ==
+bombhopperio-level-tools@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.7.0.tgz#4d7ad249c65f6237b8518e1a9e6da1fe751214cc"
+  integrity sha512-wI2zj6PeSwhb+Yq37BZ/CnWfNmiF9pA3NvAJr1STiL8e+QdZuM8SGskr6v7VGB9X4GwYKhHjiV3/5NEjG0EM2Q==
   dependencies:
-    ajv "^7.0.0"
+    ajv "^7.1.0"
     poly-decomp "^0.3.0"
 
 bonjour@^3.5.0:

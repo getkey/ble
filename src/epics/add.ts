@@ -3,12 +3,10 @@ import { filter, map, tap, ignoreElements, mergeMap, pluck } from 'rxjs/operator
 import { ofType, Epic } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
-import { blockAddTypes } from 'src/types/entity';
 import IPoint from 'src/types/point';
 import { snapToGrid } from 'src/utils/geom';
 import { IEntity } from 'src/models/Entity';
 import VertexM, { IVertex } from 'src/models/Vertex';
-import VerticesParams from 'src/models/VerticesParams';
 
 export const addVertexOrEntity: Epic = (action$, { store }) => {
 	return action$.pipe(
@@ -45,10 +43,8 @@ export const addVertexOrEntity: Epic = (action$, { store }) => {
 export const createEntity: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('createEntity'),
-		tap(({ pos }) => {
-			store.createEntity(pos);
-		}),
-		filter(() => blockAddTypes.includes(store.editor.addType)),
+		map(({ pos }) => store.createEntity(pos)),
+		filter((entity) => 'vertices' in entity.params),
 		tap(() => {
 			store.editor.setMode(EditorMode.addVertex);
 		}),
@@ -64,7 +60,7 @@ export const addVertex: Epic = (action$, { store }) => {
 			// c'mon Typescript, why do I need this cast -_-
 			const selectedEntity = (Array.from(store.editor.selection.values())[0] as IEntity);
 
-			if (VerticesParams.is(selectedEntity.params)) {
+			if ('vertices' in selectedEntity.params) {
 				selectedEntity.params.addVertex(pos);
 				return;
 			}

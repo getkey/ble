@@ -12,6 +12,7 @@ export enum AddType {
 	player = 'player',
 	endpoint = 'endpoint',
 	text = 'text',
+	paint = 'paint',
 	normalBlock = 'normalBlock',
 	iceBlock = 'iceBlock',
 	breakableBlock = 'breakableBlock',
@@ -50,4 +51,5 @@ export const miscAddTypes = [
 	AddType.player,
 	AddType.endpoint,
 	AddType.text,
+	AddType.paint,
 ];

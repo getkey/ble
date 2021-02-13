@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { observer } from 'mobx-react-lite';
 import { InteractionEvent } from 'pixi.js';
 
-import Block from 'src/components/Block';
+import ModifiablePolygon from 'src/components/ModifiablePolygon';
 import Circle from 'src/components/Circle';
 import Level from 'src/components/Level';
 import { useStore } from 'src/hooks/useStore';
@@ -14,6 +14,7 @@ import BlockM from 'src/models/Block';
 import BallM from 'src/models/Ball';
 import HoppiM from 'src/models/Hoppi';
 import TextM from 'src/models/Text';
+import PaintM from 'src/models/Paint';
 import { selectColor } from 'src/config';
 import ProgressiveText from 'src/components/ProgressiveText';
 
@@ -60,7 +61,7 @@ const PixiApp: FunctionComponent = () => {
 					}));
 
 					return (
-						<Block
+						<ModifiablePolygon
 							isValid={entity.params.isValid}
 							fill={entityColors[type]}
 							points={points}
@@ -118,6 +119,27 @@ const PixiApp: FunctionComponent = () => {
 							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							color={isSelected ? selectColor : 0xffffff}
 							rotation={angle}
+						/>
+					);
+				}
+				if (PaintM.is(entity)) {
+					const { id, params: { vertices } } = entity;
+
+					const points = vertices.map((vertex) => ({
+						point: vertex.asPixiPoint,
+						isSelected: vertexSelection.get(vertex.id) !== undefined,
+						id: vertex.id,
+					}));
+
+					return (
+						<ModifiablePolygon
+							isValid={entity.params.isValid}
+							fill={entity.params.fillColor}
+							points={points}
+							key={id}
+							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}
+							onPolygonPointerDown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
+							isSelected={isSelected}
 						/>
 					);
 				}

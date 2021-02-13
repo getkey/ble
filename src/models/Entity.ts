@@ -5,8 +5,9 @@ import Ball, { IBall } from 'src/models/Ball';
 import Door, { IDoor } from 'src/models/Door';
 import Hoppi, { IHoppi } from 'src/models/Hoppi';
 import Text, { IText } from 'src/models/Text';
+import Paint, { IPaint } from 'src/models/Paint';
 
-const Entity = types.union(Block, Ball, Door, Hoppi, Text);
+const Entity = types.union(Block, Ball, Door, Hoppi, Text, Paint);
 export default Entity;
-export type IEntity = IBlock | IDoor | IHoppi | IText | IBall;
+export type IEntity = IBlock | IDoor | IHoppi | IText | IBall | IPaint;
 export type SnapshotOutEntity = SnapshotOut<typeof Entity>;

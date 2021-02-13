@@ -27,7 +27,7 @@ type Props = {
 	isValid: boolean;
 };
 
-const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected, isValid }) => {
+const ModifiablePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected, isValid }) => {
 	const { editor } = useStore();
 	const actualPoints = points.map(({ point }) => point);
 
@@ -69,4 +69,4 @@ const Block: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, o
 	);
 };
 
-export default observer(Block);
+export default observer(ModifiablePolygon);

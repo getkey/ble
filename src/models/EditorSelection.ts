@@ -2,11 +2,9 @@ import { types, getRoot, detach } from 'mobx-state-tree';
 
 import Entity, { IEntity } from 'src/models/Entity';
 import Vertex, { IVertex } from 'src/models/Vertex';
-import Block from 'src/models/Block';
 import { IRootStore } from 'src/models/RootStore';
 import { cloneEntity } from 'src/utils/clone';
 import { EditorMode } from 'src/types/editor';
-import VerticesParams from 'src/models/VerticesParams';
 
 const EditorSelection = types.model({
 	gridCellSize: 60,
@@ -32,7 +30,7 @@ const EditorSelection = types.model({
 		self.selection.put(selected);
 	},
 	removeFromSelection(entity: IEntity): void {
-		if (VerticesParams.is(entity.params)) {
+		if ('vertices' in entity.params) {
 			entity.params.vertices.forEach((vertex) => {
 				self.vertexSelection.delete(vertex.id);
 			});
@@ -54,7 +52,7 @@ const EditorSelection = types.model({
 	clearSelection(): void {
 		self.clearVertexSelection();
 		self.selection.forEach((entity) => {
-			if (!VerticesParams.is(entity.params)) return;
+			if (!('vertices' in entity.params)) return;
 			entity.params.cleanInvalid();
 		});
 		self.selection.clear();
@@ -107,7 +105,7 @@ const EditorSelection = types.model({
 	},
 })).views((self) => ({
 	get availableModes(): Array<EditorMode> {
-		if (self.selection.size === 1 && Block.is(Array.from(self.selection.values())[0])) {
+		if (self.selection.size === 1 && 'vertices' in Array.from(self.selection.values())[0].params) {
 			return Object.values(EditorMode);
 		}
 

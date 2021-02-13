@@ -2,15 +2,9 @@ import { types, Instance, getParent } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
 
 import VerticesParams from 'src/models/VerticesParams';
+import ColorParams from 'src/models/ColorParams';
 import { ILevel } from 'src/models/Level';
 
-const ColorParams = types.model({
-	fillColor: 0xffffff,
-}).actions((self) => ({
-	setFillColor(fillColor: number) {
-		self.fillColor = fillColor;
-	},
-}));
 
 const Paint = types.model({
 	id: types.optional(types.identifier, nanoid),
@@ -25,7 +19,6 @@ const Paint = types.model({
 	},
 })).actions((self) => ({
 	remove(): void {
-		throw new Error('tenaor');
 		const parent = (getParent(self, 2) as ILevel);
 		parent.removeEntity(self as IPaint);
 	},

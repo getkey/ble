@@ -8,8 +8,26 @@ const l18nObj = languages.getAllCodes().reduce((acc, code) => {
 	return acc;
 }, {} as { [index: string]: IMaybe<ISimpleType<string>> });
 
+const Copy = types.snapshotProcessor(
+	types.model(l18nObj),
+	{
+		postProcessor(copy) {
+			return Object.entries(copy).reduce((acc, [code, text]) => {
+				if (text === undefined) return acc;
+
+				if (code !== 'en' && text === '') {
+					return acc;
+				}
+
+				acc[code] = text;
+				return acc;
+			}, {} as { [index: string]: string });
+		},
+	},
+);
+
 const TextParams = types.model({
-	copy: types.optional(types.model(l18nObj), {
+	copy: types.optional(Copy, {
 		en: 'Some text\nand a new line',
 	}),
 	anchor: types.optional(types.model({

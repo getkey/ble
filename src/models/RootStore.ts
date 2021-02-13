@@ -1,7 +1,7 @@
 import { types, Instance } from 'mobx-state-tree';
 
 import Editor from 'src/models/Editor';
-import LevelProcessor from 'src/models/LevelProcessor';
+import Level from 'src/models/Level';
 import { AddType, AmmoType, blockAddTypes, ballAddTypes } from 'src/types/entity';
 import { addTypeToBlock } from 'src/aliases';
 import Block from 'src/models/Block';
@@ -16,7 +16,7 @@ import { IEntity } from 'src/models/Entity';
 
 const RootStore = types.model({
 	editor: Editor,
-	level: LevelProcessor,
+	level: Level,
 	undoManager: types.optional(SoftUndoManager, {}),
 }).actions((self) => ({
 	addEntities(entities: Array<IEntity>): void {

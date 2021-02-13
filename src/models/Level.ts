@@ -1,8 +1,9 @@
 import { types, SnapshotIn, destroy, Instance } from 'mobx-state-tree';
 
 import Entity, { IEntity } from 'src/models/Entity';
+import { levelPreProcessor, levelPostProcessor } from 'src/utils/snapshot';
 
-const Level = types.model({
+const BaseLevel = types.model({
 	name: 'My level',
 	timings: types.refinement(
 		types.array(types.integer),
@@ -54,8 +55,13 @@ const Level = types.model({
 	},
 }));
 
+const Level = types.snapshotProcessor(BaseLevel, {
+	preProcessor: levelPreProcessor,
+	postProcessor: levelPostProcessor,
+});
+
 export default Level;
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ILevel extends Instance<typeof Level> {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SnapshotInLevel extends SnapshotIn<typeof Level> {}
+export interface SnapshotInBaseLevel extends SnapshotIn<typeof BaseLevel> {}

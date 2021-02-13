@@ -41,8 +41,8 @@ const ParamsBox: FunctionComponent = () => {
 			{Hoppi.is(selectedEntity) && (
 				<HoppiParam hoppi={selectedEntity}/>
 			)}
-			{('params' in selectedEntity) && ('setAngle' in selectedEntity) && ('angle' in selectedEntity.params) && (
-				<AngleParam angleEntity={selectedEntity}/>
+			{('params' in selectedEntity) && ('setAngle' in selectedEntity.params) && ('angle' in selectedEntity.params) && (
+				<AngleParam params={selectedEntity.params}/>
 			)}
 			{('params' in selectedEntity) && ('setRadius' in selectedEntity) && ('radius' in selectedEntity.params) && (
 				<RadiusParam radiusEntity={selectedEntity}/>

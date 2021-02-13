@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { types, Instance } from 'mobx-state-tree';
 
 const StaticParams = types.model({
 	isStatic: true,
@@ -9,3 +9,5 @@ const StaticParams = types.model({
 }));
 
 export default StaticParams;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IStaticParams extends Instance<typeof StaticParams> {}

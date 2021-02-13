@@ -3,13 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbtack } from '@fortawesome/free-solid-svg-icons';
 
-interface StaticParams {
-	isStatic: boolean;
-	setIsStatic: (isStatic: boolean) => void;
-}
+import { IStaticParams } from 'src/models/StaticParams';
+
 
 type Props = {
-	params: StaticParams,
+	params: IStaticParams,
 };
 
 const StaticParam: FunctionComponent<Props> = ({ params }) => {

@@ -5,13 +5,14 @@ import { AmmoType } from 'src/types/entity';
 import { ILevel } from 'src/models/Level';
 import { reverse } from 'src/utils/string';
 import StaticParams from 'src/models/StaticParams';
+import AngleParams from 'src/models/AngleParams';
 
 const ParamsBase = types.compose(
 	StaticParams,
+	AngleParams,
 	types.model({
 		x: types.number,
 		y: types.number,
-		angle: 0,
 		isStatic: false, // bypasses StaticParams's default
 	}).actions((self) => ({
 		move(deltaX: number, deltaY: number): void {
@@ -88,9 +89,6 @@ const Hoppi = types.model({
 		InfiniteParams,
 	),
 }).actions((self) => ({
-	setAngle(angle: number): void {
-		self.params.angle = angle;
-	},
 	makeFinite(): void {
 		self.params = FiniteParams.create({
 			x: self.params.x,

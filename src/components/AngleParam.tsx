@@ -7,6 +7,7 @@ import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 
 import NumberInput from 'src/components/NumberInput';
 import { useStore } from 'src/hooks/useStore';
+import { IAngleParams } from 'src/models/AngleParams';
 
 const AngleInput = styled(NumberInput)`
 	width: 6ex;
@@ -17,26 +18,19 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-interface AngleEntity {
-	params: {
-		angle: number;
-	}
-	setAngle: (angle: number) => void;
-}
-
 type Props = {
-	angleEntity: AngleEntity,
+	params: IAngleParams,
 };
 
-const AngleParam: FunctionComponent<Props> = ({ angleEntity }) => {
+const AngleParam: FunctionComponent<Props> = ({ params }) => {
 	const { undoManager } = useStore();
 
 	const onChangeAngleSlider = (ev: ChangeEvent<HTMLInputElement>): void => {
-		angleEntity.setAngle(ev.target.valueAsNumber * DEG_TO_RAD);
+		params.setAngle(ev.target.valueAsNumber * DEG_TO_RAD);
 	};
 
 	const onChangeAngleInput = (angle: number): void => {
-		angleEntity.setAngle(angle * DEG_TO_RAD);
+		params.setAngle(angle * DEG_TO_RAD);
 	};
 
 	function onFocus(): void {
@@ -47,7 +41,7 @@ const AngleParam: FunctionComponent<Props> = ({ angleEntity }) => {
 	}
 
 	// remove floating point inaccuracies by flooring
-	const angleDegrees = Math.floor(angleEntity.params.angle * RAD_TO_DEG);
+	const angleDegrees = Math.floor(params.angle * RAD_TO_DEG);
 
 	return (
 		<Container>

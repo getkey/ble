@@ -4,33 +4,33 @@ import { nanoid } from 'nanoid';
 import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
+import StaticParams from 'src/models/StaticParams';
 
-const BallParams = types.model({
-	x: types.number,
-	y: types.number,
-	radius: types.optional(
-		types.refinement(
-			types.number,
-			(value) => value >= 0,
+const BallParams = types.compose(
+	types.model({
+		x: types.number,
+		y: types.number,
+		radius: types.optional(
+			types.refinement(
+				types.number,
+				(value) => value >= 0,
+			),
+			15,
 		),
-		15,
-	),
-	isStatic: false,
-}).views((self) => ({
-	move(deltaX: number, deltaY: number): void {
-		self.x += deltaX;
-		self.y += deltaY;
-	},
-}));
+	}).views((self) => ({
+		move(deltaX: number, deltaY: number): void {
+			self.x += deltaX;
+			self.y += deltaY;
+		},
+	})),
+	StaticParams,
+);
 
 const Ball = types.model({
 	id: types.optional(types.identifier, nanoid),
 	type: types.enumeration(Object.values(BlockType)),
 	params: BallParams,
 }).actions((self) => ({
-	setIsStatic(isStatic: boolean): void {
-		self.params.isStatic = isStatic;
-	},
 	setRadius(radius: number): void {
 		self.params.radius = radius;
 	},

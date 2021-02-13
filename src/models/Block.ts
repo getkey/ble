@@ -5,14 +5,13 @@ import VerticesParams from 'src/models/VerticesParams';
 import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
 import { blockAliases } from 'src/aliases';
+import StaticParams from 'src/models/StaticParams';
 
 const Block = types.model({
 	id: types.optional(types.identifier, nanoid),
 	type: types.enumeration(Object.values(BlockType)),
 	params: types.compose(
-		types.model({
-			isStatic: false,
-		}),
+		StaticParams,
 		VerticesParams,
 	),
 }).views((self) => ({
@@ -20,9 +19,6 @@ const Block = types.model({
 		return `${blockAliases[self.type]} polygon`;
 	},
 })).actions((self) => ({
-	setIsStatic(isStatic: boolean): void {
-		self.params.isStatic = isStatic;
-	},
 	remove(): void {
 		const parent = (getParent(self, 2) as ILevel);
 		parent.removeEntity(self as IBlock);

@@ -53,8 +53,8 @@ const ParamsBox: FunctionComponent = () => {
 			{Text.is(selectedEntity) && (
 				<TextParam text={selectedEntity}/>
 			)}
-			{('params' in selectedEntity) && ('setIsStatic' in selectedEntity) && ('isStatic' in selectedEntity.params) && (
-				<StaticParam staticEntity={selectedEntity}/>
+			{('params' in selectedEntity) && ('setIsStatic' in selectedEntity.params) && ('isStatic' in selectedEntity.params) && (
+				<StaticParam params={selectedEntity.params}/>
 			)}
 			{Entity.is(selectedEntity) && (
 				<ZOrderParam entity={selectedEntity}/>

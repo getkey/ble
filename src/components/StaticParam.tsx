@@ -3,20 +3,18 @@ import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbtack } from '@fortawesome/free-solid-svg-icons';
 
-interface StaticEntity {
-	params: {
-		isStatic: boolean;
-	}
+interface StaticParams {
+	isStatic: boolean;
 	setIsStatic: (isStatic: boolean) => void;
 }
 
 type Props = {
-	staticEntity: StaticEntity,
+	params: StaticParams,
 };
 
-const StaticParam: FunctionComponent<Props> = ({ staticEntity }) => {
+const StaticParam: FunctionComponent<Props> = ({ params }) => {
 	const onToggleStatic = (ev: ChangeEvent<HTMLInputElement>): void => {
-		staticEntity.setIsStatic(ev.target.checked);
+		params.setIsStatic(ev.target.checked);
 	};
 
 	return (
@@ -25,7 +23,7 @@ const StaticParam: FunctionComponent<Props> = ({ staticEntity }) => {
 			&#32;
 			static:
 			&#32;
-			<input type="checkbox" checked={staticEntity.params.isStatic} onChange={onToggleStatic}/>
+			<input type="checkbox" checked={params.isStatic} onChange={onToggleStatic}/>
 		</label>
 	);
 };

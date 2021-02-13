@@ -4,18 +4,22 @@ import { nanoid } from 'nanoid';
 import { AmmoType } from 'src/types/entity';
 import { ILevel } from 'src/models/Level';
 import { reverse } from 'src/utils/string';
+import StaticParams from 'src/models/StaticParams';
 
-const ParamsBase = types.model({
-	x: types.number,
-	y: types.number,
-	angle: 0,
-	isStatic: false,
-}).actions((self) => ({
-	move(deltaX: number, deltaY: number): void {
-		self.x += deltaX;
-		self.y += deltaY;
-	},
-}));
+const ParamsBase = types.compose(
+	StaticParams,
+	types.model({
+		x: types.number,
+		y: types.number,
+		angle: 0,
+		isStatic: false, // bypasses StaticParams's default
+	}).actions((self) => ({
+		move(deltaX: number, deltaY: number): void {
+			self.x += deltaX;
+			self.y += deltaY;
+		},
+	})),
+);
 
 export const InfiniteParams = types.compose(ParamsBase,
 	types.model({
@@ -84,9 +88,6 @@ const Hoppi = types.model({
 		InfiniteParams,
 	),
 }).actions((self) => ({
-	setIsStatic(isStatic: boolean): void {
-		self.params.isStatic = isStatic;
-	},
 	setAngle(angle: number): void {
 		self.params.angle = angle;
 	},

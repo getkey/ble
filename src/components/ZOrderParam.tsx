@@ -76,7 +76,7 @@ const ZOrderParam: FunctionComponent<Props> = ({ entity }) => {
 				/>
 			</Container>
 			{Hoppi.is(entity) && (
-				<Tip>Tip: the lowest hoppi holds the camera</Tip>
+				<Tip>Tip: the hoppi with the smallest z-order holds the camera</Tip>
 			)}
 		</Fragment>
 	);

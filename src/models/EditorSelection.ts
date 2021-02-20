@@ -2,9 +2,11 @@ import { types, getRoot, detach } from 'mobx-state-tree';
 
 import Entity, { IEntity } from 'src/models/Entity';
 import Vertex, { IVertex } from 'src/models/Vertex';
+import Point from 'src/models/Point';
 import { IRootStore } from 'src/models/RootStore';
 import { cloneEntity } from 'src/utils/clone';
 import { EditorMode } from 'src/types/editor';
+import GenericPoint from 'src/types/point';
 
 const EditorSelection = types.model({
 	gridCellSize: 60,
@@ -19,7 +21,25 @@ const EditorSelection = types.model({
 		}),
 	),
 	clipboard: types.map(Entity),
+	selectionBox: types.maybe(types.model({
+		start: Point,
+		end: Point,
+	})),
 }).actions((self) => ({
+	startSelectionBox(pos: GenericPoint): void {
+		self.selectionBox = {
+			start: Point.create(pos),
+			end: Point.create(pos),
+		};
+	},
+	updateSelectionBox(pos: GenericPoint): void {
+		if (self.selectionBox === undefined) return;
+
+		self.selectionBox.end.set(pos.x, pos.y);
+	},
+	endSelectionBox(): void {
+		self.selectionBox = undefined;
+	},
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
 	},

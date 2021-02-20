@@ -1,5 +1,5 @@
 import { fromEvent, empty, of } from 'rxjs';
-import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck } from 'rxjs/operators';
+import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck, switchMapTo } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 import { resolveIdentifier } from 'mobx-state-tree';
 
@@ -173,6 +173,33 @@ export const unselect: Epic = (action$, { store }) => {
 		tap(() => {
 			store.editor.clearSelection();
 		}),
+		ignoreElements(),
+	);
+};
+
+export const startSelectionBox: Epic = (action$, { store }) => {
+	return action$.pipe(
+		ofType('backgroundPointerDown'),
+		filter(() => store.editor.mode === EditorMode.select),
+		// it's important to use global and not original event
+		// because TouchEvents don't have clientX
+		pluck('ev', 'data', 'global'),
+		map((global) => store.editor.screenToWorld(global)),
+		tap((worldPos) => store.editor.startSelectionBox(worldPos)),
+		switchMapTo(fromEvent<PointerEvent>(document, 'pointermove').pipe(
+			map((ev) => store.editor.screenToWorld({
+				x: ev.clientX - store.editor.renderZone.x,
+				y: ev.clientY - store.editor.renderZone.y,
+			})),
+			tap((posInWorld) => {
+				store.editor.updateSelectionBox(posInWorld);
+			}),
+			takeUntil(fromEvent(document, 'pointerup').pipe(
+				tap(() => {
+					store.editor.endSelectionBox();
+				}),
+			)),
+		)),
 		ignoreElements(),
 	);
 };

@@ -5,6 +5,7 @@ import { InteractionEvent } from 'pixi.js';
 import ModifiablePolygon from 'src/components/ModifiablePolygon';
 import Circle from 'src/components/Circle';
 import Level from 'src/components/Level';
+import SelectionBox from 'src/components/SelectionBox';
 import { useStore } from 'src/hooks/useStore';
 import { useDispatch } from 'src/hooks/useDispatch';
 import Door from 'src/components/Door';
@@ -27,7 +28,7 @@ const entityColors = {
 };
 
 const PixiApp: FunctionComponent = () => {
-	const { level: { entities }, editor: { selection, vertexSelection } } = useStore();
+	const { level: { entities }, editor: { selection, vertexSelection, selectionBox } } = useStore();
 	const dispatch = useDispatch();
 
 	return (
@@ -148,6 +149,9 @@ const PixiApp: FunctionComponent = () => {
 				console.error(entity);
 				throw new Error('Unknown entity type');
 			})}
+			{selectionBox && (
+				<SelectionBox x={selectionBox.start.x} y={selectionBox.start.y} width={selectionBox.end.x - selectionBox.start.x} height={selectionBox.end.y - selectionBox.start.y}/>
+			)}
 		</Level>
 	);
 };

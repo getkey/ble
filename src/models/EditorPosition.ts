@@ -59,13 +59,12 @@ const EditorPosition = types.model({
 		};
 	},
 	get globalCursor(): string {
-		if (self.panning) return 'all-scroll';
-
 		switch(self.mode) {
+			case EditorMode.pan:
+				return self.panning ? 'grabbing' : 'grab';
 			case EditorMode.addBlock:
 			case EditorMode.addVertex:
 				return 'crosshair';
-				break;
 		}
 
 		return 'auto';

@@ -2,7 +2,7 @@ import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDrawPolygon, faMousePointer, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
+import { faDrawPolygon, faMousePointer, faHandRock } from '@fortawesome/free-solid-svg-icons';
 import chroma from 'chroma-js';
 
 import { useStore } from 'src/hooks/useStore';
@@ -44,7 +44,7 @@ const SelectButton: FunctionComponent = () => (
 	<FontAwesomeIcon icon={faMousePointer} fixedWidth />
 );
 const PanButton: FunctionComponent = () => (
-	<FontAwesomeIcon icon={faArrowsAlt} fixedWidth />
+	<FontAwesomeIcon icon={faHandRock} fixedWidth />
 );
 const AddVertexButton: FunctionComponent = () => (
 	<FontAwesomeIcon icon={faDrawPolygon}/>

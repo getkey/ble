@@ -1,44 +1,44 @@
 import { fromEvent, merge } from 'rxjs';
-import { pluck, map, tap, switchMap, takeUntil, ignoreElements, filter } from 'rxjs/operators';
+import { take, map, tap, switchMap, takeUntil, ignoreElements, filter } from 'rxjs/operators';
 import { Epic, ofType } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
 
-export const globalPan: Epic = (action$, { store, app }) => {
-	const startPanning$ = merge(
-		action$.pipe(
-			ofType('backgroundPointerDown'),
-			filter(() => store.editor.mode === EditorMode.select),
-			// it's important to use global and not original event
-			// because TouchEvents don't have clientX
-			pluck('ev', 'data', 'global'),
-			map(({ x, y }) => ({
-				x: x + store.editor.renderZone.x,
-				y: y + store.editor.renderZone.y,
-			})),
-		),
-		fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
-			filter((ev) => ev.button === 1),
-			tap((ev) => {
-				// on Windows middle-click is for multidirectional scroll
-				ev.preventDefault();
-			}),
-			map(({ clientX, clientY }) => ({
-				x: clientX,
-				y: clientY,
-			})),
-		),
-	);
+export const middleClickPan: Epic = (action$, { store, app }) => {
+	return fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
+		filter((ev) => ev.button === 1),
+		tap((ev) => {
+			// on Windows middle-click is for multidirectional scroll
+			ev.preventDefault();
+		}),
+		switchMap(() => {
+			const oldMode = store.editor.mode;
 
-	return startPanning$.pipe(
+			store.editor.setMode(EditorMode.pan);
+
+			return fromEvent<PointerEvent>(app.view, 'mouseup').pipe(
+				tap(() => {
+					store.editor.setMode(oldMode);
+				}),
+				take(1),
+			);
+		}),
+		ignoreElements(),
+	);
+};
+
+export const globalPan: Epic = (action$, { store, app }) => {
+	return fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
+		// setting the editor pan mode must be done before! order is important
+		filter(() => store.editor.mode === EditorMode.pan),
 		tap(() => {
 			store.editor.setPanning(true);
 			store.undoManager.startGroup();
 		}),
-		map(({ x, y }) => ({ // save starting values
+		map(({ clientX, clientY }) => ({ // save starting values
 			start: {
-				x,
-				y,
+				x: clientX,
+				y: clientY,
 			},
 			pivot: {
 				x: store.editor.position.x,

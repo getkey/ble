@@ -2,7 +2,7 @@ import React, { FunctionComponent, Fragment, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDrawPolygon, faMousePointer } from '@fortawesome/free-solid-svg-icons';
+import { faDrawPolygon, faMousePointer, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import chroma from 'chroma-js';
 
 import { useStore } from 'src/hooks/useStore';
@@ -43,12 +43,16 @@ const RadioButton = styled.input`
 const SelectButton: FunctionComponent = () => (
 	<FontAwesomeIcon icon={faMousePointer} fixedWidth />
 );
+const PanButton: FunctionComponent = () => (
+	<FontAwesomeIcon icon={faArrowsAlt} fixedWidth />
+);
 const AddVertexButton: FunctionComponent = () => (
 	<FontAwesomeIcon icon={faDrawPolygon}/>
 );
 
 const icons = {
 	[EditorMode.select]: SelectButton,
+	[EditorMode.pan]: PanButton,
 	[EditorMode.addBlock]: AddButton,
 	[EditorMode.addVertex]: AddVertexButton,
 };

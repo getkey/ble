@@ -1,5 +1,6 @@
 import { types, Instance, getParent, SnapshotOut } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
+import { Circle, Vector } from 'sat';
 
 import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
@@ -12,7 +13,11 @@ const BallParams = types.compose(
 	StaticParams,
 	PositionParams,
 	RadiusParams,
-);
+).views((self) => ({
+	get asSatCircle(): Circle {
+		return new Circle(new Vector(self.x, self.y), self.radius);
+	},
+}));
 
 const Ball = types.model({
 	id: types.optional(types.identifier, nanoid),

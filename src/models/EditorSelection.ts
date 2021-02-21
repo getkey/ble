@@ -1,4 +1,5 @@
 import { types, getRoot, detach } from 'mobx-state-tree';
+import { Polygon, Box, Vector } from 'sat';
 
 import Entity, { IEntity } from 'src/models/Entity';
 import Vertex, { IVertex } from 'src/models/Vertex';
@@ -130,6 +131,31 @@ const EditorSelection = types.model({
 		}
 
 		return Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex);
+	},
+	get selectionBoxAsSatPolygon(): Polygon {
+		if (self.selectionBox === undefined) {
+			return new Box(new Vector(Infinity, Infinity), 0, 0).toPolygon();
+		}
+
+		// negative width and height is not supported
+		// which is why we need to do all this mumbo jumbo
+		const topLeft = {
+			x: Math.min(self.selectionBox.start.x, self.selectionBox.end.x),
+			y: Math.min(self.selectionBox.start.y, self.selectionBox.end.y),
+		};
+		const bottomRight = {
+			x: Math.max(self.selectionBox.start.x, self.selectionBox.end.x),
+			y: Math.max(self.selectionBox.start.y, self.selectionBox.end.y),
+		};
+
+		return new Box(
+			new Vector(
+				topLeft.x,
+				topLeft.y,
+			),
+			bottomRight.x - topLeft.x,
+			bottomRight.y - topLeft.y,
+		).toPolygon();
 	},
 }));
 export default EditorSelection;

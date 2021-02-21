@@ -33,10 +33,12 @@
     "mst-middlewares": "^5.0.1",
     "nanoid": "^3.1.20",
     "pixi.js": "^5.3.7",
+    "poly-decomp": "^0.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-pixi-fiber": "^0.14.2",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "sat": "^0.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
@@ -47,6 +49,7 @@
     "@types/nanoid": "^2.1.0",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
+    "@types/sat": "^0.0.31",
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
     "babel-loader": "^8.2.2",

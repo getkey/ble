@@ -1,6 +1,8 @@
 import { types, destroy, getParent, getRoot, isAlive, Instance } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 import { polygonIsSimple, polygonArea, canBeDecomposed } from 'bombhopperio-level-tools';
+import { Polygon, Vector } from 'sat';
+import { makeCCW, quickDecomp } from 'poly-decomp';
 
 import { IRootStore } from 'src/models/RootStore';
 import Vertex from 'src/models/Vertex';
@@ -27,6 +29,15 @@ const VerticesParams = types.model({
 		];
 
 		return vertices.slice(0, -1).map((pointA, i) => ([pointA, vertices[i + 1]]));
+	},
+	get asSatPolygons(): Array<Polygon> {
+		const polygon = self.vertices.map(({ x, y }): [number, number] => [x, y]);
+		makeCCW(polygon);
+		const polygons = quickDecomp(polygon);
+
+		return polygons.map((polygon_) => new Polygon(new Vector(),
+			polygon_.map(([x, y]) => new Vector(x, y)),
+		));
 	},
 })).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {

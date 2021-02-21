@@ -2,6 +2,7 @@ import { fromEvent, empty, of } from 'rxjs';
 import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck, switchMapTo } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 import { resolveIdentifier } from 'mobx-state-tree';
+import { testPolygonCircle, testPolygonPolygon, Polygon } from 'sat';
 
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
@@ -196,6 +197,20 @@ export const startSelectionBox: Epic = (action$, { store }) => {
 			}),
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
+					store.level.entities.forEach((entity: IEntity) => {
+						if ('params' in entity && 'asSatCircle' in entity.params) {
+							if (!testPolygonCircle(store.editor.selectionBoxAsSatPolygon, entity.params.asSatCircle)) return;
+
+							store.editor.addToSelection(entity);
+						}
+						if ('params' in entity && 'asSatPolygons' in entity.params) {
+							if (entity.params.asSatPolygons.every((polygon: Polygon) => !testPolygonPolygon(store.editor.selectionBoxAsSatPolygon, polygon))) {
+								return;
+							}
+
+							store.editor.addToSelection(entity);
+						}
+					});
 					store.editor.endSelectionBox();
 				}),
 			)),

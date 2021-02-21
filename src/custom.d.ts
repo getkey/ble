@@ -15,3 +15,9 @@ declare module '*.json' {
     const content: any;
     export default content;
 }
+type PolyDecompPolygon = Array<[number, number]>;
+declare module 'poly-decomp' {
+	export function makeCCW(polygon: PolyDecompPolygon): PolyDecompPolygon;
+	export function quickDecomp(polygon: PolyDecompPolygon): Array<PolyDecompPolygon>;
+	export function decomp(polygon: PolyDecompPolygon): Array<PolyDecompPolygon>;
+}

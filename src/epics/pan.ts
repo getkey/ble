@@ -28,7 +28,7 @@ export const middleClickPan: Epic = (action$, { store, app }) => {
 };
 
 export const globalPan: Epic = (action$, { store, app }) => {
-	return fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
+	return fromEvent<PointerEvent>(app.view, 'pointerdown').pipe(
 		// setting the editor pan mode must be done before! order is important
 		filter(() => store.editor.mode === EditorMode.pan),
 		tap(() => {

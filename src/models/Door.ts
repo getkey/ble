@@ -1,10 +1,12 @@
 import { types, Instance, getParent } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
+import { Box, Vector, Polygon } from 'sat';
 
 import { ILevel } from 'src/models/Level';
 import StaticParams from 'src/models/StaticParams';
 import AngleParams from 'src/models/AngleParams';
 import PositionParams from 'src/models/PositionParams';
+import { doorWidth, doorHeight } from 'src/config';
 
 const DoorParams = types.compose(
 	StaticParams,
@@ -13,7 +15,20 @@ const DoorParams = types.compose(
 	types.model({
 		rightFacing: true,
 	}),
-);
+).views((self) => ({
+	get asSatPolygons(): [Polygon] {
+		return [
+			new Box(
+				new Vector(
+					self.x - doorWidth/2,
+					self.y - doorHeight/2,
+				),
+				doorWidth,
+				doorHeight,
+			).toPolygon(),
+		];
+	},
+}));
 
 const Door = types.model({
 	id: types.optional(types.identifier, nanoid),

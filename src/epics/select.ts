@@ -178,7 +178,7 @@ export const unselect: Epic = (action$, { store }) => {
 	);
 };
 
-export const startSelectionBox: Epic = (action$, { store }) => {
+export const selectionBox: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('backgroundPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
@@ -187,6 +187,7 @@ export const startSelectionBox: Epic = (action$, { store }) => {
 		pluck('ev', 'data', 'global'),
 		map((global) => store.editor.screenToWorld(global)),
 		tap((worldPos) => {
+			console.log('selectionblock')
 			store.undoManager.startGroup();
 			store.editor.startSelectionBox(worldPos);
 		}),
@@ -197,6 +198,7 @@ export const startSelectionBox: Epic = (action$, { store }) => {
 			})),
 			tap((posInWorld) => {
 				store.editor.updateSelectionBox(posInWorld);
+				console.log('move');
 			}),
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
@@ -219,6 +221,8 @@ export const startSelectionBox: Epic = (action$, { store }) => {
 							store.editor.addToSelection(entity);
 						}
 					});
+
+					console.log('up');
 
 					store.editor.endSelectionBox();
 					store.undoManager.stopGroup();

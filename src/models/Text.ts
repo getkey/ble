@@ -1,5 +1,6 @@
 import { types, Instance, getParent } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
+import { Box, Vector, Polygon } from 'sat';
 
 import { ILevel } from 'src/models/Level';
 import AngleParams from 'src/models/AngleParams';
@@ -10,7 +11,25 @@ const Params = types.compose(
 	AngleParams,
 	PositionParams,
 	TextParams,
-);
+).views((self) => ({
+	get asSatPolygons(): [Polygon] {
+		const splitted = (self.copy.en as string).split('\n');
+		const rows = splitted.length;
+		const cols = splitted.reduce((acc, line) => Math.max(acc, line.length), 0);
+		const width = cols * 16;
+		const height = rows * 16;
+		return [
+			new Box(
+				new Vector(
+					self.x - width/2,
+					self.y - height/2,
+				),
+				width,
+				height,
+			).toPolygon(),
+		];
+	},
+}));
 
 const Text = types.model({
 	id: types.optional(types.identifier, nanoid),

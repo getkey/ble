@@ -2,7 +2,7 @@ import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics } from 'pixi.js';
 import chroma from 'chroma-js';
 
-import { lineWidth, hoppiColor, darkSlateGray, eyeColor, selectColor } from 'src/config';
+import { lineWidth, hoppiColor, darkSlateGray, eyeColor, selectColor, hoppiSize } from 'src/config';
 import grabbable from 'src/utils/grabbable';
 
 type Props = {
@@ -31,7 +31,7 @@ export const behavior = {
 			).num();
 			instance.beginFill(fillColor);
 
-			instance.drawRect(-20, -20, 40, 40);
+			instance.drawRect(-20, -20, hoppiSize, hoppiSize);
 
 			// face
 			const faceLineWidth = 3;

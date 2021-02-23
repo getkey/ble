@@ -1,5 +1,6 @@
 import { types, Instance, getParent } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
+import { Box, Vector, Polygon } from 'sat';
 
 import { AmmoType } from 'src/types/entity';
 import { ILevel } from 'src/models/Level';
@@ -7,6 +8,7 @@ import { reverse } from 'src/utils/string';
 import StaticParams from 'src/models/StaticParams';
 import AngleParams from 'src/models/AngleParams';
 import PositionParams from 'src/models/PositionParams';
+import { hoppiSize } from 'src/config';
 
 const ParamsBase = types.compose(
 	StaticParams,
@@ -15,7 +17,20 @@ const ParamsBase = types.compose(
 	types.model({
 		isStatic: false, // bypasses StaticParams's default
 	}),
-);
+).views((self) => ({
+	get asSatPolygons(): [Polygon] {
+		return [
+			new Box(
+				new Vector(
+					self.x - hoppiSize/2,
+					self.y - hoppiSize/2,
+				),
+				hoppiSize,
+				hoppiSize,
+			).toPolygon(),
+		];
+	},
+}));
 
 export const InfiniteParams = types.compose(ParamsBase,
 	types.model({

@@ -1,4 +1,4 @@
-import { fromEvent, empty, of } from 'rxjs';
+import { fromEvent, empty, of, merge } from 'rxjs';
 import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck, switchMapTo } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 import { resolveIdentifier } from 'mobx-state-tree';
@@ -9,6 +9,7 @@ import { snapToGrid } from 'src/utils/geom';
 import EntityM, { IEntity } from 'src/models/Entity';
 import VertexM, { IVertex } from 'src/models/Vertex';
 import { isShortcut } from 'src/utils/event';
+import { fromMobx } from 'src/utils/observables';
 
 export const entityMove: Epic = (action$, { store }) => {
 	return action$.pipe (
@@ -187,7 +188,6 @@ export const selectionBox: Epic = (action$, { store }) => {
 		pluck('ev', 'data', 'global'),
 		map((global) => store.editor.screenToWorld(global)),
 		tap((worldPos) => {
-			console.log('selectionblock')
 			store.undoManager.startGroup();
 			store.editor.startSelectionBox(worldPos);
 		}),
@@ -198,9 +198,13 @@ export const selectionBox: Epic = (action$, { store }) => {
 			})),
 			tap((posInWorld) => {
 				store.editor.updateSelectionBox(posInWorld);
-				console.log('move');
 			}),
-			takeUntil(fromEvent(document, 'pointerup').pipe(
+			takeUntil(merge(
+				fromEvent(document, 'pointerup'),
+				fromMobx(() => store.editor.mode).pipe(
+					filter((mode) => mode !== EditorMode.select)
+				),
+			).pipe(
 				tap(() => {
 					store.level.entities.forEach((entity: IEntity) => {
 						if ('params' in entity && 'asSatCircle' in entity.params) {
@@ -221,8 +225,6 @@ export const selectionBox: Epic = (action$, { store }) => {
 							store.editor.addToSelection(entity);
 						}
 					});
-
-					console.log('up');
 
 					store.editor.endSelectionBox();
 					store.undoManager.stopGroup();

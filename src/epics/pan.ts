@@ -15,12 +15,10 @@ export const middleClickPan: Epic = (action$, { store, app }) => {
 			const oldMode = store.editor.mode;
 
 			store.editor.setMode(EditorMode.pan);
-			console.log('pan');
 
 			return fromEvent<PointerEvent>(app.view, 'mouseup').pipe(
 				tap(() => {
 					store.editor.setMode(oldMode);
-					console.log('ada', oldMode);
 				}),
 				take(1),
 			);

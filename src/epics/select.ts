@@ -1,5 +1,5 @@
 import { fromEvent, empty, of, merge } from 'rxjs';
-import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck, switchMapTo } from 'rxjs/operators';
+import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck, switchMapTo, mapTo } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 import { resolveIdentifier } from 'mobx-state-tree';
 import { testPolygonCircle, testPolygonPolygon, Polygon, Vector, pointInCircle, pointInPolygon } from 'sat';
@@ -166,22 +166,11 @@ export const selectVertex: Epic = (action$, { store }) => {
 	);
 };
 
-export const unselect: Epic = (action$, { store }) => {
+export const selectionBox: Epic = (action$, { store }) => {
 	return action$.pipe(
 		ofType('backgroundPointerDown'),
 		// middle click is panning only
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
-		filter(() => store.editor.mode === EditorMode.select),
-		tap(() => {
-			store.editor.clearSelection();
-		}),
-		ignoreElements(),
-	);
-};
-
-export const selectionBox: Epic = (action$, { store }) => {
-	return action$.pipe(
-		ofType('backgroundPointerDown'),
 		filter(() => store.editor.mode === EditorMode.select),
 		// it's important to use global and not original event
 		// because TouchEvents don't have clientX
@@ -200,31 +189,40 @@ export const selectionBox: Epic = (action$, { store }) => {
 				store.editor.updateSelectionBox(posInWorld);
 			}),
 			takeUntil(merge(
-				fromEvent(document, 'pointerup'),
+				fromEvent<PointerEvent>(document, 'pointerup').pipe(
+					map((ev) => isShortcut(ev)),
+				),
 				fromMobx(() => store.editor.mode).pipe(
-					filter((mode) => mode !== EditorMode.select)
+					filter((mode) => mode !== EditorMode.select),
+					mapTo(false),
 				),
 			).pipe(
-				tap(() => {
-					store.level.entities.forEach((entity: IEntity) => {
+				tap((shortcut) => {
+					const entitiesToAdd = store.level.entities.filter((entity: IEntity) => {
 						if ('params' in entity && 'asSatCircle' in entity.params) {
 							const tester = store.editor.selectionBoxAsSat instanceof Vector ? pointInCircle : testPolygonCircle;
-							if (!tester(
+							return tester(
 								store.editor.selectionBoxAsSat,
 								entity.params.asSatCircle
-							)) return;
+							);
 
 							store.editor.addToSelection(entity);
 						}
 						if ('params' in entity && 'asSatPolygons' in entity.params) {
 							const tester = store.editor.selectionBoxAsSat instanceof Vector ? pointInPolygon : testPolygonPolygon;
-							if (entity.params.asSatPolygons.every((polygon: Polygon) => !tester(store.editor.selectionBoxAsSat, polygon))) {
-								return;
-							}
+							return entity.params.asSatPolygons
+								.some((polygon: Polygon) => tester(store.editor.selectionBoxAsSat, polygon));
 
-							store.editor.addToSelection(entity);
 						}
+
+						return false;
 					});
+
+					if (shortcut) {
+						entitiesToAdd.forEach((entity: IEntity) => store.editor.addToSelection(entity));
+					} else {
+						store.editor.setSelection(entitiesToAdd);
+					}
 
 					store.editor.endSelectionBox();
 					store.undoManager.stopGroup();

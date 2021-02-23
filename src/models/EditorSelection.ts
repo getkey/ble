@@ -132,9 +132,14 @@ const EditorSelection = types.model({
 
 		return Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex);
 	},
-	get selectionBoxAsSatPolygon(): Polygon {
+	get selectionBoxAsSat(): Polygon | Vector {
 		if (self.selectionBox === undefined) {
-			return new Box(new Vector(Infinity, Infinity), 0, 0).toPolygon();
+			return new Vector(Infinity, Infinity);
+		}
+
+		if (self.selectionBox.start.x === self.selectionBox.end.x && self.selectionBox.start.y === self.selectionBox.end.y) {
+			// sat-js is buggy with polygons of width 0, so we need to return a vector
+			return new Vector(self.selectionBox.start.x, self.selectionBox.start.y);
 		}
 
 		// negative width and height is not supported

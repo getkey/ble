@@ -2,7 +2,7 @@ import { fromEvent, empty, of } from 'rxjs';
 import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck, switchMapTo } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 import { resolveIdentifier } from 'mobx-state-tree';
-import { testPolygonCircle, testPolygonPolygon, Polygon } from 'sat';
+import { testPolygonCircle, testPolygonPolygon, Polygon, Vector, pointInCircle, pointInPolygon } from 'sat';
 
 import { EditorMode } from 'src/types/editor';
 import { snapToGrid } from 'src/utils/geom';
@@ -186,7 +186,10 @@ export const startSelectionBox: Epic = (action$, { store }) => {
 		// because TouchEvents don't have clientX
 		pluck('ev', 'data', 'global'),
 		map((global) => store.editor.screenToWorld(global)),
-		tap((worldPos) => store.editor.startSelectionBox(worldPos)),
+		tap((worldPos) => {
+			store.undoManager.startGroup();
+			store.editor.startSelectionBox(worldPos);
+		}),
 		switchMapTo(fromEvent<PointerEvent>(document, 'pointermove').pipe(
 			map((ev) => store.editor.screenToWorld({
 				x: ev.clientX - store.editor.renderZone.x,
@@ -199,19 +202,26 @@ export const startSelectionBox: Epic = (action$, { store }) => {
 				tap(() => {
 					store.level.entities.forEach((entity: IEntity) => {
 						if ('params' in entity && 'asSatCircle' in entity.params) {
-							if (!testPolygonCircle(store.editor.selectionBoxAsSatPolygon, entity.params.asSatCircle)) return;
+							const tester = store.editor.selectionBoxAsSat instanceof Vector ? pointInCircle : testPolygonCircle;
+							if (!tester(
+								store.editor.selectionBoxAsSat,
+								entity.params.asSatCircle
+							)) return;
 
 							store.editor.addToSelection(entity);
 						}
 						if ('params' in entity && 'asSatPolygons' in entity.params) {
-							if (entity.params.asSatPolygons.every((polygon: Polygon) => !testPolygonPolygon(store.editor.selectionBoxAsSatPolygon, polygon))) {
+							const tester = store.editor.selectionBoxAsSat instanceof Vector ? pointInPolygon : testPolygonPolygon;
+							if (entity.params.asSatPolygons.every((polygon: Polygon) => !tester(store.editor.selectionBoxAsSat, polygon))) {
 								return;
 							}
 
 							store.editor.addToSelection(entity);
 						}
 					});
+
 					store.editor.endSelectionBox();
+					store.undoManager.stopGroup();
 				}),
 			)),
 		)),

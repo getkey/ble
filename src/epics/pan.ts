@@ -1,36 +1,25 @@
-import { fromEvent, merge } from 'rxjs';
-import { take, map, tap, switchMap, takeUntil, ignoreElements, filter } from 'rxjs/operators';
+import { fromEvent, merge, partition } from 'rxjs';
+import { map, tap, switchMap, takeUntil, ignoreElements, filter } from 'rxjs/operators';
 import { Epic, ofType } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
 
-export const middleClickPan: Epic = (action$, { store, app }) => {
-	return fromEvent<PointerEvent>(app.view, 'mousedown').pipe(
-		filter((ev) => ev.button === 1),
-		tap((ev) => {
-			// on Windows middle-click is for multidirectional scroll
-			ev.preventDefault();
-		}),
-		switchMap(() => {
-			const oldMode = store.editor.mode;
-
-			store.editor.setMode(EditorMode.pan);
-
-			return fromEvent<PointerEvent>(app.view, 'mouseup').pipe(
-				tap(() => {
-					store.editor.setMode(oldMode);
-				}),
-				take(1),
-			);
-		}),
-		ignoreElements(),
-	);
-};
-
 export const globalPan: Epic = (action$, { store, app }) => {
-	return fromEvent<PointerEvent>(app.view, 'pointerdown').pipe(
-		// setting the editor pan mode must be done before! order is important
-		filter(() => store.editor.mode === EditorMode.pan),
+	const [middleClick$, otherClick$] = partition(fromEvent<PointerEvent>(app.view, 'pointerdown'), (ev) => ev.button === 1);
+
+	const startPanning$ = merge(
+		middleClick$.pipe(
+			tap((ev) => {
+				// on Windows middle-click is for multidirectional scroll
+				ev.preventDefault();
+			}),
+		),
+		otherClick$.pipe(
+			filter((ev) => store.editor.mode === EditorMode.pan || ev.button === 1),
+		),
+	);
+
+	return startPanning$.pipe(
 		tap(() => {
 			store.editor.setPanning(true);
 			store.undoManager.startGroup();
@@ -45,21 +34,27 @@ export const globalPan: Epic = (action$, { store, app }) => {
 				y: store.editor.position.y,
 			},
 		})),
-		switchMap(({ start, pivot }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
-			tap(({ clientX, clientY }) => {
-				const { scale } = store.editor;
-				const deltaX = pivot.x + (start.x - clientX) * (1/scale);
-				const deltaY = pivot.y + (start.y - clientY) * (1/scale);
+		switchMap(({ start, pivot }) => {
+			const oldMode = store.editor.mode;
+			store.editor.setMode(EditorMode.pan);
 
-				store.editor.position.set(deltaX, deltaY);
-			}),
-			takeUntil(fromEvent(document, 'pointerup').pipe(
-				tap(() => {
-					store.undoManager.stopGroup();
-					store.editor.setPanning(false);
-				})
-			)),
-		)),
+			return fromEvent<PointerEvent>(document, 'pointermove').pipe(
+				tap(({ clientX, clientY }) => {
+					const { scale } = store.editor;
+					const deltaX = pivot.x + (start.x - clientX) * (1/scale);
+					const deltaY = pivot.y + (start.y - clientY) * (1/scale);
+
+					store.editor.position.set(deltaX, deltaY);
+				}),
+				takeUntil(fromEvent(document, 'pointerup').pipe(
+					tap(() => {
+						store.editor.setMode(oldMode);
+						store.undoManager.stopGroup();
+						store.editor.setPanning(false);
+					})
+				)),
+			);
+		}),
 		ignoreElements(),
 	);
 };

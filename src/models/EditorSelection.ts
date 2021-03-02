@@ -1,4 +1,4 @@
-import { types, getRoot, detach } from 'mobx-state-tree';
+import { types, getRoot, detach, getSnapshot } from 'mobx-state-tree';
 import { Polygon, Box, Vector } from 'sat';
 
 import Entity, { IEntity } from 'src/models/Entity';
@@ -8,6 +8,8 @@ import { IRootStore } from 'src/models/RootStore';
 import { cloneEntity } from 'src/utils/clone';
 import { EditorMode } from 'src/types/editor';
 import GenericPoint from 'src/types/point';
+import { entityPostProcessor } from 'src/utils/snapshot';
+import { serializePrefab, deserializePrefab } from 'src/utils/serialization';
 
 const EditorSelection = types.model({
 	gridCellSize: 60,
@@ -101,6 +103,13 @@ const EditorSelection = types.model({
 		// store a copy, not a reference so the original entity can be moved, etc
 		const copies = Array.from(self.selection.values())
 			.map((entity) => cloneEntity(entity));
+
+		const processedEntities = copies.map((entity) => entityPostProcessor(getSnapshot(entity)));
+		serializePrefab(processedEntities).then((lel) => {
+			navigator.clipboard.writeText(lel);
+			const sup = deserializePrefab(lel).then((kek) => console.log(kek));
+			console.log('sup', lel, sup);
+		});
 		self.setClipboard(copies);
 	},
 	paste(): void {

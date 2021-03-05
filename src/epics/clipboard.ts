@@ -2,13 +2,10 @@ import { fromEvent  } from 'rxjs';
 import { tap, ignoreElements, filter } from 'rxjs/operators';
 import { Epic } from 'epix';
 
-import { isShortcut } from 'src/utils/event';
-
-export const copy: Epic = (action$, { store, app }) => {
-	// it's very important to use app.view here, if document.body was used
-	// it would prevent using text fields normally etc
-	return fromEvent<KeyboardEvent>(app.view, 'keydown').pipe(
-		filter((ev) => ev.code === 'KeyC' && isShortcut(ev) && store.editor.selection.size > 0),
+export const copy: Epic = (action$, { store }) => {
+	return fromEvent<ClipboardEvent>(window, 'copy').pipe(
+		// target check to filter out event done in a text field
+		filter(({ target }) => store.editor.selection.size > 0 && target === window.document.body),
 		tap(() => {
 			store.editor.copy();
 		}),
@@ -16,11 +13,10 @@ export const copy: Epic = (action$, { store, app }) => {
 	);
 };
 
-export const cut: Epic = (action$, { store, app }) => {
-	// it's very important to use app.view here, if document.body was used
-	// it would prevent using text fields normally etc
-	return fromEvent<KeyboardEvent>(app.view, 'keydown').pipe(
-		filter((ev) => ev.code === 'KeyX' && isShortcut(ev) && store.editor.selection.size > 0),
+export const cut: Epic = (action$, { store }) => {
+	return fromEvent<ClipboardEvent>(window, 'cut').pipe(
+		// target check to filter out event done in a text field
+		filter(({ target }) => store.editor.selection.size > 0 && target === window.document.body),
 		tap(() => {
 			store.editor.cut();
 		}),
@@ -30,6 +26,7 @@ export const cut: Epic = (action$, { store, app }) => {
 
 export const paste: Epic = (action$, { store }) => {
 	return fromEvent<ClipboardEvent>(window, 'paste').pipe(
+		// target check to filter out event done in a text field
 		filter(({ target, clipboardData }) => target === window.document.body && !!clipboardData),
 		tap(({ clipboardData }) => {
 			Array.from(clipboardData?.items || [])

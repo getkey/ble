@@ -1,12 +1,11 @@
-import { types, getRoot, detach, getSnapshot } from 'mobx-state-tree';
+import { types, getRoot, getSnapshot } from 'mobx-state-tree';
 import { Polygon, Box, Vector } from 'sat';
 import { centerEntities }  from 'bombhopperio-level-tools';
 
-import Entity, { IEntity } from 'src/models/Entity';
+import Entity, { IEntity, SnapshotOutEntity } from 'src/models/Entity';
 import Vertex, { IVertex } from 'src/models/Vertex';
 import Point from 'src/models/Point';
 import { IRootStore } from 'src/models/RootStore';
-import { cloneEntity } from 'src/utils/clone';
 import { EditorMode } from 'src/types/editor';
 import GenericPoint from 'src/types/point';
 import { entityPostProcessor } from 'src/utils/snapshot';
@@ -24,7 +23,6 @@ const EditorSelection = types.model({
 			acceptsUndefined: false,
 		}),
 	),
-	clipboard: types.map(Entity),
 	selectionBox: types.maybe(types.model({
 		start: Point,
 		end: Point,
@@ -46,9 +44,6 @@ const EditorSelection = types.model({
 	},
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
-	},
-	clearClipboard(): void {
-		self.clipboard.clear();
 	},
 	addToSelection(selected: IEntity): void {
 		self.selection.put(selected);
@@ -81,10 +76,6 @@ const EditorSelection = types.model({
 		});
 		self.selection.clear();
 	},
-	setClipboard(copied: Array<IEntity>): void {
-		self.clearClipboard();
-		copied.forEach((thing) => self.clipboard.put(thing));
-	},
 	addVertexToSelection(vertex: IVertex): void {
 		self.addToSelection(vertex.parentBlock);
 		self.vertexSelection.put(vertex);
@@ -101,15 +92,12 @@ const EditorSelection = types.model({
 		});
 	},
 	copy(): void {
-		// store a copy, not a reference so the original entity can be moved, etc
-		const copies = Array.from(self.selection.values())
-			.map((entity) => cloneEntity(entity));
+		const processedEntities = Array.from(self.selection.values())
+			.map((entity) => entityPostProcessor(getSnapshot<SnapshotOutEntity>(entity)));
 
-		const processedEntities = copies.map((entity) => entityPostProcessor(getSnapshot(entity)));
 		serializePrefab(processedEntities).then((prefab: string) => {
 			navigator.clipboard.writeText(prefab);
 		});
-		self.setClipboard(copies);
 	},
 	paste(clipboardContent: string): void {
 		const root: IRootStore = getRoot(self);
@@ -125,21 +113,7 @@ const EditorSelection = types.model({
 			root.addEntities(entities);
 		}).catch((err) => {
 			// eslint-disable-next-line no-console
-			console.error('Couldn\'t paste prefab. Falling back to internal clipboard.', err);
-
-			const tmpClipboard = Array.from(self.clipboard.values());
-			tmpClipboard.forEach((entity) => {
-				detach(entity);
-				entity.params.move(self.gridCellSize, self.gridCellSize);
-			});
-
-			self.clearClipboard();
-			self.clearSelection();
-
-			root.addEntities(tmpClipboard);
-
-			const newClipboard = tmpClipboard.map((entity) => cloneEntity(entity));
-			self.setClipboard(newClipboard);
+			console.error('Couldn\'t paste prefab.', err);
 		});
 	},
 })).actions((self) => ({

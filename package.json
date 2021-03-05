@@ -22,7 +22,7 @@
     "@types/file-saver": "^2.0.1",
     "@types/matter-js": "^0.14.10",
     "base64-js": "^1.5.1",
-    "bombhopperio-level-tools": "^0.7.0",
+    "bombhopperio-level-tools": "^0.9.1",
     "chroma-js": "^2.1.0",
     "core-js": "^3.9.0",
     "epix": "^0.0.3",

@@ -1,5 +1,6 @@
 import { types, getRoot, detach, getSnapshot } from 'mobx-state-tree';
 import { Polygon, Box, Vector } from 'sat';
+import { centerEntities }  from 'bombhopperio-level-tools';
 
 import Entity, { IEntity } from 'src/models/Entity';
 import Vertex, { IVertex } from 'src/models/Vertex';
@@ -105,28 +106,41 @@ const EditorSelection = types.model({
 			.map((entity) => cloneEntity(entity));
 
 		const processedEntities = copies.map((entity) => entityPostProcessor(getSnapshot(entity)));
-		serializePrefab(processedEntities).then((lel) => {
-			navigator.clipboard.writeText(lel);
-			const sup = deserializePrefab(lel).then((kek) => console.log(kek));
-			console.log('sup', lel, sup);
+		serializePrefab(processedEntities).then((prefab: string) => {
+			navigator.clipboard.writeText(prefab);
 		});
 		self.setClipboard(copies);
 	},
-	paste(): void {
-		const tmpClipboard = Array.from(self.clipboard.values());
-		tmpClipboard.forEach((entity) => {
-			detach(entity);
-			entity.params.move(self.gridCellSize, self.gridCellSize);
-		});
+	paste(clipboardContent: string): void {
 		const root: IRootStore = getRoot(self);
 
-		self.clearClipboard();
-		self.clearSelection();
+		deserializePrefab(clipboardContent).then((prefab) => {
+			// @ts-ignore
+			const gridSnappedCenter = {
+				x: Math.round(root.editor.position.x / root.editor.gridCellSize) * root.editor.gridCellSize,
+				y: Math.round(root.editor.position.y / root.editor.gridCellSize) * root.editor.gridCellSize,
+			};
+			const entities = centerEntities(prefab, gridSnappedCenter)
+				.map((entitySnapshot) => Entity.create(entitySnapshot));
+			root.addEntities(entities);
+		}).catch((err) => {
+			// eslint-disable-next-line no-console
+			console.error('Couldn\'t paste prefab. Falling back to internal clipboard.', err);
 
-		root.addEntities(tmpClipboard);
+			const tmpClipboard = Array.from(self.clipboard.values());
+			tmpClipboard.forEach((entity) => {
+				detach(entity);
+				entity.params.move(self.gridCellSize, self.gridCellSize);
+			});
 
-		const newClipboard = tmpClipboard.map((entity) => cloneEntity(entity));
-		self.setClipboard(newClipboard);
+			self.clearClipboard();
+			self.clearSelection();
+
+			root.addEntities(tmpClipboard);
+
+			const newClipboard = tmpClipboard.map((entity) => cloneEntity(entity));
+			self.setClipboard(newClipboard);
+		});
 	},
 })).actions((self) => ({
 	cut(): void {

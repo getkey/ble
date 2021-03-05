@@ -3,7 +3,7 @@ import { getSnapshot, applySnapshot } from 'mobx-state-tree';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 import { saveAs } from 'file-saver';
-import { validate } from 'bombhopperio-level-tools';
+import { validateLevel } from 'bombhopperio-level-tools';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faFolderOpen, faPlay, faUpload } from '@fortawesome/free-solid-svg-icons';
 
@@ -35,7 +35,7 @@ const DomApp: FunctionComponent = () => {
 		const snapshot = getSnapshot(level);
 
 		try {
-			validate(snapshot);
+			validateLevel(snapshot);
 		} catch (err) {
 			// eslint-disable-next-line no-console
 			console.error(err);
@@ -84,7 +84,7 @@ ${err.message || JSON.stringify(err)}`);
 		const snapshot = getSnapshot(level);
 
 		try {
-			validate(snapshot);
+			validateLevel(snapshot);
 		} catch (err) {
 			// eslint-disable-next-line no-console
 			console.error(err);

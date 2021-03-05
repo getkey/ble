@@ -3524,10 +3524,10 @@ body-parser@1.19.0:
     raw-body "2.4.0"
     type-is "~1.6.17"
 
-bombhopperio-level-tools@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.7.0.tgz#4d7ad249c65f6237b8518e1a9e6da1fe751214cc"
-  integrity sha512-wI2zj6PeSwhb+Yq37BZ/CnWfNmiF9pA3NvAJr1STiL8e+QdZuM8SGskr6v7VGB9X4GwYKhHjiV3/5NEjG0EM2Q==
+bombhopperio-level-tools@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.9.1.tgz#0480b0c3b6b2252b8a100ce7ca8931a4df107f15"
+  integrity sha512-UF+kvgPSk+z4Tpea4Gs99bfnpnuKSVjr4Ue7ekKEKN1A4mZohBoAKsaKKJGFWXLMP9nE/qazTBbvwHE984GF2A==
   dependencies:
     ajv "^7.1.0"
     poly-decomp "^0.3.0"

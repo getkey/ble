@@ -1,5 +1,5 @@
 import { onSnapshot } from 'mobx-state-tree';
-import { validate } from 'bombhopperio-level-tools';
+import { validateLevel } from 'bombhopperio-level-tools';
 import { saveAs } from 'file-saver';
 
 import RootStore from 'src/models/RootStore';
@@ -13,7 +13,7 @@ try {
 
 	if (storageLevel !== null) {
 		try {
-			validate(storageLevel);
+			validateLevel(storageLevel);
 			initialLevel = storageLevel;
 		} catch (err) {
 			if (window.confirm('Your level appears to be corrupted.\nThe default level will erase it.\nDo you want to download it before it\'s overwritten?')) {

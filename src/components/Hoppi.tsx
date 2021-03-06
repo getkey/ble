@@ -34,7 +34,7 @@ export const behavior = {
 					interpolateLab(
 						utils.hex2string(hoppiColor),
 						utils.hex2string(darkSlateGray),
-					)(0.55),
+					)(0.4),
 				).formatHex(),
 			);
 			instance.beginFill(fillColor);

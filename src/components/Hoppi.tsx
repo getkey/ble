@@ -1,6 +1,7 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
-import { Graphics } from 'pixi.js';
-import chroma from 'chroma-js';
+import { Graphics, utils } from 'pixi.js';
+import { lab } from 'd3-color';
+import { interpolateLab } from 'd3-interpolate';
 
 import { lineWidth, hoppiColor, darkSlateGray, eyeColor, selectColor, hoppiSize } from 'src/config';
 import grabbable from 'src/utils/grabbable';
@@ -22,13 +23,20 @@ export const behavior = {
 			instance.clear();
 
 			// body
-			const lineColor = chroma(hoppiColor).brighten(0.5).num();
+			const lineColor = utils.string2hex(
+				lab(utils.hex2string(hoppiColor))
+					.brighter(0.1)
+					.formatHex(),
+			);
 			instance.lineStyle(lineWidth, isSelected ? selectColor : lineColor, 1, 0);
-			const fillColor = chroma.mix(
-				chroma(hoppiColor),
-				chroma(darkSlateGray),
-				0.6,
-			).num();
+			const fillColor = utils.string2hex(
+				lab(
+					interpolateLab(
+						utils.hex2string(hoppiColor),
+						utils.hex2string(darkSlateGray),
+					)(0.55),
+				).formatHex(),
+			);
 			instance.beginFill(fillColor);
 
 			instance.drawRect(-20, -20, hoppiSize, hoppiSize);

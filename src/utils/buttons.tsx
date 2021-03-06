@@ -1,33 +1,46 @@
 import { css } from '@emotion/react';
-import chroma from 'chroma-js';
+import { color } from 'd3-color';
+import { utils } from 'pixi.js';
 
 import { darkSlateGray, primaryColor, selectColor } from 'src/config';
 
-const accentColorHex = chroma(selectColor).hex();
-const accentColorShadowHex = chroma(selectColor).alpha(0.8).hex();
-const darkSlateGrayHex = chroma(darkSlateGray).hex();
-const primaryColorShadowHex = chroma(primaryColor).alpha(0.3).hex();
+const accentColorStr = utils.hex2string(selectColor);
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const accentColorShadow = color(utils.hex2string(selectColor))!;
+accentColorShadow.opacity = 0.8;
+const accentColorShadowStr = accentColorShadow.formatRgb();
+
+const darkSlateGrayStr = utils.hex2string(darkSlateGray);
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const primaryColorShadow = color(utils.hex2string(primaryColor))!;
+primaryColorShadow.opacity = 0.3;
+const primaryColorShadowStr = primaryColorShadow.formatRgb();
+
 // has to be darkenend to look good against a clear background
-const primaryColorDarkHex = chroma(primaryColor).darken(1).hex();
-const primaryColorDarkerHex = chroma(primaryColor).darken(2.5).hex();
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const primaryColorDarkStr = color(utils.hex2string(primaryColor))!.darker(0.75).formatRgb();
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const primaryColorDarkerStr = color(utils.hex2string(primaryColor))!.darker(2).formatRgb();
 
 export const activeButtonCss = css`
-	background-color: ${primaryColorDarkHex};
-	color: ${darkSlateGrayHex};
+	background-color: ${primaryColorDarkStr};
+	color: ${darkSlateGrayStr};
 `;
 
 export const buttonCss = css`
-	border: 2px solid ${primaryColorDarkHex};
+	border: 2px solid ${primaryColorDarkStr};
 	margin: 5px;
 	padding: 8px;
 	font-size: 0.9em;
-	color: ${primaryColorDarkerHex};
+	color: ${primaryColorDarkerStr};
 	background-color: transparent;
 	border-radius: 4px;
 	cursor: pointer;
     transition: background-color 0.1s, color 0.1s, transform 0.05s;
 	font-family: sans;
-	box-shadow: 0 0 5px ${primaryColorShadowHex}, inset 0 0 5px ${primaryColorShadowHex};
+	box-shadow: 0 0 5px ${primaryColorShadowStr}, inset 0 0 5px ${primaryColorShadowStr};
 
 	&:hover {
 		transform: scale(1.05);
@@ -46,8 +59,8 @@ export const buttonCss = css`
 
 export const primaryButtonCss = css`
 	${buttonCss}
-	background-color: ${accentColorHex};
-	border-color: ${accentColorHex};
+	background-color: ${accentColorStr};
+	border-color: ${accentColorStr};
 	color: white;
-	box-shadow: 0 0 5px ${accentColorShadowHex};
+	box-shadow: 0 0 5px ${accentColorShadowStr};
 `;

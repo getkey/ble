@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
-import chroma from 'chroma-js';
+import { utils } from 'pixi.js';
 
-import { selectColor } from 'src/config.ts';
+import { selectColor } from 'src/config';
 
 const Container = styled.div`
 	background-color: white;
@@ -17,7 +17,7 @@ const Container = styled.div`
 	}
 `;
 export const Title = styled.h2`
-	background-color: ${chroma(selectColor).css()};
+	background-color: ${utils.hex2string(selectColor)};
 	margin: 0;
 	/* hide part of title if too big */
 	white-space: nowrap;

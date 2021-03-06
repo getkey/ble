@@ -31,6 +31,8 @@ const VerticesParams = types.model({
 		return vertices.slice(0, -1).map((pointA, i) => ([pointA, vertices[i + 1]]));
 	},
 	get asSatPolygons(): Array<Polygon> {
+		if (self.vertices.length < 3) return [];
+
 		const polygon = self.vertices.map(({ x, y }): [number, number] => [x, y]);
 		makeCCW(polygon);
 		const polygons = quickDecomp(polygon);

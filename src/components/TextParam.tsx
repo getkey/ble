@@ -95,7 +95,7 @@ const ParamsBox: FunctionComponent<Props> = ({ params }) => {
 					))}
 			</LanguageList>
 			<div>
-				<select ref={selectRef}>
+				<select ref={selectRef} defaultValue="es">
 					{unusedLanguages.map((code) => (
 						<option key={code} value={code}>{languages.getNativeName(code)}</option>
 					))}

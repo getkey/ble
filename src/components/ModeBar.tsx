@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDrawPolygon, faMousePointer, faHandRock } from '@fortawesome/free-solid-svg-icons';
-import chroma from 'chroma-js';
+import { utils } from 'pixi.js';
 
 import { useStore } from 'src/hooks/useStore';
 import { EditorMode } from 'src/types/editor';
@@ -25,9 +25,8 @@ const Label = styled.label`
 	cursor: pointer;
 	display: flex;
 	align-items: center;
-	color: ${chroma(darkSlateGray).hex()};
+	color: ${utils.hex2string(darkSlateGray)};
 
-	color: black;
 	svg {
 		font-size: 1.5em;
 	}

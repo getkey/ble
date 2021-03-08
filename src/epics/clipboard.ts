@@ -4,8 +4,7 @@ import { Epic } from 'epix';
 
 export const copy: Epic = (action$, { store }) => {
 	return fromEvent<ClipboardEvent>(window, 'copy').pipe(
-		// target check to filter out event done in a text field
-		filter(({ target }) => store.editor.selection.size > 0 && target === window.document.body),
+		filter(() => store.editor.selection.size > 0),
 		tap(() => {
 			store.editor.copy();
 		}),
@@ -15,8 +14,7 @@ export const copy: Epic = (action$, { store }) => {
 
 export const cut: Epic = (action$, { store }) => {
 	return fromEvent<ClipboardEvent>(window, 'cut').pipe(
-		// target check to filter out event done in a text field
-		filter(({ target }) => store.editor.selection.size > 0 && target === window.document.body),
+		filter(() => store.editor.selection.size > 0),
 		tap(() => {
 			store.editor.cut();
 		}),
@@ -26,8 +24,7 @@ export const cut: Epic = (action$, { store }) => {
 
 export const paste: Epic = (action$, { store }) => {
 	return fromEvent<ClipboardEvent>(window, 'paste').pipe(
-		// target check to filter out event done in a text field
-		filter(({ target, clipboardData }) => target === window.document.body && !!clipboardData),
+		filter(({ clipboardData }) => !!clipboardData),
 		tap(({ clipboardData }) => {
 			Array.from(clipboardData?.items || [])
 				.filter(({ type }) => type === 'text/plain')

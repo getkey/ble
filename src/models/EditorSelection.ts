@@ -1,6 +1,7 @@
 import { types, getRoot, getSnapshot } from 'mobx-state-tree';
 import { Polygon, Box, Vector } from 'sat';
 import { centerEntities }  from 'bombhopperio-level-tools';
+import { toast } from 'react-toastify';
 
 import Entity, { IEntity, SnapshotOutEntity } from 'src/models/Entity';
 import Vertex, { IVertex } from 'src/models/Vertex';
@@ -96,6 +97,9 @@ const EditorSelection = types.model({
 			.map((entity) => entityPostProcessor(getSnapshot<SnapshotOutEntity>(entity)));
 
 		serializePrefab(processedEntities).then((prefab: string) => {
+			toast.success('Copied!', {
+				autoClose: 1000,
+			});
 			navigator.clipboard.writeText(prefab);
 		});
 	},

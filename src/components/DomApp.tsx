@@ -1,6 +1,8 @@
 import React, { FunctionComponent, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
+import { ToastContainer, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import ParamsBox from 'src/components/ParamsBox';
 import ZoomButtons from 'src/components/ZoomButtons';
@@ -23,6 +25,10 @@ const DomApp: FunctionComponent = () => {
 				<ParamsBox/>
 			</TopStuff>
 			<ZoomButtons/>
+			<ToastContainer
+				position="bottom-left"
+				transition={Zoom} // less distracting
+			/>
 		</Fragment>
 	);
 };

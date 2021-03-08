@@ -3,6 +3,8 @@ const path = require('path');
 const { EnvironmentPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -81,6 +83,10 @@ module.exports = {
 				],
 				exclude: /node_modules/,
 			},
+			{
+				test: /\.css$/i,
+				use: [MiniCssExtractPlugin.loader, 'css-loader'],
+			},
 		],
 	},
 	resolve: {
@@ -94,6 +100,7 @@ module.exports = {
 		new EnvironmentPlugin({
 			'SENTRY_DSN': null,
 		}),
+		new MiniCssExtractPlugin(),
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			template: 'src/index.ejs',

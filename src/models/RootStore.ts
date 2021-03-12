@@ -23,6 +23,15 @@ const RootStore = types.model({
 		self.level.entities.push(...entities);
 		self.editor.setSelection(entities);
 	},
+	clear(): void {
+		self.undoManager.startGroup();
+		self.level.clearEntities();
+		self.level.setName('My level');
+		self.level.set2StarsTime(0);
+		self.level.set3StarsTime(0);
+		self.editor.position.set(0, 0);
+		self.undoManager.stopGroup();
+	},
 })).actions((self) => ({
 	createEntity(pos: IPoint): IEntity {
 		let entity;

@@ -5,6 +5,7 @@ import * as deleteEpics from 'src/epics/delete'; // ay delete is a JS keyword
 import * as add from 'src/epics/add';
 import * as clipboard from 'src/epics/clipboard';
 import * as timeTravel from 'src/epics/timeTravel';
+import * as init from 'src/epics/init';
 
 export default [
 	...Object.values(pan),
@@ -14,4 +15,5 @@ export default [
 	...Object.values(add),
 	...Object.values(clipboard),
 	...Object.values(timeTravel),
+	...Object.values(init),
 ];

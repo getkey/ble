@@ -12,10 +12,10 @@ const Button = styled.button`
 `;
 
 const ClearButton: FunctionComponent = () => {
-	const { level } = useStore();
+	const store = useStore();
 
 	function onClear(): void {
-		level.clearEntities();
+		store.clear();
 	}
 
 	return (

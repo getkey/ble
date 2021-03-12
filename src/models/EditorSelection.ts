@@ -46,8 +46,8 @@ const EditorSelection = types.model({
 	setGridCellSize(cellSize: number): void {
 		self.gridCellSize = cellSize;
 	},
-	addToSelection(selected: IEntity): void {
-		self.selection.put(selected);
+	addEntityToSelection(entity: IEntity): void {
+		self.selection.put(entity);
 	},
 	removeFromSelection(entity: IEntity): void {
 		if ('vertices' in entity.params) {
@@ -78,13 +78,12 @@ const EditorSelection = types.model({
 		self.selection.clear();
 	},
 	addVertexToSelection(vertex: IVertex): void {
-		self.addToSelection(vertex.parentBlock);
+		self.addEntityToSelection(vertex.parentBlock);
 		self.vertexSelection.put(vertex);
 	},
 })).actions((self) => ({
-	setSelection(selected: Array<IEntity>): void {
-		self.clearSelection();
-		selected.forEach((thing) => self.addToSelection(thing));
+	addEntitiesToSelection(entities: Array<IEntity>): void {
+		entities.forEach((entity) => self.addEntityToSelection(entity));
 	},
 	setVertexSelection(vertices: Array<IVertex>): void {
 		self.vertexSelection.clear();
@@ -121,6 +120,10 @@ const EditorSelection = types.model({
 		});
 	},
 })).actions((self) => ({
+	setSelection(entities: Array<IEntity>): void {
+		self.clearSelection();
+		self.addEntitiesToSelection(entities);
+	},
 	cut(): void {
 		self.copy();
 		self.removeSelected();

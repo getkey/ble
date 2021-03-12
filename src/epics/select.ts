@@ -131,7 +131,7 @@ export const selectEntity: Epic = (action$, { store }) => {
 				if (store.editor.selection.has(entity.id)) {
 					store.editor.removeFromSelection(entity);
 				} else {
-					store.editor.addToSelection(entity);
+					store.editor.addEntityToSelection(entity);
 				}
 			} else if (!store.editor.selection.has(entity.id)) {
 				store.editor.setSelection([entity]);
@@ -206,7 +206,7 @@ export const selectionBox: Epic = (action$, { store }) => {
 								entity.params.asSatCircle
 							);
 
-							store.editor.addToSelection(entity);
+							store.editor.addEntityToSelection(entity);
 						}
 						if ('params' in entity && 'asSatPolygons' in entity.params) {
 							const tester = store.editor.selectionBoxAsSat instanceof Vector ? pointInPolygon : testPolygonPolygon;
@@ -219,7 +219,7 @@ export const selectionBox: Epic = (action$, { store }) => {
 					});
 
 					if (shortcut) {
-						entitiesToAdd.forEach((entity: IEntity) => store.editor.addToSelection(entity));
+						entitiesToAdd.forEach((entity: IEntity) => store.editor.addEntityToSelection(entity));
 					} else {
 						store.editor.setSelection(entitiesToAdd);
 					}
@@ -229,6 +229,17 @@ export const selectionBox: Epic = (action$, { store }) => {
 				}),
 			)),
 		)),
+		ignoreElements(),
+	);
+};
+
+export const selectAll: Epic = (action$, { store }) => {
+	return fromEvent<KeyboardEvent>(document, 'keydown').pipe(
+		filter((ev) => ev.code === 'KeyA' && isShortcut(ev)),
+		tap((ev) => {
+			ev.preventDefault();
+			store.editor.addEntitiesToSelection(store.level.entities);
+		}),
 		ignoreElements(),
 	);
 };

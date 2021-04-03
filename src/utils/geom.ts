@@ -1,5 +1,5 @@
 import IPoint from 'src/types/point';
-import { Vector } from 'matter-js';
+import { Vector } from 'sat';
 
 export function snapToGrid(point: IPoint, cellSize: number): IPoint {
 	if (cellSize === 0) return point;
@@ -11,19 +11,19 @@ export function snapToGrid(point: IPoint, cellSize: number): IPoint {
 }
 
 export function pointSegmentDistanceSquared(seg1: IPoint, seg2: IPoint, point: IPoint): number {
-	const segment = Vector.create(seg1.x - seg2.x, seg1.y - seg2.y);
-	const a = Vector.create(seg1.x - point.x, seg1.y - point.y);
+	const segment = new Vector(seg1.x - seg2.x, seg1.y - seg2.y);
+	const a = new Vector(seg1.x - point.x, seg1.y - point.y);
 
-	const segMagSquared = Vector.magnitudeSquared(segment);
-	// cast because of https://github.com/DefinitelyTyped/DefinitelyTyped/pull/46168
-	let t = Vector.dot(a, segment) / segMagSquared;
+	const segMagSquared = segment.len2();
+	let t = a.dot(segment) / segMagSquared;
 	// clamp to turn the line into a segment
 	t = Math.min(Math.max(t, 0), 1);
 
-	const projection = Vector.mult(segment, t);
+	const projection = segment.scale(t);
 
 	// distance (squared) between projection and a
-	return Vector.magnitudeSquared(Vector.sub(projection, a));
+	// (note that projection gets modified in place but that's fine, we don't need it anymore)
+	return projection.sub(a).len2();
 }
 
 // https://stackoverflow.com/a/6865965/3489880

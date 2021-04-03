@@ -45,7 +45,7 @@
     "react-pixi-fiber": "^0.14.2",
     "react-toastify": "^7.0.3",
     "rxjs": "^6.6.6",
-    "sat": "^0.8.0"
+    "sat": "ssh://git@github.com:getkey/sat-js.git#getaabb-return-box"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",

@@ -1,7 +1,7 @@
 import { types, destroy, getParent, getRoot, isAlive, Instance } from 'mobx-state-tree';
 import { Point as PixiPoint } from 'pixi.js';
 import { polygonIsSimple, polygonArea, canBeDecomposed } from 'bombhopperio-level-tools';
-import { Polygon, Vector } from 'sat';
+import { Polygon, Vector, Box } from 'sat';
 import { makeCCW, quickDecomp } from 'poly-decomp';
 
 import { IRootStore } from 'src/models/RootStore';
@@ -40,6 +40,35 @@ const VerticesParams = types.model({
 		return polygons.map((polygon_) => new Polygon(new Vector(),
 			polygon_.map(([x, y]) => new Vector(x, y)),
 		));
+	},
+})).views((self) => ({
+	get asAabb(): Box {
+		const { topLeft, bottomRight } = self.asSatPolygons
+			// @ts-ignore
+			.map((polygon) => polygon.getAABBAsBox())
+			.reduce(({ topLeft: topLeft_, bottomRight: bottomRight_ }, box) => {
+				return {
+					topLeft: {
+						x: Math.min(topLeft_.x, box.pos.x),
+						y: Math.min(topLeft_.y, box.pos.y),
+					},
+					bottomRight: {
+						x: Math.max(bottomRight_.x, box.pos.x + box.w),
+						y: Math.max(bottomRight_.y, box.pos.y + box.h),
+					},
+				};
+			}, {
+				topLeft: {
+					x: Infinity,
+					y: Infinity,
+				},
+				bottomRight: {
+					x: -Infinity,
+					y: -Infinity,
+				},
+			});
+
+		return new Box(new Vector(topLeft.x, topLeft.y), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
 	},
 })).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {

@@ -1,5 +1,6 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics, Point, Texture, SCALE_MODES } from 'pixi.js';
+import { Box } from 'sat';
 
 import { selectColor } from 'src/config';
 
@@ -14,24 +15,28 @@ type Props = {
 	points: Array<Point>;
 	isSelected: boolean;
 	showInvalidTexture: boolean;
+	aabb: Box;
 };
 
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
 	customApplyProps: function(instance: Graphics, oldProps: Props, newProps: Props): void {
-		const { fill: oldFill, points: oldPoints, isSelected: oldIsSelected, showInvalidTexture: oldShowInvalidTexture, ...remainingOldProps } = oldProps;
-		const { fill, points, isSelected, showInvalidTexture, ...remainingNewProps } = newProps;
+		const { fill: oldFill, points: oldPoints, isSelected: oldIsSelected, showInvalidTexture: oldShowInvalidTexture, aabb: oldAabb, ...remainingOldProps } = oldProps;
+		const { fill, points, isSelected, showInvalidTexture, aabb, ...remainingNewProps } = newProps;
 
-		if (fill !== oldFill || points !== oldPoints || isSelected !== oldIsSelected || showInvalidTexture !== oldShowInvalidTexture) {
+		if (fill !== oldFill || points !== oldPoints || isSelected !== oldIsSelected || showInvalidTexture !== oldShowInvalidTexture || aabb !== oldAabb) {
 			instance.clear();
-
-			if (isSelected) {
-				instance.lineStyle(2, selectColor);
-			}
 
 			instance.beginFill(fill);
 			instance.drawPolygon(points);
 			instance.endFill();
+
+			if (isSelected) {
+				instance.lineStyle(2, selectColor);
+				instance.beginFill(0xffffff, 0);
+				instance.drawRect(aabb.pos.x, aabb.pos.y, aabb.w, aabb.h);
+				instance.endFill();
+			}
 
 			if (showInvalidTexture) {
 				instance.beginTextureFill({

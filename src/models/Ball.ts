@@ -1,6 +1,6 @@
 import { types, Instance, getParent, SnapshotOut } from 'mobx-state-tree';
 import { nanoid } from 'nanoid';
-import { Circle, Vector } from 'sat';
+import { Circle, Vector, Box } from 'sat';
 
 import { ILevel } from 'src/models/Level';
 import { BlockType } from 'src/types/entity';
@@ -16,6 +16,11 @@ const BallParams = types.compose(
 ).views((self) => ({
 	get asSatCircle(): Circle {
 		return new Circle(new Vector(self.x, self.y), self.radius);
+	},
+})).views((self) => ({
+	get asAabb(): Box {
+		// @ts-ignore
+		return self.asSatCircle.getAABBAsBox();
 	},
 }));
 

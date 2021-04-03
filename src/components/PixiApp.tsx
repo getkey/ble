@@ -53,7 +53,7 @@ const PixiApp: FunctionComponent = () => {
 				}
 
 				if (BlockM.is(entity)) {
-					const { id, type, params: { vertices } } = entity;
+					const { id, type, params: { vertices, asAabb } } = entity;
 
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
@@ -70,12 +70,13 @@ const PixiApp: FunctionComponent = () => {
 							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}
 							onPolygonPointerDown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							isSelected={isSelected}
+							aabb={asAabb}
 						/>
 					);
 				}
 
 				if (BallM.is(entity)) {
-					const { id, type, params: { x, y, radius } } = entity;
+					const { id, type, params: { x, y, radius, asAabb } } = entity;
 
 					return (
 						<Circle
@@ -87,6 +88,7 @@ const PixiApp: FunctionComponent = () => {
 							interactive
 							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							isSelected={isSelected}
+							aabb={asAabb}
 						/>
 					);
 				}
@@ -124,7 +126,7 @@ const PixiApp: FunctionComponent = () => {
 					);
 				}
 				if (PaintM.is(entity)) {
-					const { id, params: { vertices } } = entity;
+					const { id, params: { vertices, asAabb } } = entity;
 
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
@@ -141,6 +143,7 @@ const PixiApp: FunctionComponent = () => {
 							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}
 							onPolygonPointerDown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							isSelected={isSelected}
+							aabb={asAabb}
 						/>
 					);
 				}

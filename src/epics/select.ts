@@ -1,11 +1,11 @@
 import { fromEvent, empty, of, merge } from 'rxjs';
-import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck, switchMapTo, mapTo } from 'rxjs/operators';
+import { map, tap, switchMap, takeUntil, ignoreElements, filter, scan, mergeMap, pluck, switchMapTo, mapTo, startWith, pairwise } from 'rxjs/operators';
 import { ofType, Epic } from 'epix';
 import { resolveIdentifier } from 'mobx-state-tree';
-import { testPolygonCircle, testPolygonPolygon, Polygon, Vector, pointInCircle, pointInPolygon } from 'sat';
+import { testPolygonCircle, testPolygonPolygon, Polygon, Vector, pointInCircle, pointInPolygon, Box } from 'sat';
 
 import { EditorMode } from 'src/types/editor';
-import { snapToGrid } from 'src/utils/geom';
+import { snapToGrid, snapBoxToGrid } from 'src/utils/geom';
 import EntityM, { IEntity } from 'src/models/Entity';
 import VertexM, { IVertex } from 'src/models/Vertex';
 import { isShortcut } from 'src/utils/event';
@@ -29,31 +29,30 @@ export const entityMove: Epic = (action$, { store }) => {
 			store.undoManager.startGroup();
 		}),
 		switchMap(({ x, y }) => fromEvent<PointerEvent>(document, 'pointermove').pipe(
-			map(({ clientX, clientY }) => {
-				return {
-					x: clientX - x,
-					y: clientY - y,
-				};
-			}),
-			// we store how much the polygon has been offset already in offset
-			scan((offset, currentDelta) => {
-				const { editor: { scale } } = store;
-				const wantedPos = snapToGrid({
-					x: currentDelta.x*(1/scale),
-					y: currentDelta.y*(1/scale),
-				}, store.editor.gridCellSize);
+			map(({ clientX, clientY }) => new Vector(clientX, clientY)),
+			startWith(new Vector(x, y)),
+			pairwise(),
+			map(([prev, curr]) => curr.clone().sub(prev)),
+			filter((vec) => vec.len2() !== 0),
+			map((vec) => vec.scale(1/store.editor.scale)),
+			scan((acc, delta) => {
+				const totalDelta = acc.clone().add(delta);
 
-				const displacement = {
-					x: wantedPos.x - offset.x,
-					y: wantedPos.y - offset.y,
-				};
+				const displacement = snapBoxToGrid(
+					new Box(
+						store.editor.selectionAsAabb.pos.clone().add(totalDelta),
+						store.editor.selectionAsAabb.w,
+						store.editor.selectionAsAabb.h,
+					),
+					store.editor.gridCellSize,
+				);
 
 				store.editor.selection.forEach((entity: IEntity) => {
-					entity.params.move(displacement.x, displacement.y);
+					entity.params.move(totalDelta.x + displacement.x, totalDelta.y + displacement.y);
 				});
 
-				return wantedPos;
-			}, { x: 0, y: 0 }),
+				return displacement.reverse();
+			}, new Vector(0, 0)),
 			takeUntil(fromEvent(document, 'pointerup').pipe(
 				tap(() => {
 					store.undoManager.stopGroup();

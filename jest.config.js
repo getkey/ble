@@ -9,5 +9,7 @@ module.exports = {
 			tsconfig: 'tsconfig.test.json',
 		},
 	},
-	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+		prefix: '<rootDir>',
+	}),
 };

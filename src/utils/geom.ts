@@ -1,5 +1,7 @@
 import IPoint from 'src/types/point';
-import { Vector } from 'sat';
+import { Vector, Box } from 'sat';
+
+import { absMin } from 'src/utils/math';
 
 export function snapToGrid(point: IPoint, cellSize: number): IPoint {
 	if (cellSize === 0) return point;
@@ -8,6 +10,24 @@ export function snapToGrid(point: IPoint, cellSize: number): IPoint {
 		x: Math.round(point.x / cellSize) * cellSize,
 		y: Math.round(point.y / cellSize) * cellSize,
 	};
+}
+
+export function snapBoxToGrid(box: Box, cellSize: number): Vector {
+	if (cellSize === 0) return new Vector(0, 0);
+
+	const snappedTopLeft = snapToGrid(box.pos, cellSize);
+	const topLeftDisplacement = new Vector(snappedTopLeft.x, snappedTopLeft.y).sub(box.pos);
+
+	const bottomRight = new Vector(box.w, box.h).add(box.pos);
+	const snappedBottomRight = snapToGrid(bottomRight, cellSize);
+	const bottomRightDisplacement = new Vector(snappedBottomRight.x, snappedBottomRight.y).sub(bottomRight);
+
+	const displacement = new Vector(
+		absMin(topLeftDisplacement.x, bottomRightDisplacement.x),
+		absMin(topLeftDisplacement.y, bottomRightDisplacement.y),
+	);
+
+	return displacement;
 }
 
 export function pointSegmentDistanceSquared(seg1: IPoint, seg2: IPoint, point: IPoint): number {

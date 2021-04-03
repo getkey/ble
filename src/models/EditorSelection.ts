@@ -136,6 +136,35 @@ const EditorSelection = types.model({
 
 		return Object.values(EditorMode).filter((mode) => mode !== EditorMode.addVertex);
 	},
+	get selectionAsAabb(): Box {
+		const { topLeft, bottomRight } = Array.from(self.selection.values())
+			.filter(({ params }) => 'asAabb' in params)
+			// @ts-expect-error
+			.map(({ params }) => params.asAabb as Box)
+			.reduce(({ topLeft: topLeft_, bottomRight: bottomRight_ }, box) => {
+				return {
+					topLeft: {
+						x: Math.min(topLeft_.x, box.pos.x),
+						y: Math.min(topLeft_.y, box.pos.y),
+					},
+					bottomRight: {
+						x: Math.max(bottomRight_.x, box.pos.x + box.w),
+						y: Math.max(bottomRight_.y, box.pos.y + box.h),
+					},
+				};
+			}, {
+				topLeft: {
+					x: Infinity,
+					y: Infinity,
+				},
+				bottomRight: {
+					x: -Infinity,
+					y: -Infinity,
+				},
+			});
+
+		return new Box(new Vector(topLeft.x, topLeft.y), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+	},
 	get selectionBoxAsSat(): Polygon | Vector {
 		if (self.selectionBox === undefined) {
 			return new Vector(Infinity, Infinity);

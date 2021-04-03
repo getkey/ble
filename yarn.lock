@@ -8834,9 +8834,9 @@ sane@^4.0.3:
     minimist "^1.1.1"
     walker "~1.0.5"
 
-"sat@ssh://git@github.com:getkey/sat-js.git#getaabb-return-box":
+"sat@https://github.com/getkey/sat-js/tarball/getaabb-return-box":
   version "0.8.0"
-  resolved "ssh://git@github.com:getkey/sat-js.git#adfa5a91df31061e85eee2ac59b1255d9a13d205"
+  resolved "https://github.com/getkey/sat-js/tarball/getaabb-return-box#54468dafe11b7c961277c106e6663ec58941a1b9"
 
 saxes@^5.0.0:
   version "5.0.1"

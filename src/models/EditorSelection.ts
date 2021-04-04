@@ -138,9 +138,7 @@ const EditorSelection = types.model({
 	},
 	get selectionAsAabb(): Box {
 		const { topLeft, bottomRight } = Array.from(self.selection.values())
-			.filter(({ params }) => 'asAabb' in params)
-			// @ts-expect-error
-			.map(({ params }) => params.asAabb as Box)
+			.map(({ params }) => params.asAabb)
 			.reduce(({ topLeft: topLeft_, bottomRight: bottomRight_ }, box) => {
 				return {
 					topLeft: {

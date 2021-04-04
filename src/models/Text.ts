@@ -6,6 +6,7 @@ import { ILevel } from 'src/models/Level';
 import AngleParams from 'src/models/AngleParams';
 import PositionParams from 'src/models/PositionParams';
 import TextParams from 'src/models/TextParams';
+import { boxFromPolygons } from 'src/utils/geom';
 
 const Params = types.compose(
 	AngleParams,
@@ -28,6 +29,10 @@ const Params = types.compose(
 				height,
 			).toPolygon(),
 		];
+	},
+})).views((self) => ({
+	get asAabb(): Box {
+		return boxFromPolygons(self.asSatPolygons);
 	},
 }));
 

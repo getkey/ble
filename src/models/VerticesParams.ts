@@ -8,7 +8,7 @@ import { IRootStore } from 'src/models/RootStore';
 import Vertex from 'src/models/Vertex';
 import IPoint from 'src/types/point';
 import { IEntity } from 'src/models/Entity';
-import { pointSegmentDistanceSquared, pointsAligned } from 'src/utils/geom';
+import { pointSegmentDistanceSquared, pointsAligned, boxFromPolygons } from 'src/utils/geom';
 
 const VerticesParams = types.model({
 	vertices: types.refinement(
@@ -43,32 +43,7 @@ const VerticesParams = types.model({
 	},
 })).views((self) => ({
 	get asAabb(): Box {
-		const { topLeft, bottomRight } = self.asSatPolygons
-			// @ts-ignore
-			.map((polygon) => polygon.getAABBAsBox())
-			.reduce(({ topLeft: topLeft_, bottomRight: bottomRight_ }, box) => {
-				return {
-					topLeft: {
-						x: Math.min(topLeft_.x, box.pos.x),
-						y: Math.min(topLeft_.y, box.pos.y),
-					},
-					bottomRight: {
-						x: Math.max(bottomRight_.x, box.pos.x + box.w),
-						y: Math.max(bottomRight_.y, box.pos.y + box.h),
-					},
-				};
-			}, {
-				topLeft: {
-					x: Infinity,
-					y: Infinity,
-				},
-				bottomRight: {
-					x: -Infinity,
-					y: -Infinity,
-				},
-			});
-
-		return new Box(new Vector(topLeft.x, topLeft.y), bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+		return boxFromPolygons(self.asSatPolygons);
 	},
 })).actions((self) => ({
 	move(deltaX: number, deltaY: number): void {

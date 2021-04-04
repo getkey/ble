@@ -7,6 +7,7 @@ import StaticParams from 'src/models/StaticParams';
 import AngleParams from 'src/models/AngleParams';
 import PositionParams from 'src/models/PositionParams';
 import { doorWidth, doorHeight } from 'src/config';
+import { boxFromPolygons } from 'src/utils/geom';
 
 const DoorParams = types.compose(
 	StaticParams,
@@ -27,6 +28,10 @@ const DoorParams = types.compose(
 				doorHeight,
 			).toPolygon(),
 		];
+	},
+})).views((self) => ({
+	get asAabb(): Box {
+		return boxFromPolygons(self.asSatPolygons);
 	},
 }));
 

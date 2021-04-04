@@ -9,6 +9,7 @@ import StaticParams from 'src/models/StaticParams';
 import AngleParams from 'src/models/AngleParams';
 import PositionParams from 'src/models/PositionParams';
 import { hoppiSize } from 'src/config';
+import { boxFromPolygons } from 'src/utils/geom';
 
 const ParamsBase = types.compose(
 	StaticParams,
@@ -29,6 +30,10 @@ const ParamsBase = types.compose(
 				hoppiSize,
 			).toPolygon(),
 		];
+	},
+})).views((self) => ({
+	get asAabb(): Box {
+		return boxFromPolygons(self.asSatPolygons);
 	},
 }));
 

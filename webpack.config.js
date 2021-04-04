@@ -93,6 +93,8 @@ module.exports = {
 		alias: {
 			src: path.resolve(__dirname, 'src/'),
 			static: path.resolve(__dirname, 'static/'),
+			// https://github.com/webpack/webpack/issues/11467
+			'rxjs/operators': path.resolve(__dirname, 'node_modules', 'rxjs', 'operators', 'index.js'),
 		},
 		extensions: ['.tsx', '.ts', '.js'],
 	},

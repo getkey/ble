@@ -13,19 +13,19 @@ type Props = {
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
 	customApplyProps: function(instance: Graphics, oldProps: Props, newProps: Props): void {
-		const { x: oldX, y: oldY, width: oldWidth, height: oldHeight, ...remainingOldProps } = oldProps;
-		const { x, y, width, height, ...remainingNewProps } = newProps;
+		const { width: oldWidth, height: oldHeight, ...remainingOldProps } = oldProps;
+		const { width, height, ...remainingNewProps } = newProps;
 
-		if (x !== oldX || y !== oldY || width !== oldWidth || height !== oldHeight) {
+		if (width !== oldWidth || height !== oldHeight) {
 			instance.clear();
 
 			instance.lineStyle(1, selectColor);
 			instance.beginFill(selectColor, 0.2);
-			instance.drawRect(x, y, width, height);
+			instance.drawRect(0, 0, width, height);
 			instance.endFill();
 		}
 
-		// @ts-ignore
+		// @ts-expect-error
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},
 };

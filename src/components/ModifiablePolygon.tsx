@@ -2,7 +2,6 @@ import React, { FunctionComponent, Fragment } from 'react';
 import { Container } from 'react-pixi-fiber';
 import { Point as PixiPoint, InteractionEvent, Rectangle } from 'pixi.js';
 import { observer } from 'mobx-react-lite';
-import { Box } from 'sat';
 
 import Polygon from 'src/components/Polygon';
 import ProgressiveText from 'src/components/ProgressiveText';
@@ -24,12 +23,10 @@ type Props = {
 	}>;
 	onPolygonPointerDown: (ev: InteractionEvent) => void;
 	onVertexPointerDown: (ev: InteractionEvent, vertexId: string) => void;
-	isSelected: boolean;
 	isValid: boolean;
-	aabb: Box;
 };
 
-const ModifiablePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isSelected, isValid, aabb }) => {
+const ModifiablePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isValid }) => {
 	const { editor } = useStore();
 	const actualPoints = points.map(({ point }) => point);
 
@@ -41,8 +38,6 @@ const ModifiablePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPo
 				points={actualPoints}
 				interactive
 				pointerdown={onPolygonPointerDown}
-				isSelected={isSelected}
-				aabb={aabb}
 			/>
 			{points.map(({ point: point_, isSelected: isSelected_, id }, i) => (
 				<Fragment key={id}>

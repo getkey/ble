@@ -6,6 +6,7 @@ import ModifiablePolygon from 'src/components/ModifiablePolygon';
 import Circle from 'src/components/Circle';
 import Level from 'src/components/Level';
 import SelectionBox from 'src/components/SelectionBox';
+import SelectionAabb from 'src/components/SelectionAabb';
 import { useStore } from 'src/hooks/useStore';
 import { useDispatch } from 'src/hooks/useDispatch';
 import Door from 'src/components/Door';
@@ -16,7 +17,6 @@ import BallM from 'src/models/Ball';
 import HoppiM from 'src/models/Hoppi';
 import TextM from 'src/models/Text';
 import PaintM from 'src/models/Paint';
-import { selectColor } from 'src/config';
 import ProgressiveText from 'src/components/ProgressiveText';
 
 const entityColors = {
@@ -36,6 +36,20 @@ const PixiApp: FunctionComponent = () => {
 			{entities.map((entity) => {
 				const isSelected = selection.get(entity.id) !== undefined;
 
+				if (!isSelected) return;
+
+				const { id, params: { asAabb } } = entity;
+
+				return (
+					<SelectionAabb
+						key={id}
+						aabb={asAabb}
+						x={asAabb.pos.x + asAabb.w/2}
+						y={asAabb.pos.y + asAabb.h/2}
+					/>
+				);
+			})}
+			{entities.map((entity) => {
 				if (DoorM.is(entity)) {
 					const { id, params: { x, y, angle } } = entity;
 
@@ -44,7 +58,6 @@ const PixiApp: FunctionComponent = () => {
 							x={x}
 							y={y}
 							key={id}
-							isSelected={isSelected}
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							rotation={angle}
@@ -53,7 +66,7 @@ const PixiApp: FunctionComponent = () => {
 				}
 
 				if (BlockM.is(entity)) {
-					const { id, type, params: { vertices, asAabb } } = entity;
+					const { id, type, params: { vertices } } = entity;
 
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
@@ -69,14 +82,12 @@ const PixiApp: FunctionComponent = () => {
 							key={id}
 							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}
 							onPolygonPointerDown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
-							isSelected={isSelected}
-							aabb={asAabb}
 						/>
 					);
 				}
 
 				if (BallM.is(entity)) {
-					const { id, type, params: { x, y, radius, asAabb } } = entity;
+					const { id, type, params: { x, y, radius } } = entity;
 
 					return (
 						<Circle
@@ -87,8 +98,6 @@ const PixiApp: FunctionComponent = () => {
 							key={id}
 							interactive
 							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
-							isSelected={isSelected}
-							aabb={asAabb}
 						/>
 					);
 				}
@@ -101,7 +110,6 @@ const PixiApp: FunctionComponent = () => {
 							x={x}
 							y={y}
 							key={id}
-							isSelected={isSelected}
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							rotation={angle}
@@ -120,13 +128,13 @@ const PixiApp: FunctionComponent = () => {
 							key={id}
 							interactive
 							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
-							color={isSelected ? selectColor : 0xffffff}
+							color={0xffffff}
 							rotation={angle}
 						/>
 					);
 				}
 				if (PaintM.is(entity)) {
-					const { id, params: { vertices, asAabb } } = entity;
+					const { id, params: { vertices } } = entity;
 
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
@@ -142,8 +150,6 @@ const PixiApp: FunctionComponent = () => {
 							key={id}
 							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}
 							onPolygonPointerDown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
-							isSelected={isSelected}
-							aabb={asAabb}
 						/>
 					);
 				}

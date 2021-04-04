@@ -122,7 +122,7 @@ export const selectEntity: Epic = (action$, { store }) => {
 		filter(({ ev }) => !(ev.data.pointerType === 'mouse' && ev.data.button === 1)),
 		filter(() => store.editor.mode === EditorMode.select),
 		tap(({ entityId, ev }) => {
-			// @ts-ignore
+			// @ts-expect-error
 			const entity = resolveIdentifier(EntityM, store.level.entities, entityId);
 			if (entity === undefined) return;
 

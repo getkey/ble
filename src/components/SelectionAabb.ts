@@ -27,7 +27,7 @@ export const behavior = {
 			instance.drawRect(-aabb.w/2, -aabb.h/2, aabb.w, aabb.h);
 		}
 
-		// @ts-ignore
+		// @ts-expect-error
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},
 };

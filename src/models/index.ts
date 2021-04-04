@@ -32,7 +32,7 @@ export const store = RootStore.create({
 		gridCellSize: getStorage(gridCellSizeStorageKey) as number | null || undefined,
 	},
 });
-// @ts-ignore
+// @ts-expect-error
 window.store = store;
 
 onSnapshot(store.level, (patch) => {

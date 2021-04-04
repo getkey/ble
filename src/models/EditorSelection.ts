@@ -106,7 +106,6 @@ const EditorSelection = types.model({
 		const root: IRootStore = getRoot(self);
 
 		deserializePrefab(clipboardContent.trim()).then((prefab) => {
-			// @ts-ignore
 			const gridSnappedCenter = {
 				x: Math.round(root.editor.position.x / root.editor.gridCellSize) * root.editor.gridCellSize,
 				y: Math.round(root.editor.position.y / root.editor.gridCellSize) * root.editor.gridCellSize,

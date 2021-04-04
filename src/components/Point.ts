@@ -30,7 +30,7 @@ export const behavior = {
 			instance.endFill();
 		}
 
-		// @ts-ignore
+		// @ts-expect-error
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},
 };

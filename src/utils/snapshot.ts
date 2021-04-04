@@ -13,7 +13,7 @@ export function entityPostProcessor({ id, ...stuff }: SnapshotOutEntity): Serial
 			...stuff,
 			params: {
 				...stuff.params,
-				// @ts-ignore
+				// @ts-expect-error
 				vertices: stuff.params.vertices.map(({ id: id_, ...stuff_ }) => ({
 					...stuff_,
 				})),
@@ -21,7 +21,7 @@ export function entityPostProcessor({ id, ...stuff }: SnapshotOutEntity): Serial
 		};
 	}
 
-	// @ts-ignore
+	// @ts-expect-error
 	return {
 		...stuff,
 	};
@@ -49,6 +49,6 @@ export function levelPostProcessor({ ...sn }: SnapshotOutBaseLevel): SerializedL
 		formatVersion: 0,
 		entities: Object.values(sn.entities).map(entityPostProcessor),
 	};
-	// @ts-ignore
+	// @ts-expect-error
 	return level;
 }

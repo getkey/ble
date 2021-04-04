@@ -62,7 +62,7 @@ ${err.message || JSON.stringify(err)}`);
 				const snapshot = JSON.parse(ev_.target.result as string);
 				const actualSnapshot = levelPreProcessor(snapshot);
 				// we have to patch the snapshot here because of this bug https://github.com/mobxjs/mobx-state-tree/issues/1317
-				// @ts-ignore
+				// @ts-expect-error
 				applySnapshot(level, actualSnapshot);
 			} catch (err) {
 				// eslint-disable-next-line no-console

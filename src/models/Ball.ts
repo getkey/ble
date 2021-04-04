@@ -19,7 +19,7 @@ const BallParams = types.compose(
 	},
 })).views((self) => ({
 	get asAabb(): Box {
-		// @ts-ignore
+		// @ts-expect-error
 		return self.asSatCircle.getAABBAsBox();
 	},
 }));

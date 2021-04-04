@@ -48,7 +48,7 @@ const ParamsBox: FunctionComponent<Props> = ({ params }) => {
 		if (selectRef.current === null) return;
 
 		// why is typescript being dumb?
-		// @ts-ignore
+		// @ts-expect-error
 		params.setCopy(selectRef.current.value, '');
 	};
 

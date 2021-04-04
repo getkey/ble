@@ -31,7 +31,7 @@ export function snapBoxToGrid(box: Box, cellSize: number): Vector {
 }
 
 export function boxFromPolygons(polygons: Array<Polygon>): Box {
-	// @ts-ignore
+	// @ts-expect-error
 	const { topLeft, bottomRight } = polygons.map((polygon) => polygon.getAABBAsBox())
 		.reduce(({ topLeft: topLeft_, bottomRight: bottomRight_ }, box) => {
 			return {

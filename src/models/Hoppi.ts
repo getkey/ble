@@ -28,7 +28,7 @@ const ParamsBase = types.compose(
 				),
 				hoppiSize,
 				hoppiSize,
-			).toPolygon(),
+			).toPolygon().translate(-hoppiSize/2, -hoppiSize/2).rotate(self.angle).translate(hoppiSize/2, hoppiSize/2),
 		];
 	},
 })).views((self) => ({

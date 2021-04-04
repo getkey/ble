@@ -27,7 +27,7 @@ const Params = types.compose(
 				),
 				width,
 				height,
-			).toPolygon(),
+			).toPolygon().translate(-width/2, -height/2).rotate(self.angle).translate(width/2, height/2),
 		];
 	},
 })).views((self) => ({

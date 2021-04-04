@@ -26,7 +26,7 @@ const DoorParams = types.compose(
 				),
 				doorWidth,
 				doorHeight,
-			).toPolygon(),
+			).toPolygon().translate(-doorWidth/2, -doorHeight/2).rotate(self.angle).translate(doorWidth/2, doorHeight/2),
 		];
 	},
 })).views((self) => ({

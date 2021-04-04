@@ -10,8 +10,8 @@ export function serializePrefab(entities: Array<SerializedEntity>): Promise<stri
 	const packed = encode(entities);
 
 	return new Promise((resolve, reject) => {
-		LZMA_WORKER.compress(packed, 1, (bytes: Array<number>, error: Error | 0) => {
-			if (error !== 0) {
+		LZMA_WORKER.compress(packed, 1, (bytes: null | Array<number>, error?: Error) => {
+			if (error || bytes === null) {
 				reject(error);
 				return;
 			}
@@ -34,8 +34,8 @@ export function deserializePrefab(prefab: string): Promise<Array<SerializedEntit
 
 		const byteArray = toByteArray(b64);
 
-		LZMA_WORKER.decompress(byteArray, (bytes: Array<number>, error: Error | 0) => {
-			if (error !== 0) {
+		LZMA_WORKER.decompress(byteArray, (bytes: null | Array<number>, error?: Error) => {
+			if (error || bytes === null) {
 				reject(error);
 				return;
 			}

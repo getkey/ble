@@ -32,7 +32,11 @@ const ProgressiveText: FunctionComponent<Props> = ({ color, ...props }) => {
 	return (
 		<BitmapText
 			{...props}
-			font={`${fontSize} Press Start 2P`}
+			style={{
+				fontName: 'Press Start 2P',
+			}}
+			fontName="Press Start 2P"
+			fontSize={fontSize}
 			tint={color}
 		/>
 	);

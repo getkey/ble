@@ -93,8 +93,6 @@ module.exports = {
 		alias: {
 			src: path.resolve(__dirname, 'src/'),
 			static: path.resolve(__dirname, 'static/'),
-			// https://github.com/webpack/webpack/issues/11467
-			'rxjs/operators': path.resolve(__dirname, 'node_modules', 'rxjs', 'operators', 'index.js'),
 		},
 		extensions: ['.tsx', '.ts', '.js'],
 	},
@@ -106,6 +104,9 @@ module.exports = {
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			template: 'src/index.ejs',
+			// https://github.com/jantimon/html-webpack-plugin/tree/0a6568d587a82d88fd3a0617234ca98d26a1e0a6/examples/custom-insertion-position
+			// inject has to be false because we add the headTags and bodyTags manually in ejs (to position them in the best spot)
+			inject: false,
 		}),
 	],
 	devServer: {

@@ -16,11 +16,14 @@ declare module '*.json' {
     export default content;
 }
 
-type PolyDecompPolygon = Array<[number, number]>;
 declare module 'poly-decomp' {
-	export function makeCCW(polygon: PolyDecompPolygon): PolyDecompPolygon;
+	type PolyDecompPolygon = Array<[number, number]>;
+	export function isSimple(polygon: PolyDecompPolygon): boolean;
+	export function makeCCW(polygon: PolyDecompPolygon): boolean;
 	export function quickDecomp(polygon: PolyDecompPolygon): Array<PolyDecompPolygon>;
 	export function decomp(polygon: PolyDecompPolygon): Array<PolyDecompPolygon>;
+	export function removeCollinearPoints(polygon: PolyDecompPolygon, thresholdAngle: number): number;
+	export function removeDuplicatePoints(polygon: PolyDecompPolygon, precision: number): void;
 }
 
 interface OnFinish {

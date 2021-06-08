@@ -107,6 +107,15 @@ module.exports = {
 			// https://github.com/jantimon/html-webpack-plugin/tree/0a6568d587a82d88fd3a0617234ca98d26a1e0a6/examples/custom-insertion-position
 			// inject has to be false because we add the headTags and bodyTags manually in ejs (to position them in the best spot)
 			inject: false,
+			title: 'BombHopper.io\'s Level Editor',
+			meta: {
+				viewport: 'width=device-width, initial-scale=1, user-scalable=no',
+				description: 'Create and edit your BombHopper.io levels!',
+				keywords: 'bombhopperio, bombhopper, bomb hopper, bomb hopper io, platformer, level, editor, creator, maker',
+				'twitter:card': 'summary',
+				'twitter:creator:id': '1166876286',
+			},
+			xhtml: true,
 		}),
 	],
 	devServer: {

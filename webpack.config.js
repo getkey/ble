@@ -93,8 +93,6 @@ module.exports = {
 		alias: {
 			src: path.resolve(__dirname, 'src/'),
 			static: path.resolve(__dirname, 'static/'),
-			// https://github.com/webpack/webpack/issues/11467
-			'rxjs/operators': path.resolve(__dirname, 'node_modules', 'rxjs', 'operators', 'index.js'),
 		},
 		extensions: ['.tsx', '.ts', '.js'],
 	},
@@ -106,6 +104,15 @@ module.exports = {
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			template: 'src/index.ejs',
+			title: 'BombHopper.io\'s Level Editor',
+			meta: {
+				viewport: 'width=device-width, initial-scale=1, user-scalable=no',
+				description: 'Create and edit your BombHopper.io levels!',
+				keywords: 'bombhopperio, bombhopper, bomb hopper, bomb hopper io, platformer, level, editor, creator, maker',
+				'twitter:card': 'summary',
+				'twitter:creator:id': '1166876286',
+			},
+			xhtml: true,
 		}),
 	],
 	devServer: {

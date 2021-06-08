@@ -10,6 +10,11 @@
 		"strict": true,
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitReturns": true,
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": ".",
+		"paths": {
+			"src/*": ["src/*"],
+			"static/*": ["static/*"]
+		}
 	}
 }

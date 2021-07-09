@@ -3,7 +3,7 @@ import { types, Instance } from 'mobx-state-tree';
 const DestinationParams = types.model({
 	destination: types.maybe(types.string),
 }).actions((self) => ({
-	setDestination(destination: string): void {
+	setDestination(destination?: string): void {
 		self.destination = destination;
 	},
 }));

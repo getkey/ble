@@ -22,7 +22,8 @@ const DestinationParam: FunctionComponent<Props> = ({ params }) => {
 		const valid = ev.target.checkValidity();
 
 		if (valid) {
-			params.setDestination(ev.target.value);
+			const value = ev.target.value === '' ? undefined : ev.target.value;
+			params.setDestination(value);
 		}
 	};
 

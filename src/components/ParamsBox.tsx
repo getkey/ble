@@ -14,6 +14,7 @@ import FillColorParam from 'src/components/FillColorParam';
 import ZOrderParam from 'src/components/ZOrderParam';
 import DangerButton from 'src/components/DangerButton';
 import VerticesParam from 'src/components/VerticesParam';
+import DestinationParam from 'src/components/DestinationParam';
 import Hoppi from 'src/models/Hoppi';
 import Text from 'src/models/Text';
 import Entity from 'src/models/Entity';
@@ -61,6 +62,9 @@ const ParamsBox: FunctionComponent = () => {
 			)}
 			{('params' in selectedEntity) && VerticesParamsM.is(selectedEntity.params) && (
 				<VerticesParam params={selectedEntity.params}/>
+			)}
+			{('params' in selectedEntity) && ('destination' in selectedEntity.params) && (
+				<DestinationParam params={selectedEntity.params}/>
 			)}
 			<DangerButton onClick={onDelete}>
 				<FontAwesomeIcon icon={faTrashAlt}/>

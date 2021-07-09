@@ -16,7 +16,6 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
-
     "@msgpack/msgpack": "^2.7.0",
     "@sentry/react": "^6.5.1",
     "@sentry/tracing": "^6.5.1",
@@ -24,7 +23,7 @@
     "@types/d3-interpolate": "^2.0.0",
     "@types/file-saver": "^2.0.2",
     "base64-js": "^1.5.1",
-    "bombhopperio-level-tools": "^0.9.2",
+    "bombhopperio-level-tools": "^0.10.0",
     "core-js": "^3.14.0",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",

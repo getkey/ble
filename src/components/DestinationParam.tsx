@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarked } from '@fortawesome/free-solid-svg-icons';
 
-import { IDestinationParams } from 'src/models/DestinationParams';
+import { IDestinationParams, doorDestinationRegex } from 'src/models/DestinationParams';
 
 
 type Props = {
@@ -45,7 +45,7 @@ const DestinationParam: FunctionComponent<Props> = ({ params }) => {
 				type="text"
 				value={destination || ''}
 				onChange={onChange} placeholder="Enter a level ID"
-				pattern="[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}"
+				pattern={doorDestinationRegex.source}
 				onBlur={onBlur}
 			/>
 		</label>

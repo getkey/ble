@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ChangeEvent, FocusEvent, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarked } from '@fortawesome/free-solid-svg-icons';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 import { IDestinationParams, doorDestinationRegex } from 'src/models/DestinationParams';
 
@@ -30,21 +30,21 @@ const DestinationParam: FunctionComponent<Props> = ({ params }) => {
 	const onBlur = (ev: FocusEvent<HTMLInputElement>): void => {
 		const valid = ev.target.checkValidity();
 		if (!valid) {
-			ev.target.setCustomValidity('Must be a level ID or empty');
+			ev.target.setCustomValidity('Must be a level URL or a level ID');
 			ev.target.reportValidity();
 		}
 	};
 
 	return (
-		<label>
-			<FontAwesomeIcon icon={faMapMarked}/>
+		<label title="The level where this door leads. Leave empty to go to the menu.">
+			<FontAwesomeIcon icon={faLink}/>
 			&#32;
-			destination:
+			destination level:
 			&#32;
 			<input
 				type="text"
 				value={destination || ''}
-				onChange={onChange} placeholder="Enter a level ID"
+				onChange={onChange} placeholder="https://bombhopper.io/?level=b3cd72ad-e47c-4aac-a720-3ea871d0330c"
 				pattern={doorDestinationRegex.source}
 				onBlur={onBlur}
 			/>

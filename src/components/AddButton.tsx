@@ -14,9 +14,7 @@ type Props = {
 
 const ButtonContainer = styled.fieldset`
 	display: flex;
-	flex-direction: column;
 	border: none;
-	padding: none;
 	background-color: white;
 	position: absolute;
 	top: 100%;
@@ -29,13 +27,13 @@ const Label = styled.label`
 `;
 
 const AddTypeCategory = styled.div`
-	margin: 0.5em 0;
+	margin: 0 0.5em;
 
 	&:first-child {
-		margin-top: 0;
+		margin-left: 0;
 	}
 	&:last-child {
-		margin-bottom: 0;
+		margin-right: 0;
 	}
 `;
 

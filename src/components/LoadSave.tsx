@@ -38,10 +38,9 @@ const DomApp: FunctionComponent = () => {
 			validateLevel(snapshot);
 		} catch (err) {
 			// eslint-disable-next-line no-console
-			console.error(err);
 			alert(`Error: your level contains invalid elements. Come to https://discord.gg/KEb4wSN for help!
 
-${err.message || JSON.stringify(err)}`);
+${err instanceof Error ? err.message : JSON.stringify(err)}`);
 		}
 
 		const filename = toFilename(level.name, 'json');
@@ -90,7 +89,7 @@ ${err.message || JSON.stringify(err)}`);
 			console.error(err);
 			alert(`Error: your level contains invalid elements. Come to https://discord.gg/KEb4wSN for help!
 
-${err.message || JSON.stringify(err)}`);
+${err instanceof Error ? err.message : JSON.stringify(err)}`);
 			return;
 		}
 

@@ -27,6 +27,10 @@ app.loader.add('pressstart2p', ps2p)
 app.view.setAttribute('tabindex', '-1');
 // has to be put in the DOM manually
 // https://github.com/michalochman/react-pixi-fiber/blob/844c01709d4ffda925aca2263b522253a4ac0ffb/src/Stage.js#L121
+
+// that way, it won't affect the measurement of resizeTo
+app.view.style.position = 'absolute';
+
 pixiContainer.appendChild(app.view);
 
 export default app;

@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { init as sentryInit, ErrorBoundary} from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 
+import 'src/global.css';
 import Root, { action$ } from 'src/components/Root';
 
 if (/Firefox/i.test(window.navigator.userAgent) && /Linux/i.test(window.navigator.userAgent)) {

@@ -1,0 +1,16 @@
+html, body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+#pixi-container {
+	height: 100%;
+	position: relative; /* so the canvas can be absolutely positionned */
+}
+#app-container {
+	z-index: 1; /* The react app appears before pixi in the html so the mode bar goes above. But all the absolute elements should be on top of pixi by default */
+}

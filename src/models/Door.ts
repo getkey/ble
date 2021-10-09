@@ -16,7 +16,7 @@ const DoorParams = types.compose(
 	PositionParams,
 	DestinationParams,
 	types.model({
-		rightFacing: true,
+		rightFacing: false,
 	}),
 ).views((self) => ({
 	get asSatPolygons(): [Polygon] {

@@ -7,6 +7,7 @@ import StaticParams from 'src/models/StaticParams';
 import AngleParams from 'src/models/AngleParams';
 import PositionParams from 'src/models/PositionParams';
 import DestinationParams from 'src/models/DestinationParams';
+import RightFacingParams from 'src/models/RightFacingParams';
 import { doorWidth, doorHeight } from 'src/config';
 import { boxFromPolygons } from 'src/utils/geom';
 
@@ -15,9 +16,7 @@ const DoorParams = types.compose(
 	AngleParams,
 	PositionParams,
 	DestinationParams,
-	types.model({
-		rightFacing: false,
-	}),
+	RightFacingParams,
 ).views((self) => ({
 	get asSatPolygons(): [Polygon] {
 		return [

@@ -51,7 +51,7 @@ const PixiApp: FunctionComponent = () => {
 			})}
 			{entities.map((entity) => {
 				if (DoorM.is(entity)) {
-					const { id, params: { x, y, angle } } = entity;
+					const { id, params: { x, y, angle, rightFacing } } = entity;
 
 					return (
 						<Door
@@ -61,6 +61,7 @@ const PixiApp: FunctionComponent = () => {
 							interactive
 							pointerdown={(ev): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							rotation={angle}
+							rightFacing={rightFacing}
 						/>
 					);
 				}

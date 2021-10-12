@@ -6,13 +6,14 @@ import { getLineColor, getStrokeColor } from 'src/utils/color';
 import { lineWidth, doorWidth, doorHeight, doorColor } from 'src/config';
 
 type Props = {
+	rightFacing: boolean,
 };
 
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
 	customApplyProps: function(instance: Graphics, oldProps: Props, newProps: Props): void {
 		instance.clear();
-
+		instance.scale.x = newProps.rightFacing ? 1 : -1;
 		instance.lineStyle(
 			lineWidth,
 			getLineColor(doorColor),

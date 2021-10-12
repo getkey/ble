@@ -15,6 +15,7 @@ import ZOrderParam from 'src/components/ZOrderParam';
 import DangerButton from 'src/components/DangerButton';
 import VerticesParam from 'src/components/VerticesParam';
 import DestinationParam from 'src/components/DestinationParam';
+import TextureMirroringParam from 'src/components/TextureMirroringParam';
 import Hoppi from 'src/models/Hoppi';
 import Text from 'src/models/Text';
 import Entity from 'src/models/Entity';
@@ -53,6 +54,9 @@ const ParamsBox: FunctionComponent = () => {
 			)}
 			{Text.is(selectedEntity) && (
 				<TextParam params={selectedEntity.params}/>
+			)}
+			{('params' in selectedEntity) && ('setRightFacing' in selectedEntity.params) && ('rightFacing' in selectedEntity.params) && (
+				<TextureMirroringParam params={selectedEntity.params}/>
 			)}
 			{('params' in selectedEntity) && ('setIsStatic' in selectedEntity.params) && ('isStatic' in selectedEntity.params) && (
 				<StaticParam params={selectedEntity.params}/>

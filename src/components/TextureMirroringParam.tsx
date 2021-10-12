@@ -3,14 +3,14 @@ import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReply } from '@fortawesome/free-solid-svg-icons';
 
-import { IRightFacingParams } from 'src/models/RightFacingParams';
+import { ITextureMirroringParams } from 'src/models/TextureMirroringParams';
 
 
 type Props = {
-	params: IRightFacingParams,
+	params: ITextureMirroringParams,
 };
 
-const StaticParam: FunctionComponent<Props> = ({ params }) => {
+const TextureMirroringParam: FunctionComponent<Props> = ({ params }) => {
 	const onToggleFacing = (ev: ChangeEvent<HTMLInputElement>): void => {
 		params.setRightFacing(ev.target.checked);
 	};
@@ -19,11 +19,11 @@ const StaticParam: FunctionComponent<Props> = ({ params }) => {
 		<label>
 			<FontAwesomeIcon icon={faReply}/>
 			&#32;
-			Right Facing:
+			flip horizontally:
 			&#32;
 			<input type="checkbox" checked={params.rightFacing} onChange={onToggleFacing}/>
 		</label>
 	);
 };
 
-export default observer(StaticParam);
+export default observer(TextureMirroringParam);

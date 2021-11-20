@@ -1,8 +1,24 @@
 import { fromEvent, merge, partition } from 'rxjs';
-import { map, tap, switchMap, takeUntil, ignoreElements, filter } from 'rxjs/operators';
+import { map, tap, switchMap, takeUntil, ignoreElements, filter, exhaustMap, take } from 'rxjs/operators';
 import { Epic, ofType } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
+
+export const panShortcut: Epic = (action$, { store }) => {
+	return fromEvent<KeyboardEvent>(document, 'keydown').pipe(
+		filter((ev) => ev.key === ' '),
+		map(() => store.editor.mode),
+		tap(() => {
+			store.editor.setMode(EditorMode.pan);
+		}),
+		exhaustMap((oldMode) => fromEvent<KeyboardEvent>(document, 'keyup').pipe(
+			take(1),
+			tap(() => {
+				store.editor.setMode(oldMode);
+			}),
+		)),
+	);
+};
 
 export const globalPan: Epic = (action$, { store, app }) => {
 	const [middleClick$, otherClick$] = partition(fromEvent<PointerEvent>(app.view, 'pointerdown'), (ev) => ev.button === 1);

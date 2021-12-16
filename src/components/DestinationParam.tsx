@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ChangeEvent, FocusEvent, useState } from 'react';
+import React, { FunctionComponent, ChangeEvent, FocusEvent, useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +12,10 @@ type Props = {
 
 const DestinationParam: FunctionComponent<Props> = ({ params }) => {
 	const [destination, setDestination] = useState(params.destination);
+
+	useEffect(() => {
+		setDestination(params.destination);
+	}, [params.destination]);
 
 	const onChange = (ev: ChangeEvent<HTMLInputElement>): void => {
 		setDestination(ev.target.value);

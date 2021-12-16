@@ -1,7 +1,7 @@
 import React from 'react';
 import { settings } from 'pixi.js';
 import { render } from 'react-dom';
-import { init as sentryInit, ErrorBoundary} from '@sentry/react';
+import { init as sentryInit, ErrorBoundary } from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 
 import 'src/global.css';

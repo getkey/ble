@@ -6,8 +6,7 @@ import { interpolateLab } from 'd3-interpolate';
 import { lineWidth, hoppiColor, darkSlateGray, eyeColor, hoppiSize } from 'src/config';
 import grabbable from 'src/utils/grabbable';
 
-type Props = {
-};
+type Props = unknown;
 
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),

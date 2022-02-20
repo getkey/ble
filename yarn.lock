@@ -4343,10 +4343,10 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-getkey@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-getkey/-/eslint-config-getkey-0.2.2.tgz#c9ee42b4541c2d7f210df4aa3ab5c65ca33bbb58"
-  integrity sha512-qYKY/tQu0vTteZUzN2wvB2S5n6fAf53pvhbTYhYAKuv1G0X26fm1nudUD9Z3jM4bNO2jG6CjJWWM+12ej8NWag==
+eslint-config-getkey@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/eslint-config-getkey/-/eslint-config-getkey-0.2.3.tgz#4bd82dc51b8d09f98f5c1b88f7fa2ce43e83b1f8"
+  integrity sha512-Pe7Xyh5aGQs78SJ3U0TF1bU0eEZ+4UyV2j6bkYrY9s75Y31obzLmDaWBI07aY3muIOUDJ/nbHYEE0kdSZgYUSQ==
 
 eslint-plugin-react@^7.27.1:
   version "7.27.1"

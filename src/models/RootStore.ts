@@ -17,22 +17,30 @@ import { IEntity } from 'src/models/Entity';
 const RootStore = types.model({
 	editor: Editor,
 	level: Level,
-	undoManager: types.optional(SoftUndoManager, {}),
+}).views((self) => {
+	const undoManager = SoftUndoManager.create({}, { targetStore: self.level });
+	return {
+		get undoManager() {
+			return undoManager;
+		},
+	};
+}).actions((self) => {
+	return {
+		addEntities(entities: Array<IEntity>): void {
+			self.level.addEntities(entities);
+			self.editor.setSelection(entities);
+		},
+		clear(): void {
+			self.undoManager.startGroup();
+			self.level.clearEntities();
+			self.level.setName('My level');
+			self.level.set2StarsTime(0);
+			self.level.set3StarsTime(0);
+			self.editor.position.set(0, 0);
+			self.undoManager.stopGroup();
+		},
+	};
 }).actions((self) => ({
-	addEntities(entities: Array<IEntity>): void {
-		self.level.entities.push(...entities);
-		self.editor.setSelection(entities);
-	},
-	clear(): void {
-		self.undoManager.startGroup();
-		self.level.clearEntities();
-		self.level.setName('My level');
-		self.level.set2StarsTime(0);
-		self.level.set3StarsTime(0);
-		self.editor.position.set(0, 0);
-		self.undoManager.stopGroup();
-	},
-})).actions((self) => ({
 	createEntity(pos: IPoint): IEntity {
 		let entity;
 		if (self.editor.addType === AddType.endpoint) {

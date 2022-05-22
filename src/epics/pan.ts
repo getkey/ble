@@ -38,7 +38,6 @@ export const globalPan: Epic = (action$, { store, app }) => {
 	return startPanning$.pipe(
 		tap(() => {
 			store.editor.setPanning(true);
-			store.undoManager.startGroup();
 		}),
 		map(({ clientX, clientY }) => ({ // save starting values
 			start: {
@@ -65,7 +64,6 @@ export const globalPan: Epic = (action$, { store, app }) => {
 				takeUntil(fromEvent(document, 'pointerup').pipe(
 					tap(() => {
 						store.editor.setMode(oldMode);
-						store.undoManager.stopGroup();
 						store.editor.setPanning(false);
 					})
 				)),

@@ -1,7 +1,8 @@
-import { types, SnapshotIn, SnapshotOut, destroy, Instance } from 'mobx-state-tree';
+import { types, SnapshotIn, SnapshotOut, destroy, Instance, getRoot } from 'mobx-state-tree';
 
 import Entity, { IEntity } from 'src/models/Entity';
 import { levelPreProcessor, levelPostProcessor } from 'src/utils/snapshot';
+import { IRootStore } from 'src/models/RootStore';
 
 const BaseLevel = types.model({
 	name: 'My level',
@@ -11,6 +12,9 @@ const BaseLevel = types.model({
 	),
 	entities: types.array(Entity),
 }).actions((self) => ({
+	addEntities(entities: Array<IEntity>): void {
+		self.entities.push(...entities);
+	},
 	set2StarsTime(ms: number): void {
 		self.timings[0] = ms;
 
@@ -52,6 +56,16 @@ const BaseLevel = types.model({
 	},
 	clearEntities(): void {
 		self.entities.forEach((entity) => entity.remove());
+	},
+})).actions((self) => ({
+	clear(): void {
+		const root: IRootStore = getRoot(self);
+		root.undoManager.startGroup();
+		self.clearEntities();
+		self.setName('My level');
+		self.set2StarsTime(0);
+		self.set3StarsTime(0);
+		root.undoManager.stopGroup();
 	},
 }));
 

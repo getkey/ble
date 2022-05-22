@@ -176,7 +176,6 @@ export const selectionBox: Epic = (action$, { store }) => {
 		pluck('ev', 'data', 'global'),
 		map((global) => store.editor.screenToWorld(global)),
 		tap((worldPos) => {
-			store.undoManager.startGroup();
 			store.editor.startSelectionBox(worldPos);
 		}),
 		switchMapTo(fromEvent<PointerEvent>(document, 'pointermove').pipe(
@@ -224,7 +223,6 @@ export const selectionBox: Epic = (action$, { store }) => {
 					}
 
 					store.editor.endSelectionBox();
-					store.undoManager.stopGroup();
 				}),
 			)),
 		)),

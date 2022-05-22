@@ -1,8 +1,7 @@
-import { types, getRoot } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 
 import { EditorMode } from 'src/types/editor';
 import { AddType } from 'src/types/entity';
-import { IRootStore } from 'src/models/RootStore';
 
 const EditorMisc = types.model({
 	mode: types.optional(
@@ -22,10 +21,7 @@ const EditorMisc = types.model({
 		self.addType = addType;
 	},
 	setFontLoaded(): void {
-		const root: IRootStore = getRoot(self);
-		root.undoManager.withoutUndo(() => {
-			self.fontLoaded = true;
-		});
+		self.fontLoaded = true;
 	},
 }));
 

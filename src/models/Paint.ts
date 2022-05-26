@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 
 import VerticesParams from 'src/models/VerticesParams';
 import ColorParams from 'src/models/ColorParams';
+import OpacityParams from 'src/models/OpacityParams';
 import { ILevel } from 'src/models/Level';
 
 
@@ -11,6 +12,7 @@ const Paint = types.model({
 	type: types.literal('paint'),
 	params: types.compose(
 		ColorParams,
+		OpacityParams,
 		VerticesParams,
 	),
 }).views(() => ({

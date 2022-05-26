@@ -24,15 +24,17 @@ type Props = {
 	onPolygonPointerDown: (ev: InteractionEvent) => void;
 	onVertexPointerDown: (ev: InteractionEvent, vertexId: string) => void;
 	isValid: boolean;
+	[index: string]: unknown;
 };
 
-const ModifiablePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isValid }) => {
+const ModifiablePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isValid, ...props }) => {
 	const { editor } = useStore();
 	const actualPoints = points.map(({ point }) => point);
 
 	return (
 		<Container>
 			<GrabbablePolygon
+				{...props}
 				showInvalidTexture={!isValid}
 				fill={fill}
 				points={actualPoints}

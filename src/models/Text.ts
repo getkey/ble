@@ -7,6 +7,7 @@ import AngleParams from 'src/models/AngleParams';
 import PositionParams from 'src/models/PositionParams';
 import TextParams from 'src/models/TextParams';
 import ColorParams from 'src/models/ColorParams';
+import OpacityParams from 'src/models/OpacityParams';
 import { boxFromPolygons } from 'src/utils/geom';
 
 const Params = types.compose(
@@ -14,6 +15,7 @@ const Params = types.compose(
 	PositionParams,
 	TextParams,
 	ColorParams,
+	OpacityParams,
 ).views((self) => ({
 	get asSatPolygons(): [Polygon] {
 		const splitted = (self.copy.en as string).split('\n');

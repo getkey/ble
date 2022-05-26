@@ -11,6 +11,7 @@ import StaticParam from 'src/components/StaticParam';
 import HoppiParam from 'src/components/HoppiParam';
 import RadiusParam from 'src/components/RadiusParam';
 import FillColorParam from 'src/components/FillColorParam';
+import OpacityParam from 'src/components/OpacityParam';
 import ZOrderParam from 'src/components/ZOrderParam';
 import DangerButton from 'src/components/DangerButton';
 import VerticesParam from 'src/components/VerticesParam';
@@ -55,20 +56,23 @@ const ParamsBox: FunctionComponent = () => {
 			{('params' in selectedEntity) && ('setFillColor' in selectedEntity.params) && ('fillColor' in selectedEntity.params) && (
 				<FillColorParam params={selectedEntity.params}/>
 			)}
+			{('params' in selectedEntity) && ('setOpacity' in selectedEntity.params) && ('opacity' in selectedEntity.params) && (
+				<OpacityParam params={selectedEntity.params}/>
+			)}
 			{('params' in selectedEntity) && ('setAngle' in selectedEntity.params) && ('angle' in selectedEntity.params) && (
 				<AngleParam params={selectedEntity.params}/>
 			)}
 			{('params' in selectedEntity) && ('destination' in selectedEntity.params) && (
 				<DestinationParam params={selectedEntity.params}/>
 			)}
+			{('params' in selectedEntity) && ('setRightFacing' in selectedEntity.params) && ('rightFacing' in selectedEntity.params) && (
+				<TextureMirroringParam params={selectedEntity.params}/>
+			)}
 			{Entity.is(selectedEntity) && (
 				<ZOrderParam entity={selectedEntity}/>
 			)}
 			{('params' in selectedEntity) && VerticesParamsM.is(selectedEntity.params) && (
 				<VerticesParam params={selectedEntity.params}/>
-			)}
-			{('params' in selectedEntity) && ('setRightFacing' in selectedEntity.params) && ('rightFacing' in selectedEntity.params) && (
-				<TextureMirroringParam params={selectedEntity.params}/>
 			)}
 			<DangerButton onClick={onDelete}>
 				<FontAwesomeIcon icon={faTrashAlt}/>

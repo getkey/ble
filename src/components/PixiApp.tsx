@@ -118,7 +118,7 @@ const PixiApp: FunctionComponent = () => {
 					);
 				}
 				if (TextM.is(entity)) {
-					const { id, params: { x, y, copy, anchor, angle, fillColor } } = entity;
+					const { id, params: { x, y, copy, anchor, angle, fillColor, opacity } } = entity;
 
 					return (
 						<ProgressiveText
@@ -131,11 +131,12 @@ const PixiApp: FunctionComponent = () => {
 							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
 							fillColor={fillColor}
 							rotation={angle}
+							alpha={opacity}
 						/>
 					);
 				}
 				if (PaintM.is(entity)) {
-					const { id, params: { vertices } } = entity;
+					const { id, params: { vertices, opacity } } = entity;
 
 					const points = vertices.map((vertex) => ({
 						point: vertex.asPixiPoint,
@@ -147,6 +148,7 @@ const PixiApp: FunctionComponent = () => {
 						<ModifiablePolygon
 							isValid={entity.params.isValid}
 							fill={entity.params.fillColor}
+							alpha={opacity}
 							points={points}
 							key={id}
 							onVertexPointerDown={(ev, vertexId): void => dispatch({ type: 'vertexPointerDown', entityId: id, vertexId, ev })}

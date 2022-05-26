@@ -26,6 +26,13 @@ const Copy = types.snapshotProcessor(
 	},
 );
 
+export enum Align {
+	'left' = 'left',
+	'right' = 'right',
+	'center' = 'center',
+	'justify' = 'justify',
+}
+
 const TextParams = types.model({
 	copy: types.optional(Copy, {
 		en: 'Some text\nand a new line',
@@ -37,6 +44,7 @@ const TextParams = types.model({
 		x: 0.5,
 		y: 0.5,
 	}),
+	align: types.optional(types.enumeration(Object.values(Align)), Align.left),
 }).actions((self) => ({
 	setCopy(lang: string, copy: string): void {
 		self.copy[lang] = copy;
@@ -52,6 +60,9 @@ const TextParams = types.model({
 		if (!isValid) {
 			(getParent(self) as TextParamsEntity).remove();
 		}
+	},
+	setAlign(align: Align): void {
+		self.align = align;
 	},
 }));
 

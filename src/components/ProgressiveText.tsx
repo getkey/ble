@@ -23,7 +23,6 @@ const ProgressiveText: FunctionComponent<Props> = ({ fillColor, ...props }) => {
 					fontWeight: '300',
 					fontSize: fontSize * 1.5,
 					fill: fillColor,
-					align: 'center',
 				}}
 			/>
 		);

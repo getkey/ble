@@ -3,11 +3,11 @@ import { observer } from 'mobx-react-lite';
 import languages from 'iso-639-1';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faLanguage } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faLanguage, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import DangerButton from 'src/components/DangerButton';
-import { ITextParams } from 'src/models/TextParams';
+import { ITextParams, Align } from 'src/models/TextParams';
 
 const LanguageList = styled.div`
 	display: table;
@@ -62,6 +62,10 @@ const ParamsBox: FunctionComponent<Props> = ({ params }) => {
 		.filter(([, copy]) => copy === undefined)
 		.map(([code]) => code);
 
+	const onChangeAlign = (ev: ChangeEvent<HTMLSelectElement>): void => {
+		params.setAlign(ev.target.value as Align);
+	};
+
 	return (
 		<Fragment>
 			<LanguageList>
@@ -106,6 +110,17 @@ const ParamsBox: FunctionComponent<Props> = ({ params }) => {
 					Add language
 				</button>
 			</div>
+			<label>
+				<FontAwesomeIcon icon={faAlignLeft}/>
+				&#32;
+				align:
+				&#32;
+				<select value={params.align} onChange={onChangeAlign}>
+					{Object.values(Align).map((align) => (
+						<option key={align} value={align}>{align}</option>
+					))}
+				</select>
+			</label>
 		</Fragment>
 	);
 };

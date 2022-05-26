@@ -22,7 +22,7 @@ import ProgressiveText from 'src/components/ProgressiveText';
 const entityColors = {
 	deadly: 0xff0000, // red
 	breakable: 0x8000ff, // purple
-	normal: 0xffffff, // white
+	normal: 0xdddddd, // grey
 	ice: 0x00ffff, // cyan
 	bouncy: 0xff9900, // orange
 };

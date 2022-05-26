@@ -7,11 +7,11 @@ import { fontSize } from 'src/config';
 import grabbable from 'src/utils/grabbable';
 
 type Props = {
-	color: number;
+	fillColor: number;
 	[index: string]: unknown;
 };
 
-const ProgressiveText: FunctionComponent<Props> = ({ color, ...props }) => {
+const ProgressiveText: FunctionComponent<Props> = ({ fillColor, ...props }) => {
 	const { editor: { fontLoaded } } = useStore();
 
 	if (!fontLoaded) {
@@ -22,7 +22,7 @@ const ProgressiveText: FunctionComponent<Props> = ({ color, ...props }) => {
 					fontFamily: ['Courier New', 'Courier', 'monospace', 'sans-serif'],
 					fontWeight: '300',
 					fontSize: fontSize * 1.5,
-					fill: color,
+					fill: fillColor,
 					align: 'center',
 				}}
 			/>
@@ -37,7 +37,7 @@ const ProgressiveText: FunctionComponent<Props> = ({ color, ...props }) => {
 			}}
 			fontName="Press Start 2P"
 			fontSize={fontSize}
-			tint={color}
+			tint={fillColor}
 		/>
 	);
 };

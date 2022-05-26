@@ -118,7 +118,7 @@ const PixiApp: FunctionComponent = () => {
 					);
 				}
 				if (TextM.is(entity)) {
-					const { id, params: { x, y, copy, anchor, angle } } = entity;
+					const { id, params: { x, y, copy, anchor, angle, fillColor } } = entity;
 
 					return (
 						<ProgressiveText
@@ -129,7 +129,7 @@ const PixiApp: FunctionComponent = () => {
 							key={id}
 							interactive
 							pointerdown={(ev: InteractionEvent): void => dispatch({ type: 'entityPointerDown', entityId: id, ev })}
-							color={0xffffff}
+							fillColor={fillColor}
 							rotation={angle}
 						/>
 					);

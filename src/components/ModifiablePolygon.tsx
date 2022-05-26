@@ -55,7 +55,7 @@ const ModifiablePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPo
 					<ProgressiveText
 						text={i + 1}
 						position={point_}
-						color={0xffffff}
+						fillColor={0xffffff}
 						anchor={{ x: 0.5, y: 0.5 }}
 						scale={0.5 / editor.scale}
 						interactive={false}

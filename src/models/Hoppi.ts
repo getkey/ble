@@ -106,9 +106,7 @@ const Hoppi = types.model({
 }).actions((self) => ({
 	makeFinite(): void {
 		self.params = FiniteParams.create({
-			x: self.params.x,
-			y: self.params.y,
-			angle: self.params.angle,
+			...self.params,
 			magazine: [
 				AmmoType.grenade,
 				AmmoType.empty,
@@ -119,9 +117,7 @@ const Hoppi = types.model({
 	},
 	makeInfinite(): void {
 		self.params = InfiniteParams.create({
-			x: self.params.x,
-			y: self.params.y,
-			angle: self.params.angle,
+			...self.params,
 			infiniteAmmo: AmmoType.bullet,
 		});
 	},

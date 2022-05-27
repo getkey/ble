@@ -11,6 +11,8 @@ const Container = styled.div`
 	position: absolute;
 	top: 100%;
 	right: 0;
+	max-height: 100vh;
+	overflow-x: auto;
 
 	& > * {
 		padding: 8px;

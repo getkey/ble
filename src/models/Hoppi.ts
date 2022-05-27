@@ -109,7 +109,12 @@ const Hoppi = types.model({
 			x: self.params.x,
 			y: self.params.y,
 			angle: self.params.angle,
-			magazine: [],
+			magazine: [
+				AmmoType.grenade,
+				AmmoType.empty,
+				AmmoType.bullet,
+				AmmoType.bullet,
+			],
 		});
 	},
 	makeInfinite(): void {
@@ -117,7 +122,7 @@ const Hoppi = types.model({
 			x: self.params.x,
 			y: self.params.y,
 			angle: self.params.angle,
-			infiniteAmmo: AmmoType.grenade,
+			infiniteAmmo: AmmoType.bullet,
 		});
 	},
 	remove(): void {

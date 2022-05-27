@@ -57,10 +57,7 @@ const RootStore = types.model({
 				params: {
 					x: pos.x,
 					y: pos.y,
-					magazine: [
-						AmmoType.bullet,
-						AmmoType.bullet,
-					],
+					infiniteAmmo: AmmoType.bullet,
 				},
 			});
 		} else if (self.editor.addType === AddType.text) {

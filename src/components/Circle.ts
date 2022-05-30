@@ -1,5 +1,7 @@
 import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics } from 'pixi.js';
+import { getFillColor, getLineColor } from 'src/utils/color';
+import { lineWidth } from 'src/config';
 
 type Props = {
 	fill: number;
@@ -15,7 +17,14 @@ export const behavior = {
 		if (fill !== oldFill || radius !== oldRadius) {
 			instance.clear();
 
-			instance.beginFill(fill);
+			instance.lineStyle(
+				lineWidth,
+				getLineColor(fill),
+				1,
+				0
+			);
+
+			instance.beginFill(getFillColor(fill));
 			instance.drawCircle(0, 0, radius);
 			instance.endFill();
 		}

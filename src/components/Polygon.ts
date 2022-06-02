@@ -24,12 +24,12 @@ export const behavior = {
 		if (fill !== oldFill || points !== oldPoints || showInvalidTexture !== oldShowInvalidTexture) {
 			instance.clear();
 
-			instance.lineStyle(
-				lineWidth,
-				getLineColor(fill),
-				1,
-				0
-			);
+			// @ts-expect-error
+			instance.lineStyle({
+				width: lineWidth,
+				color: getLineColor(fill),
+				alignment: 0,
+			});
 
 			instance.beginFill(getFillColor(fill));
 			instance.drawPolygon(points);

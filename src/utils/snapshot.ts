@@ -8,22 +8,21 @@ import { BlockType } from 'src/types/entity';
 export function entityPostProcessor({ id, ...stuff }: SnapshotOutEntity): SerializedEntity {
 	// removing the ids can't be done in the Entity or the Vertex because it breacks the undo
 	// function that need ids to be consistent
-	if ('params' in stuff && 'vertices' in stuff.params) {
-		return {
-			...stuff,
-			params: {
-				...stuff.params,
-				// @ts-expect-error
-				vertices: stuff.params.vertices.map(({ id: id_, ...stuff_ }) => ({
-					...stuff_,
-				})),
-			},
-		};
+	const params = { ...stuff.params };
+	if ('vertices' in params) {
+		// @ts-expect-error
+		params.vertices = params.vertices.map(({ id: id_, ...stuff_ }) => ({
+			...stuff_,
+		}));
+	}
+	if ('destination' in params && params.destination === undefined) {
+		delete params.destination;
 	}
 
 	// @ts-expect-error
 	return {
 		...stuff,
+		params,
 	};
 }
 

@@ -28,9 +28,9 @@ type Action = {
 function isValid(val: number, { min, max, step }: { min?: number; max?: number; step?: number }) {
 	return (
 		!isNaN(val) &&
-		(!min || val >= min) &&
-		(!max || val <= max) &&
-		(!step || isMultiple(val, step))
+		(min === undefined || val >= min) &&
+		(max === undefined || val <= max) &&
+		(step === undefined || isMultiple(val, step))
 	);
 }
 

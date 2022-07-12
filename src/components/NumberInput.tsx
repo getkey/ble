@@ -97,7 +97,16 @@ const NumberInput: FunctionComponent<Props> = ({ value, onChange, onBlur, min, m
 	}
 
 	return (
-		<input {...props} type="number" value={innerValue} onChange={onInnerChange} onBlur={onInnerBlur}/>
+		<input
+			{...props}
+			min={min}
+			max={max}
+			step={step}
+			type="number"
+			value={innerValue}
+			onChange={onInnerChange}
+			onBlur={onInnerBlur}
+		/>
 	);
 };
 

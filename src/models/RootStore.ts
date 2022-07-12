@@ -94,6 +94,7 @@ const RootStore = types.model({
 					x: pos.x,
 					y: pos.y,
 					isStatic: true,
+					radius: Math.max(1, self.editor.gridCellSize / 2),
 				},
 			});
 		}

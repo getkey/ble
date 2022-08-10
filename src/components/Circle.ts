@@ -17,7 +17,6 @@ export const behavior = {
 		if (fill !== oldFill || radius !== oldRadius) {
 			instance.clear();
 
-			// @ts-expect-error
 			instance.lineStyle({
 				width: lineWidth,
 				color: getLineColor(fill),

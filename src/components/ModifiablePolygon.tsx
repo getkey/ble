@@ -4,18 +4,20 @@ import { Point as PixiPoint, InteractionEvent, Rectangle } from 'pixi.js';
 import { observer } from 'mobx-react-lite';
 
 import Polygon from 'src/components/Polygon';
+import BlockPolygon from 'src/components/BlockPolygon';
 import ProgressiveText from 'src/components/ProgressiveText';
 import Point from 'src/components/Point';
 import grabbable from 'src/utils/grabbable';
 import { useStore } from 'src/hooks/useStore';
+import { AddType } from 'src/types/entity';
 
-const GrabbablePolygon = grabbable(Polygon);
 const GrabbablePoint = grabbable(Point);
 
 const emptyArea = new Rectangle(0, 0, 0, 0);
 
 type Props = {
 	fill: number;
+	addType?: AddType;
 	points: Array<{
 		point: PixiPoint;
 		isSelected: boolean;
@@ -27,9 +29,10 @@ type Props = {
 	[index: string]: unknown;
 };
 
-const ModifiablePolygon: FunctionComponent<Props> = ({ fill, points, onPolygonPointerDown, onVertexPointerDown, isValid, ...props }) => {
+const ModifiablePolygon: FunctionComponent<Props> = ({ fill, addType, points, onPolygonPointerDown, onVertexPointerDown, isValid, ...props }) => {
 	const { editor } = useStore();
 	const actualPoints = points.map(({ point }) => point);
+	const GrabbablePolygon = (addType === AddType.paint) ? grabbable(Polygon) : grabbable(BlockPolygon);
 
 	return (
 		<Container>

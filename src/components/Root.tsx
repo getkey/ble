@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import React, { FunctionComponent, Fragment, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, StrictMode } from 'react';
 import { Stage } from 'react-pixi-fiber';
 import { startEpics } from 'epix';
 import { Application } from 'pixi.js';
@@ -30,7 +30,7 @@ const Root: FunctionComponent = () => {
 	// whereas the normal root level has almost nothing in it.
 	// (I suppose it would be okay to have another StoreProvider around Stage, too)
 	return (
-		<Fragment>
+		<StrictMode>
 			<Stage app={app}>
 				<DispatchProvider value={action$}>
 					<StoreProvider value={store}>
@@ -43,7 +43,7 @@ const Root: FunctionComponent = () => {
 					<DomApp/>
 				</StoreProvider>
 			</DispatchProvider>
-		</Fragment>
+		</StrictMode>
 	);
 };
 

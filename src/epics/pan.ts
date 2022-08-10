@@ -1,6 +1,6 @@
 import { fromEvent, merge, partition } from 'rxjs';
 import { map, tap, switchMap, takeUntil, ignoreElements, filter, exhaustMap, take } from 'rxjs/operators';
-import { Epic, ofType } from 'epix';
+import { Epic } from 'epix';
 
 import { EditorMode } from 'src/types/editor';
 
@@ -75,9 +75,7 @@ export const globalPan: Epic = (action$, { store, app }) => {
 
 export const resize: Epic = (action$, { store, app }) => {
 	return merge(
-		action$.pipe(
-			ofType('hydrate'),
-		),
+		// the following event also happens on the initial load: the store will be initialized properly :)
 		fromEvent(app.renderer, 'resize'),
 	).pipe(
 		tap(() => {

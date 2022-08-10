@@ -14,7 +14,7 @@ const grabbable = function<P>(
 			/>
 		);
 	};
-	WrappedComponent.displayName = `grabbable(${Component.displayName || Component.name || 'Component'})`;
+	WrappedComponent.displayName = `grabbable(${Component.displayName ?? Component.name ?? 'Component'})`;
 
 	return WrappedComponent;
 };

@@ -35,7 +35,7 @@ export function levelPreProcessor(snapshot: SerializedLevel): SnapshotInBaseLeve
 
 	return {
 		...snapshot,
-		timings: snapshot.timings || [0, 0],
+		timings: snapshot.timings ?? [0, 0],
 		entities,
 	};
 }

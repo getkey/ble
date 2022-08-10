@@ -13,7 +13,7 @@ type Props = {
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
 	customApplyProps: function(instance: Graphics, oldProps: Props | undefined, newProps: Props): void {
-		const { width: oldWidth, height: oldHeight, ...remainingOldProps } = oldProps || {};
+		const { width: oldWidth, height: oldHeight, ...remainingOldProps } = oldProps ?? {};
 		const { width, height, ...remainingNewProps } = newProps;
 
 		if (width !== oldWidth || height !== oldHeight) {

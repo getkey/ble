@@ -11,7 +11,7 @@ type Props = {
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
 	customApplyProps: function(instance: Graphics, oldProps: Props | undefined, newProps: Props): void {
-		const { aabb: oldAabb, ...remainingOldProps } = oldProps || {};
+		const { aabb: oldAabb, ...remainingOldProps } = oldProps ?? {};
 		const { aabb, ...remainingNewProps } = newProps;
 
 		if (aabb !== oldAabb) {

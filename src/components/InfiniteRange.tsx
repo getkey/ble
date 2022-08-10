@@ -13,7 +13,7 @@ type Props = {
 
 // this is a number input that can temporarily contain invalid values such as '' or '12enoen'
 const NumberInput: FunctionComponent<Props> = ({ value, onChange, onBlur, onPointerUp, min = 0, step, ...props }) => {
-	const maxClamp = Math.max(min, props.maxClamp || 100);
+	const maxClamp = Math.max(min, props.maxClamp ?? 100);
 	const [max, setMax] = useState(maxClamp);
 
 	function clampedSetMax(max_: number) {

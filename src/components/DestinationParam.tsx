@@ -47,7 +47,7 @@ const DestinationParam: FunctionComponent<Props> = ({ params }) => {
 			&#32;
 			<input
 				type="text"
-				value={destination || ''}
+				value={destination ?? ''}
 				onChange={onChange} placeholder="https://bombhopper.io/?level=b3cd72ad-e47c-4aac-a720-3ea871d0330c"
 				pattern={doorDestinationRegex.source}
 				onBlur={onBlur}

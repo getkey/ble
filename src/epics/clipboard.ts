@@ -26,7 +26,7 @@ export const paste: Epic = (action$, { store }) => {
 	return fromEvent<ClipboardEvent>(window, 'paste').pipe(
 		filter(({ clipboardData }) => !!clipboardData),
 		tap(({ clipboardData }) => {
-			Array.from(clipboardData?.items || [])
+			Array.from(clipboardData?.items ?? [])
 				.filter(({ type }) => type === 'text/plain')
 				.forEach((item) => {
 					item.getAsString((clipboardContent) => {

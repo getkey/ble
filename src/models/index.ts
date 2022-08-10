@@ -29,7 +29,7 @@ try {
 export const store = RootStore.create({
 	level: initialLevel,
 	editor: {
-		gridCellSize: getStorage(gridCellSizeStorageKey) as number | null || undefined,
+		gridCellSize: getStorage(gridCellSizeStorageKey) as number | null ?? undefined,
 	},
 });
 // @ts-expect-error

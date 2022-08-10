@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { utils } from 'pixi.js';
 
@@ -34,6 +34,7 @@ export const Content = styled.div`
 
 type Props = {
 	title?: string;
+	children?: ReactNode;
 };
 
 const Box: FunctionComponent<Props> = ({ children, title }) => {

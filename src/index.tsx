@@ -1,6 +1,6 @@
 import React from 'react';
 import { settings } from 'pixi.js';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { init as sentryInit, ErrorBoundary } from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 
@@ -14,6 +14,9 @@ if (/Firefox/i.test(window.navigator.userAgent) && /Linux/i.test(window.navigato
 	settings.SPRITE_MAX_TEXTURES = Math.min(settings.SPRITE_MAX_TEXTURES, 16);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = createRoot(document.getElementById('app-container')!);
+
 if (process.env.SENTRY_DSN) {
 	sentryInit({
 		dsn: process.env.SENTRY_DSN,
@@ -23,15 +26,13 @@ if (process.env.SENTRY_DSN) {
 		tracesSampleRate: 0.5,
 	});
 
-	render(
+	root.render(
 		<ErrorBoundary showDialog>
 			<Root/>
-		</ErrorBoundary>,
-		document.getElementById('app-container'),
+		</ErrorBoundary>
 	);
 } else {
-	render(
-		<Root/>,
-		document.getElementById('app-container'),
+	root.render(
+		<Root/>
 	);
 }

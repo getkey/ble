@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { Container } from 'react-pixi-fiber';
 import { observer } from 'mobx-react-lite';
 
@@ -9,7 +9,12 @@ import Grid from 'src/components/Grid';
  * This component makes the position of its children relative.
  * It's a sort of camera.
  */
-const Level: FunctionComponent = ({ children }) => {
+
+type Props = {
+	children: ReactNode;
+}
+
+const Level: FunctionComponent<Props> = ({ children }) => {
 	const { editor } = useStore();
 
 	return (

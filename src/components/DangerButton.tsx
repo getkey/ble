@@ -1,4 +1,4 @@
-import React, { FunctionComponent, MouseEvent } from 'react';
+import React, { FunctionComponent, MouseEvent, ReactNode } from 'react';
 import styled from '@emotion/styled';
 
 import { buttonCss } from 'src/utils/buttons';
@@ -19,6 +19,7 @@ const Button = styled.button`
 type Props = {
 	onClick?: (ev: MouseEvent) => unknown;
 	title?: string;
+	children: ReactNode;
 };
 
 const DangerButton: FunctionComponent<Props> = ({ onClick, ...props }) => {

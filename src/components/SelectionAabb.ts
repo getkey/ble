@@ -10,14 +10,13 @@ type Props = {
 
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
-	customApplyProps: function(instance: Graphics, oldProps: Props, newProps: Props): void {
-		const { aabb: oldAabb, ...remainingOldProps } = oldProps;
+	customApplyProps: function(instance: Graphics, oldProps: Props | undefined, newProps: Props): void {
+		const { aabb: oldAabb, ...remainingOldProps } = oldProps || {};
 		const { aabb, ...remainingNewProps } = newProps;
 
 		if (aabb !== oldAabb) {
 			instance.clear();
 
-			// @ts-expect-error
 			instance.lineStyle({
 				width: 2,
 				color: selectColor,

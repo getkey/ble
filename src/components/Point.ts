@@ -12,8 +12,8 @@ type Props = {
 
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
-	customApplyProps: function(instance: Graphics, oldProps: Props, newProps: Props): void {
-		const { fill: oldFill, stroke: oldStroke, radius: oldRadius, strokeWidth: oldStrokeWidth, isSelected: oldIsSelected, ...remainingOldProps } = oldProps;
+	customApplyProps: function(instance: Graphics, oldProps: Props | undefined, newProps: Props): void {
+		const { fill: oldFill, stroke: oldStroke, radius: oldRadius, strokeWidth: oldStrokeWidth, isSelected: oldIsSelected, ...remainingOldProps } = oldProps || {};
 		const { fill, stroke, radius, strokeWidth, isSelected, ...remainingNewProps } = newProps;
 
 

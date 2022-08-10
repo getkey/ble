@@ -11,7 +11,7 @@ type Props = {
 
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
-	customApplyProps: function(instance: Graphics, oldProps: Props, newProps: Props): void {
+	customApplyProps: function(instance: Graphics, oldProps: Props | undefined, newProps: Props): void {
 		instance.clear();
 		instance.scale.x = newProps.rightFacing ? -1 : 1;
 		instance.lineStyle(

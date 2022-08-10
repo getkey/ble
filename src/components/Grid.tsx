@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useContext, useMemo } from 'react';
-import { Graphics, RenderTexture, Renderer, SCALE_MODES } from 'pixi.js';
+import { Graphics, RenderTexture, AbstractRenderer, SCALE_MODES } from 'pixi.js';
 import { TilingSprite, AppContext } from 'react-pixi-fiber';
 import { observer } from 'mobx-react-lite';
 
 import { useStore } from 'src/hooks/useStore';
 import { useDispatch } from 'src/hooks/useDispatch';
 
-function makeTilingSprite(snapping: number, scale: number, renderer: Renderer): RenderTexture {
+function makeTilingSprite(snapping: number, scale: number, renderer: AbstractRenderer): RenderTexture {
 	const graphics = new Graphics();
 	const lineWidth = Math.ceil(1/scale); // the grid lines should grow when small scale so they don't disapear
 	graphics.lineStyle(lineWidth, 0xffffff, 0.25, 0);
@@ -15,14 +15,16 @@ function makeTilingSprite(snapping: number, scale: number, renderer: Renderer): 
 	graphics.lineTo(0, 0);
 	graphics.lineTo(snapping, 0);
 
-	const rt = RenderTexture.create({
+	const renderTexture = RenderTexture.create({
 		width: snapping,
 		height: snapping,
 		scaleMode: SCALE_MODES.NEAREST, // it should always look sharp
 	});
-	renderer.render(graphics, rt);
+	renderer.render(graphics, {
+		renderTexture,
+	});
 
-	return rt;
+	return renderTexture;
 }
 
 const Level: FunctionComponent = () => {

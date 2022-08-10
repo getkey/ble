@@ -8,8 +8,8 @@ type Props = {
 
 export const behavior = {
 	customDisplayObject: (): Graphics => new Graphics(),
-	customApplyProps: function(instance: Graphics, oldProps: Props, newProps: Props): void {
-		const { fill: oldFill, radius: oldRadius, ...remainingOldProps } = oldProps;
+	customApplyProps: function(instance: Graphics, oldProps: Props | undefined, newProps: Props): void {
+		const { fill: oldFill, radius: oldRadius, ...remainingOldProps } = oldProps || {};
 		const { fill, radius, ...remainingNewProps } = newProps;
 
 		if (fill !== oldFill || radius !== oldRadius) {

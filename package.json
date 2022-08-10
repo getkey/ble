@@ -36,11 +36,11 @@
     "mobx-state-tree": "^5.1.5",
     "mst-middlewares": "^5.1.5",
     "nanoid": "^3.3.4",
-    "pixi.js": "^5.3.8",
+    "pixi.js": "^6.5.1",
     "poly-decomp": "^0.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-pixi-fiber": "^0.14.3",
+    "react-pixi-fiber": "^1.0.1",
     "react-toastify": "^9.0.1",
     "rxjs": "^7.5.5",
     "sat": "^0.9.0"

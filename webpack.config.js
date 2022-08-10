@@ -122,5 +122,11 @@ module.exports = {
 		compress: true,
 		liveReload: false, // prevent the fucker from stealing the focus
 		host: '0.0.0.0',
+		client: {
+			overlay: {
+				warnings: false, // these warnings can be ignored, but not removed yet https://github.com/michalochman/react-pixi-fiber/issues/279
+				errors: true,
+			},
+		},
 	},
 };

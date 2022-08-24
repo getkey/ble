@@ -118,7 +118,7 @@ const PixiApp: FunctionComponent = () => {
 					);
 				}
 				if (TextM.is(entity)) {
-					const { id, params: { x, y, copy, anchor, angle, fillColor, opacity, align } } = entity;
+					const { id, params: { x, y, copy, anchor, angle, fillColor, opacity, align, fontSize } } = entity;
 
 					return (
 						<ProgressiveText
@@ -133,6 +133,7 @@ const PixiApp: FunctionComponent = () => {
 							rotation={angle}
 							alpha={opacity}
 							align={align}
+							fontSize={fontSize}
 						/>
 					);
 				}

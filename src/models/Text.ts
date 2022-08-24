@@ -21,8 +21,8 @@ const Params = types.compose(
 		const splitted = (self.copy.en as string).split('\n');
 		const rows = splitted.length;
 		const cols = splitted.reduce((acc, line) => Math.max(acc, line.length), 0);
-		const width = cols * 16;
-		const height = rows * 16;
+		const width = cols * self.fontSize;
+		const height = rows * self.fontSize;
 		return [
 			new Box(
 				new Vector(

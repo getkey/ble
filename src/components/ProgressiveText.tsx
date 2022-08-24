@@ -3,15 +3,15 @@ import React, { FunctionComponent } from 'react';
 import { BitmapText, Text } from 'react-pixi-fiber';
 
 import { useStore } from 'src/hooks/useStore';
-import { fontSize } from 'src/config';
 import grabbable from 'src/utils/grabbable';
 
 type Props = {
 	fillColor: number;
+	fontSize?: number;
 	[index: string]: unknown;
 };
 
-const ProgressiveText: FunctionComponent<Props> = ({ fillColor, ...props }) => {
+const ProgressiveText: FunctionComponent<Props> = ({ fillColor, fontSize = 16, ...props }) => {
 	const { editor: { fontLoaded } } = useStore();
 
 	if (!fontLoaded) {

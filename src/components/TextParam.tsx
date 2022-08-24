@@ -3,11 +3,13 @@ import { observer } from 'mobx-react-lite';
 import languages from 'iso-639-1';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faLanguage, faAlignLeft } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faLanguage, faAlignLeft, faTextHeight } from '@fortawesome/free-solid-svg-icons';
 
 import { useStore } from 'src/hooks/useStore';
 import DangerButton from 'src/components/DangerButton';
 import { ITextParams, Align } from 'src/models/TextParams';
+import NumberInput from 'src/components/NumberInput';
+import InfiniteRange from 'src/components/InfiniteRange';
 
 const LanguageList = styled.div`
 	display: table;
@@ -23,6 +25,10 @@ const LanguageRow = styled.div`
 
 const LangLabel = styled.label`
 	text-align: right;
+`;
+
+const SizeInput = styled(NumberInput)`
+	width: 6ex;
 `;
 
 type Props = {
@@ -64,6 +70,10 @@ const ParamsBox: FunctionComponent<Props> = ({ params }) => {
 
 	const onChangeAlign = (ev: ChangeEvent<HTMLSelectElement>): void => {
 		params.setAlign(ev.target.value as Align);
+	};
+
+	const onChangeFontSize = (fontSize: number): void => {
+		params.setFontSize(fontSize);
 	};
 
 	return (
@@ -121,6 +131,24 @@ const ParamsBox: FunctionComponent<Props> = ({ params }) => {
 					))}
 				</select>
 			</label>
+			<label>
+				<FontAwesomeIcon icon={faTextHeight}/>
+				&#32;
+				size:
+				&#32;
+				<SizeInput
+					value={params.fontSize}
+					min={1}
+					step={1}
+					onChange={onChangeFontSize}
+				/>
+			</label>
+			<InfiniteRange
+				value={params.fontSize}
+				min={1}
+				step={1}
+				onChange={onChangeFontSize}
+			/>
 		</Fragment>
 	);
 };

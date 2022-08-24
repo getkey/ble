@@ -23,7 +23,7 @@
     "@types/d3-interpolate": "^3.0.1",
     "@types/file-saver": "^2.0.5",
     "base64-js": "^1.5.1",
-    "bombhopperio-level-tools": "^0.13.3",
+    "bombhopperio-level-tools": "^0.13.4",
     "core-js": "^3.24.1",
     "d3-color": "^3.1.0",
     "d3-interpolate": "^3.0.1",

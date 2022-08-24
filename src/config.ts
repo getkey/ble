@@ -6,7 +6,6 @@ export const primaryColor = 0x00ffff; // cyan
 export const selectColor = 0xec407a; // pinkish
 
 export const lineWidth = 2;
-export const fontSize = 16;
 
 export const doorWidth = 100;
 export const doorHeight = 160;

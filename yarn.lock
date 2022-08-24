@@ -3112,10 +3112,10 @@ body-parser@1.20.0:
     type-is "~1.6.18"
     unpipe "1.0.0"
 
-bombhopperio-level-tools@^0.13.3:
-  version "0.13.3"
-  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.13.3.tgz#a653d716e905a816aceeb61d8a081761297663a8"
-  integrity sha512-E7NYkFpt0riJE8KnDVI9p7KlPs6YA3UVvaoOYLQmQxOpLCKG9aOis7qIioewlSXdBnXf988GuvH86eaGrdSUUA==
+bombhopperio-level-tools@^0.13.4:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/bombhopperio-level-tools/-/bombhopperio-level-tools-0.13.4.tgz#00f871c3691f5bc18fe95d87f6a0568bd7324f8e"
+  integrity sha512-H23bnMo5P1MtY3YcZeRbhOsKKha7+WeBRJeTyIukVbONmfawudfMBfupAc0tpY924pFVvHZuLuVij0vkmFhgdg==
   dependencies:
     ajv "^8.11.0"
     ajv-formats "^2.1.1"

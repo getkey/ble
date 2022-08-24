@@ -45,6 +45,7 @@ const TextParams = types.model({
 		y: 0.5,
 	}),
 	align: types.optional(types.enumeration(Object.values(Align)), Align.left),
+	fontSize: types.optional(types.number, 16),
 }).actions((self) => ({
 	setCopy(lang: string, copy: string): void {
 		self.copy[lang] = copy;
@@ -63,6 +64,11 @@ const TextParams = types.model({
 	},
 	setAlign(align: Align): void {
 		self.align = align;
+	},
+	setFontSize(fontSize: number): void {
+		if (fontSize < 0) throw new Error('Font size must be positive');
+		if (!Number.isInteger(fontSize)) throw new Error('Font size must be an integer');
+		self.fontSize = fontSize;
 	},
 }));
 

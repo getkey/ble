@@ -108,18 +108,20 @@ const ParamsBox: FunctionComponent<Props> = ({ params }) => {
 						</LanguageRow>
 					))}
 			</LanguageList>
-			<div>
-				<select ref={selectRef} defaultValue="es">
-					{unusedLanguages.map((code) => (
-						<option key={code} value={code}>{languages.getNativeName(code)}</option>
-					))}
-				</select>
-				<button onClick={onAddLanguage}>
-					<FontAwesomeIcon icon={faLanguage}/>
+			{unusedLanguages.length > 0 && (
+				<div>
+					<select ref={selectRef} defaultValue="es">
+						{unusedLanguages.map((code) => (
+							<option key={code} value={code}>{languages.getNativeName(code)}</option>
+						))}
+					</select>
+					<button onClick={onAddLanguage}>
+						<FontAwesomeIcon icon={faLanguage}/>
 					&#32;
 					Add language
-				</button>
-			</div>
+					</button>
+				</div>
+			)}
 			<label>
 				<FontAwesomeIcon icon={faAlignLeft}/>
 				&#32;

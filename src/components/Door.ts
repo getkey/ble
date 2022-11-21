@@ -2,7 +2,7 @@ import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics } from 'pixi.js';
 
 import grabbable from 'src/utils/grabbable';
-import { getLineColor, getStrokeColor } from 'src/utils/color';
+import { getLineColor, getFillColor } from 'src/utils/color';
 import { lineWidth, doorWidth, doorHeight, doorColor } from 'src/config';
 
 type Props = {
@@ -20,7 +20,7 @@ export const behavior = {
 			1,
 			0,
 		);
-		instance.beginFill(getStrokeColor(doorColor));
+		instance.beginFill(getFillColor(doorColor));
 
 		// frame of the door
 		instance.drawRect(-doorWidth/2, -doorHeight/2, doorWidth, doorHeight);

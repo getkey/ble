@@ -18,6 +18,7 @@ import HoppiM from 'src/models/Hoppi';
 import TextM from 'src/models/Text';
 import PaintM from 'src/models/Paint';
 import ProgressiveText from 'src/components/ProgressiveText';
+import { AddType } from 'src/types/entity';
 
 const entityColors = {
 	deadly: 0xff0000, // red
@@ -149,6 +150,7 @@ const PixiApp: FunctionComponent = () => {
 					return (
 						<ModifiablePolygon
 							isValid={entity.params.isValid}
+							addType={AddType.paint}
 							fill={entity.params.fillColor}
 							alpha={opacity}
 							points={points}

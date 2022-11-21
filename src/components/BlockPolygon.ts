@@ -2,6 +2,8 @@ import { CustomPIXIComponent } from 'react-pixi-fiber';
 import { Graphics, Point, Texture, SCALE_MODES } from 'pixi.js';
 
 import invalidPolygon from 'static/invalid_polygon.png';
+import { getFillColor, getLineColor } from 'src/utils/color';
+import { lineWidth } from 'src/config';
 
 const invalidPolygonTexture = Texture.from(invalidPolygon, {
 	scaleMode: SCALE_MODES.NEAREST,
@@ -22,7 +24,13 @@ export const behavior = {
 		if (fill !== oldFill || points !== oldPoints || showInvalidTexture !== oldShowInvalidTexture) {
 			instance.clear();
 
-			instance.beginFill(fill);
+			instance.lineStyle({
+				width: lineWidth,
+				color: getLineColor(fill),
+				alignment: 0,
+			});
+
+			instance.beginFill(getFillColor(fill));
 			instance.drawPolygon(points);
 			instance.endFill();
 
@@ -41,4 +49,4 @@ export const behavior = {
 		this.applyDisplayObjectProps(remainingOldProps, remainingNewProps);
 	},
 };
-export default CustomPIXIComponent(behavior, 'Polygon');
+export default CustomPIXIComponent(behavior, 'BlockPolygon');

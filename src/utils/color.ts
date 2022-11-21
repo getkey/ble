@@ -4,7 +4,7 @@ import { interpolateLab } from 'd3-interpolate';
 
 import { darkSlateGray } from 'src/config';
 
-export function getStrokeColor(color: number): number {
+export function getFillColor(color: number): number {
 	return utils.string2hex(
 		lab(
 			interpolateLab(

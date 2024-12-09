@@ -35,7 +35,7 @@
     "mobx-react-lite": "^3.4.0",
     "mobx-state-tree": "^5.1.6",
     "mst-middlewares": "^5.1.6",
-    "nanoid": "^4.0.0",
+    "nanoid": "^5.0.9",
     "pixi.js": "^6.5.1",
     "poly-decomp": "^0.3.0",
     "react": "^18.2.0",
